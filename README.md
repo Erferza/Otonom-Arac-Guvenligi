@@ -32,7 +32,7 @@ Bu proje, otonom araçlarda siber saldırı ve anomali tespiti yaparak uygun gü
 ## Ekip
 
 - Ferza
-- Feyza
+- Beyza
 
 ## Dokümanlar
 
