@@ -1,51 +1,59 @@
-# Guvenlik Veriseti Pipeline
+# V6 Workspace
 
-Bu klasordeki uc veri kaynagi icin katmanli bir guvenlik analizi iskeleti:
+This folder is the canonical home for the CARLA V6 dataset, training scripts, and fusion pipeline.
 
-1. CIC-ToN-IoT: once binary saldiri var/yok, sonra saldiri turu.
-2. CARLA tabular: once binary saldiri var/yok, sonra saldiri turu.
-3. nuScenes: gorsel/cevre baglami ile sensor kararini karsilastirma.
-4. ML fusion/report: CIC, CARLA ve nuScenes feature'lariyla nihai karar, sure,
-   siklik ve kritik bulgular.
+## Structure
 
-## Kurulum
-
-```bash
-python3 -m pip install -r requirements.txt
+```text
+v6/
+|-- scripts/
+|   |-- 1_collect_carla_dataset_v6.py
+|   |-- 2_split_by_label_v6.py
+|   |-- 3_validate_carla_dataset_v6.py
+|   |-- 4_train_xgboost_baseline_v6.py
+|   `-- 5_train_lstm_bilstm_v6.py
+|-- datasets/
+|   `-- carla_tabular_dataset_v6/
+|-- results/
+|   |-- xgboost_v6/
+|   `-- lstm_v6/
+`-- security_pipeline/
+    |-- pipeline/
+    |   |-- risk_policy.py
+    |   |-- run_cic_detector.py
+    |   |-- run_carla_detector_v6.py
+    |   |-- build_fusion_events_v6.py
+    |   `-- fusion_pipeline_v6.py
+    |-- models/
+    |   |-- cic_xgboost/
+    |   `-- carla_v6/
+    |-- results/
+    |   |-- cic/
+    |   |-- carla_v6/
+    |   `-- fusion_v6/
+    `-- datasets/
+        `-- cic/
 ```
 
-Not: `CIC-ToN-IoT /CIC-ToN-IoT-V2.parquet` icin `pyarrow` gerekir.
+## Run Order
 
-## Hizli kontrol
+From `PythonAPI/`:
 
-```bash
-python3 -m src.security_pipeline.cli inspect
-python3 -m src.security_pipeline.cli demo --limit 200 --output reports/demo_report.json
+```powershell
+python "v6/scripts/1_collect_carla_dataset_v6.py"
+python "v6/scripts/2_split_by_label_v6.py"
+python "v6/scripts/3_validate_carla_dataset_v6.py"
+python "v6/scripts/4_train_xgboost_baseline_v6.py"
+python "v6/scripts/5_train_lstm_bilstm_v6.py"
+python "v6/security_pipeline/pipeline/run_cic_detector.py"
+python "v6/security_pipeline/pipeline/run_carla_detector_v6.py"
+python "v6/security_pipeline/pipeline/build_fusion_events_v6.py"
+python "v6/security_pipeline/pipeline/fusion_pipeline_v6.py"
 ```
 
-## Model egitimi
+## Notes
 
-```bash
-python3 -m src.security_pipeline.cli train-carla --output models/carla --n-estimators 300 --verbose 1
-python3 -m src.security_pipeline.cli train-cic --output models/cic --max-rows 200000 --n-estimators 300 --verbose 1
-python3 -m src.security_pipeline.cli train-fusion --carla-model models/carla --cic-model models/cic --output models/fusion --max-rows 20000 --visual-samples 20000 --n-estimators 400 --verbose 1
-```
-
-Etiket kolonlari otomatik bulunamazsa `--binary-label` ve `--multiclass-label`
-argumanlariyla verilebilir.
-`--max-rows` verildiginde orneklem siniflara gore dengeli secilir.
-RandomForest kullandigimiz icin klasik epoch yoktur; daha uzun egitim icin
-`--n-estimators` artirilir.
-`--verbose 1` terminalde model egitim ilerlemesini ve pipeline stage'lerini
-yazdirir. Daha ayrintili sklearn ciktisi icin `--verbose 2` kullanilabilir.
-Egitim komutlari terminale accuracy, macro F1, weighted F1, validation log loss
-ve confusion matrix basar. Confusion matrix dosyalari model klasoru altindaki
-`metrics/` dizinine CSV olarak yazilir; `matplotlib` kuruluysa PNG olarak da
-cizilir.
-
-Rapor uretirken final karar katmani icin egitilmis fusion modeli gerekir:
-
-```bash
-python3 -m src.security_pipeline.cli eval-fusion --carla-model models/carla --cic-model models/cic --fusion-model models/fusion --max-rows 3000 --visual-samples 10000 --output reports/fusion_metrics.json
-python3 -m src.security_pipeline.cli demo --carla-model models/carla --cic-model models/cic --fusion-model models/fusion --limit 1000 --sample-mode balanced --output reports/demo.json
-```
+- The V6 CARLA scripts write to `v6/datasets/` and `v6/results/`.
+- The V6 fusion pipeline writes to `v6/security_pipeline/results/`.
+- The CIC detector first checks `v6/security_pipeline/datasets/cic/` and `v6/datasets/cic/`.
+- If the large CIC parquet file is not copied into `v6/`, the V6 CIC detector can still fall back to the legacy `Guvenlik Proje/CIC-ToN-IoT-V2.parquet`.
