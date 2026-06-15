@@ -1,0 +1,1478 @@
+Otonom Araçlarda Çok Katmanlı Yapay Zeka Destekli Siber Saldırı Analizi
+ve Adaptif Güvenli Mod Karar Sistemi
+
+Ağ trafiği, araç davranışı ve görsel çevresel bağlam verilerini
+birleştiren hibrit yapay zeka tabanlı güvenlik yaklaşımı.
+
+Ferza ER, Beyza Naz ÖZTÜRK
+
+Marmara Üniversitesi, Teknoloji Fakultesi, Bilgisayar Muhendisligi,
+İstanbul Türkiye
+
+Özet
+
+Otonom araç sistemleri; ağ tabanlı saldırılar, sensör manipülasyonu,
+sahte veri enjeksiyonu ve çevresel algı tutarsızlıkları gibi çok boyutlu
+siber tehditlere karşı savunmasızdır. Geleneksel saldırı tespit
+yaklaşımları çoğunlukla yalnızca saldırının varlığını belirlemeye
+odaklanırken, emniyet-kritik araç sistemlerinde saldırı sonrası
+uygulanacak operasyonel güvenlik kararları da büyük önem taşımaktadır.
+
+Bu çalışmada, ağ trafiği analizi, araç davranış analizi ve görsel
+çevresel bağlam doğrulamasını birleştiren çok katmanlı yapay zeka
+destekli bir güvenlik mimarisi önerilmiştir. Önerilen yapıda CIC-ToN-IoT
+veri seti kullanılarak ağ tabanlı saldırılar analiz edilmiş, CARLA
+simülasyon ortamında oluşturulan özel veri seti ile araç davranış
+anomalileri ve saldırı türleri modellenmiş, nuScenes tabanlı çevresel
+özellikler ise görsel tutarlılık ve çevresel risk göstergeleri üretmek
+amacıyla kullanılmıştır.
+
+Karar katmanında, farklı güvenlik katmanlarından elde edilen olasılık,
+güven, risk şiddeti ve çevresel bağlam özelliklerini birleştiren Random
+Forest tabanlı fusion modelleri kullanılmıştır. Önerilen fusion yapısı
+saldırı türünü yeniden tahmin etmek yerine nihai risk kararını, risk
+skorunu ve uygulanacak güvenli mod kararını üretmeye odaklanmaktadır.
+Sistem ayrıca emniyet-kritik durumlarda kararları güvenli tarafa
+yönlendiren eşik tabanlı güvenlik guardrail politikaları ile
+desteklenmiştir.
+
+Deneysel sonuçlarda CIC tabanlı binary saldırı tespit katmanında %99.40
+doğruluk, CARLA saldırı türü sınıflandırmasında %72.37 doğruluk ve
+fusion tabanlı nihai risk sınıflandırmasında %78.42 doğruluk elde
+edilmiştir. Güvenli mod karar katmanı ise %75.16 doğruluk ve 0.7761
+Macro F1 skoru üretmiştir.
+
+Elde edilen sonuçlar, önerilen çok katmanlı hibrit yaklaşımın yalnızca
+saldırı tespiti değil, aynı zamanda operasyonel güvenli mod yönetimi
+açısından da uygulanabilir ve açıklanabilir bir çözüm sunduğunu
+göstermektedir.
+
+Anahtar kelimeler: Otonom araçlar, siber güvenlik, saldırı tespiti,
+güvenli mod kararı, fusion modeli, çok katmanlı yapay zeka, Random
+Forest
+
+GİRİŞ 
+
+Otonom araç teknolojileri, yapay zeka, bilgisayarlı görü, sensör füzyonu
+ve araç içi haberleşme sistemlerindeki gelişmeler sayesinde son yıllarda
+hızla gelişim göstermektedir. Kamera, LiDAR, radar, GPS ve araç içi ağ
+altyapıları gibi çok sayıda bileşenden oluşan bu sistemler; çevresel
+algılama, rota planlama, karar verme ve sürüş kontrolü gibi kritik
+görevleri gerçek zamanlı olarak yerine getirmektedir. Ancak bu yüksek
+bağlantılı ve veri odaklı yapı, otonom araçları siber güvenlik açısından
+önemli ölçüde saldırıya açık hale getirmektedir [1], [2].
+
+Modern otonom araç sistemlerinde CAN haberleşmesi, sensör verileri, GPS
+bilgileri ve çevresel algı sistemleri hedef alınarak gerçekleştirilen
+saldırılar; araç davranışının manipüle edilmesine, yanlış karar
+üretimine ve emniyet-kritik durumların oluşmasına neden olabilmektedir
+[1], [3]. Özellikle GPS spoofing, sensör manipülasyonu, sahte veri
+enjeksiyonu, ağ tabanlı hizmet engelleme saldırıları ve davranış bozucu
+saldırılar; aracın çevreyi yanlış yorumlamasına veya güvenli sürüş
+politikalarından sapmasına yol açabilmektedir [4], [5]. Bu durum
+yalnızca bilgi güvenliği açısından değil, aynı zamanda doğrudan fiziksel
+güvenlik açısından da ciddi risk oluşturmaktadır.
+
+Literatürdeki mevcut çalışmaların önemli bir bölümü yalnızca saldırının
+tespit edilmesine odaklanmaktadır. Geleneksel saldırı tespit sistemleri
+çoğunlukla ağ trafiği veya sensör verileri üzerinde tek katmanlı analiz
+gerçekleştirmekte ve sistemin saldırı sonrası nasıl davranması
+gerektiğine yönelik operasyonel karar mekanizması sunmamaktadır [3],
+[6]. Oysa gerçek dünya otonom araç senaryolarında yalnızca saldırının
+belirlenmesi yeterli değildir; aynı zamanda aracın mevcut risk
+seviyesine göre uygun güvenli moda geçebilmesi gerekmektedir. Bu nedenle
+saldırı tespiti ile operasyonel güvenlik kararlarının birlikte ele
+alınması kritik önem taşımaktadır [7], [8].
+
+Bu çalışmada, otonom araçlar için çok katmanlı yapay zeka destekli bir
+siber güvenlik ve adaptif güvenli mod karar sistemi önerilmiştir.
+Önerilen mimari üç temel analiz katmanından oluşmaktadır. İlk katmanda
+CIC-ToN-IoT veri seti kullanılarak ağ tabanlı saldırılar analiz edilmiş
+ve binary saldırı tespiti ile saldırı türü sınıflandırması
+gerçekleştirilmiştir. İkinci katmanda CARLA simülasyon ortamında
+oluşturulan özel veri seti kullanılarak araç davranış anomalileri ve
+davranış tabanlı saldırılar modellenmiştir. Üçüncü katmanda ise nuScenes
+veri setinden elde edilen çevresel bağlam özellikleri kullanılarak
+görsel tutarlılık ve çevresel risk göstergeleri üretilmiştir.
+
+Önerilen sistemin karar katmanında, farklı güvenlik katmanlarından elde
+edilen olasılık, güven skoru, çevresel bağlam ve risk şiddeti
+özelliklerini birleştiren Random Forest tabanlı fusion modelleri
+kullanılmıştır. Fusion yapısı saldırı türünü yeniden tahmin etmek yerine
+nihai risk seviyesini ve uygulanacak güvenli mod kararını üretmeye
+odaklanmaktadır. Ayrıca sistem, emniyet-kritik durumlarda model
+kararlarını güvenli tarafa yönlendiren eşik tabanlı güvenlik guardrail
+politikaları ile desteklenmiştir. Bu yapı sayesinde sistem yalnızca
+saldırıyı tespit eden bir yaklaşım olmaktan çıkarılarak operasyonel
+güvenlik kararı üretebilen hibrit bir mimariye dönüştürülmüştür.
+
+Çalışmanın temel katkıları aşağıdaki şekilde özetlenebilir:
+
+- Ağ trafiği, araç davranışı ve görsel çevresel bağlamı birleştiren çok
+  katmanlı hibrit güvenlik mimarisi önerilmesi,
+
+- CIC ve CARLA tabanlı saldırı analiz katmanlarının birlikte
+  kullanılması,
+
+- Çevresel tutarlılık ve risk değerlendirmesi için nuScenes tabanlı
+  bağlamsal özelliklerin kullanılması,
+
+- Nihai risk değerlendirmesi ve güvenli mod üretimi için ML tabanlı
+  fusion karar katmanı geliştirilmesi,
+
+- Emniyet-kritik durumlar için güvenlik guardrail politikaları ile
+  desteklenen hibrit karar mekanizması tasarlanması,
+
+- Saldırı tespitinden operasyonel güvenli mod yönetimine geçiş sağlayan
+  açıklanabilir bir yaklaşım sunulması.
+
+Bu çalışma kapsamında elde edilen sonuçlar, önerilen mimarinin yalnızca
+saldırı tespit performansı açısından değil, aynı zamanda adaptif güvenli
+mod yönetimi açısından da uygulanabilir ve ölçeklenebilir bir yaklaşım
+sunduğunu göstermektedir.
+
+2. İLGİLİ ÇALIŞMALAR
+
+2.1 Otonom Araçlarda Siber Güvenlik ve Anomali Tespiti
+
+Otonom araç sistemleri; sensörler, araç içi ağ altyapıları, V2X
+haberleşmesi ve yapay zeka tabanlı karar mekanizmaları nedeniyle geniş
+bir saldırı yüzeyine sahiptir. Özellikle CAN Bus haberleşme altyapıları,
+GPS sistemleri, sensör veri akışları ve araç davranış modelleri; siber
+saldırganlar tarafından hedef alınabilmektedir [1], [2]. Bu nedenle son
+yıllarda otonom araçlarda anomali tespiti ve saldırı tespit sistemleri
+üzerine yoğun çalışmalar gerçekleştirilmiştir.
+
+Bağlantılı ve otonom araçlarda yörünge tabanlı anomali tespiti üzerine
+yapılan çalışmalarda, zaman serisi verilerindeki davranış sapmalarını
+analiz eden derin öğrenme modelleri öne çıkmaktadır. LAGMM tabanlı
+çalışmada, LSTM Autoencoder ve Gaussian Mixture Model birleştirilerek
+araç yörüngelerindeki zamansal anomaliler gerçek zamanlı olarak analiz
+edilmiş ve sensör manipülasyonlarına karşı etkili sonuçlar elde
+edilmiştir [3]. Benzer şekilde başka çalışmalarda Stacked LSTM ve Random
+Forest modelleri kullanılarak araç konum verilerindeki kaydırma, zaman
+gecikmesi ve sahte veri saldırıları tespit edilmeye çalışılmıştır [4].
+
+Araç içi ağ güvenliği üzerine gerçekleştirilen çalışmalarda özellikle
+CAN Bus saldırıları önemli bir araştırma alanı haline gelmiştir. LSTM
+tabanlı saldırı tespit sistemleri kullanılarak DoS, spoofing ve fuzzy
+saldırılarının yüksek doğruluk oranlarıyla tespit edilebildiği
+gösterilmiştir [5]. Bunun yanında edge cihazlarda çalışabilecek hafif
+makine öğrenmesi modelleri kullanılarak gerçek zamanlı saldırı tespiti
+gerçekleştiren çalışmalar da literatürde yer almaktadır [6].
+
+Otonom araç güvenliğinde yalnızca ağ verilerinin değil, sensör
+davranışlarının ve çevresel bağlamın da analiz edilmesi gerektiği
+vurgulanmaktadır. Transformer tabanlı hibrit anomali tespit modelleri,
+uzun dönemli veri bağımlılıklarını analiz ederek sensör anomalilerini
+daha hassas biçimde tespit etmeyi amaçlamaktadır [7]. Ayrıca CNN-RNN
+tabanlı hibrit mimarilerin hem uzamsal hem de zamansal bağımlılıkları
+birlikte öğrenerek daha dayanıklı anomali tespit performansı sağladığı
+rapor edilmiştir [8].
+
+2.2 Derin Öğrenme ve Hibrit Güvenlik Yaklaşımları
+
+Otonom araçlarda siber güvenlik problemlerinin karmaşık yapısı nedeniyle
+tek bir algoritma yerine hibrit derin öğrenme yaklaşımlarının kullanımı
+giderek yaygınlaşmaktadır. CNN, LSTM, Autoencoder ve Transformer tabanlı
+modellerin birlikte kullanıldığı çok katmanlı mimariler; hem ağ trafiği
+hem de sensör verilerindeki karmaşık örüntüleri analiz edebilmektedir
+[9]. Özellikle multimodal veri kaynaklarının birlikte işlendiği hibrit
+yapılar, farklı saldırı türlerine karşı daha yüksek dayanıklılık
+sağlamaktadır [10].
+
+6G-V2X ortamları için önerilen Hybrid Deep Anomaly Detection (HDAD)
+yaklaşımı, Çok Ajanlı Takviyeli Öğrenme ve tersine takviyeli öğrenme
+algoritmalarını birleştirerek hem saldırı tespiti hem de saldırgan
+araçların güvenli izolasyonunu gerçekleştirmektedir [11]. Bu yaklaşım
+yalnızca saldırının tespit edilmesine değil, aynı zamanda operasyonel
+güvenlik davranışına da odaklanması açısından dikkat çekmektedir.
+
+Benzer şekilde “Expert Ensemble” yaklaşımı, sahne, davranış ve etkileşim
+analizini farklı uzman modüller aracılığıyla değerlendirerek çok boyutlu
+sürüş anomalilerini açıklanabilir biçimde analiz etmektedir [12]. Bu
+çalışmalar, otonom araç güvenliğinde tek katmanlı saldırı tespit
+sistemleri yerine çok boyutlu bağlamsal analiz mekanizmalarının önemini
+ortaya koymaktadır.
+
+2.3 Açıklanabilir Yapay Zeka ve Güvenlik Karar Sistemleri
+
+Otonom araç sistemlerinde kullanılan yapay zeka modellerinin
+emniyet-kritik yapısı nedeniyle yalnızca yüksek doğruluk oranları
+yeterli görülmemektedir. Özellikle “kara kutu” niteliğindeki derin
+öğrenme modellerinin karar verme süreçlerinin açıklanabilir olması,
+güvenilir otonom sürüş açısından kritik önem taşımaktadır [13].
+
+Bu doğrultuda son yıllarda Açıklanabilir Yapay Zeka (XAI) tabanlı
+güvenlik sistemleri üzerine çalışmalar yoğunlaşmıştır. SHAP ve LIME gibi
+teknikleri kullanan IDS yaklaşımları, sistemin hangi veri özelliklerini
+neden saldırı olarak değerlendirdiğini operatörlere açıklayabilmektedir
+[14]. Açıklanabilir AI tabanlı saldırı tespit sistemlerinin özellikle
+IoT destekli otonom ulaşım sistemlerinde güvenilirliği artırdığı
+belirtilmektedir [15].
+
+Ayrıca son dönem çalışmalarında yalnızca saldırı tespiti değil, saldırı
+sonrası uygulanacak operasyonel güvenlik davranışları da önem kazanmaya
+başlamıştır. Gerçek zamanlı IDS sistemleri üzerine yapılan araştırmalar,
+saldırı tespiti ile birlikte güvenli mod geçişleri, edge uyumluluğu ve
+düşük gecikmeli karar üretimi gibi konuların gelecekteki temel araştırma
+alanları arasında olduğunu göstermektedir [16].
+
+2.4 Literatürdeki Eksiklikler ve Çalışmanın Katkısı
+
+Literatürdeki mevcut çalışmalar incelendiğinde, araştırmaların büyük
+bölümünün yalnızca saldırı tespitine odaklandığı görülmektedir. Birçok
+çalışma ağ tabanlı saldırı analizi, sensör anomalisi tespiti veya görsel
+saldırı analizi gibi tek katmanlı yaklaşımlar üzerine yoğunlaşmaktadır
+[1], [2]. Bunun yanında bazı hibrit sistemler farklı veri kaynaklarını
+birlikte kullanmasına rağmen, saldırı sonrası uygulanacak operasyonel
+güvenlik karar mekanizmaları çoğu çalışmada sınırlı düzeyde ele
+alınmaktadır [11], [12].
+
+Özellikle mevcut literatürde aşağıdaki eksiklikler dikkat çekmektedir:
+
+- Ağ, araç davranışı ve çevresel bağlam verilerini birlikte
+  değerlendiren çok katmanlı güvenlik mimarilerinin sınırlı olması,
+
+- Saldırı tespitinden sonra uygulanacak güvenli mod politikalarının
+  yeterince ele alınmaması,
+
+- Operasyonel risk değerlendirmesi ve adaptif güvenli mod üretimi
+  üzerine sınırlı çalışma bulunması,
+
+- Açıklanabilir karar mekanizmaları ile güvenlik politikalarının
+  birlikte kullanıldığı hibrit yapıların az olması,
+
+- Emniyet-kritik durumlarda model kararlarını güvenli tarafa yönlendiren
+  guardrail mekanizmalarının yeterince incelenmemesi.
+
+Bu çalışmada önerilen mimari, literatürdeki bu eksiklikleri hedef alarak
+ağ trafiği analizi, araç davranış analizi ve görsel çevresel bağlam
+doğrulamasını birleştiren çok katmanlı hibrit bir güvenlik yaklaşımı
+sunmaktadır. Ayrıca önerilen sistem, yalnızca saldırı tespiti
+gerçekleştirmek yerine operasyonel risk değerlendirmesi ve adaptif
+güvenli mod kararı üretebilen ML tabanlı fusion karar mekanizması ile
+literatürdeki mevcut çalışmalardan ayrılmaktadır.
+
+3. ÖNERİLEN SİSTEM MİMARİSİ
+
+Bu çalışmada, otonom araç sistemlerine yönelik çok katmanlı yapay zeka
+destekli bir siber güvenlik ve adaptif güvenli mod karar mimarisi
+önerilmiştir. Önerilen yapı; ağ trafiği analizi, araç davranış analizi,
+görsel çevresel bağlam doğrulaması ve operasyonel karar üretimi olmak
+üzere dört temel katmandan oluşmaktadır. Sistemin genel amacı yalnızca
+saldırı tespiti gerçekleştirmek değil, aynı zamanda mevcut risk
+seviyesine göre uygun güvenli mod kararını üretmektir.
+
+Önerilen mimarinin genel akışı Şekil 1’de gösterilmektedir.
+
+[]
+
+[]
+
+3.1 Genel Sistem Yapısı
+
+Önerilen sistem mimarisi aşağıdaki temel bileşenlerden oluşmaktadır:
+
+- CIC tabanlı ağ saldırı analiz katmanı,
+
+- CARLA tabanlı araç davranış analiz katmanı,
+
+- nuScenes tabanlı görsel çevresel bağlam katmanı,
+
+- Fusion tabanlı karar katmanı,
+
+- Güvenlik guardrail politikası ve güvenli mod mekanizması.
+
+İlk aşamada ağ trafiği, araç davranışı ve görsel çevresel bağlam
+verileri birbirinden bağımsız analiz katmanlarında işlenmektedir. Daha
+sonra bu katmanlardan elde edilen olasılık, güven skoru, risk seviyesi
+ve çevresel bağlam özellikleri fusion karar katmanında
+birleştirilmektedir. Son aşamada ise güvenlik guardrail politikaları
+uygulanarak aracın operasyonel güvenli mod kararı üretilmektedir.
+
+3.2 CIC Tabanlı Ağ Saldırı Analiz Katmanı
+
+Sistemin ilk katmanında CIC-ToN-IoT veri seti [5] kullanılarak ağ
+tabanlı saldırı analizi gerçekleştirilmiştir. Bu katmanın temel amacı
+araç içi haberleşme ve ağ trafiği üzerinde oluşabilecek siber
+saldırıları tespit etmektir.
+
+Bu katmanda hiyerarşik sınıflandırma yaklaşımı benimsenmiştir. İlk
+seviyede binary saldırı tespiti (attack/normal) gerçekleştirilmiş,
+ikinci seviyede ise saldırı olarak işaretlenen örnekler üzerinde çok
+sınıflı saldırı türü analizi uygulanmıştır. Böylece gereksiz çok sınıflı
+karar üretiminin önüne geçilmiş ve saldırı karakterizasyonu daha
+kontrollü şekilde gerçekleştirilmiştir.
+
+Ağ trafiği verileri üzerinde ön işleme adımları uygulanmış, eksik
+veriler temizlenmiş ve sayısal özellikler normalize edilmiştir. Daha
+sonra Random Forest [21] tabanlı sınıflandırma modelleri kullanılarak
+hem binary saldırı tespiti hem de saldırı türü sınıflandırması
+gerçekleştirilmiştir.
+
+Bu katman, sistemin ilk güvenlik savunma hattı olarak görev yapmakta ve
+ağ seviyesindeki anormal davranışları erken aşamada tespit etmeyi
+amaçlamaktadır.
+
+3.3 CARLA Tabanlı Araç Davranış Analiz Katmanı
+
+İkinci katmanda CARLA simülasyon ortamı [7] kullanılarak oluşturulan
+özel veri seti üzerinde araç davranış analizi gerçekleştirilmiştir. Bu
+veri seti, gerçek otonom araç davranışlarını simüle eden sürüş
+senaryoları ile farklı saldırı türlerinin oluşturduğu davranış
+anomalilerini içermektedir.
+
+Bu katmanda aşağıdaki saldırı senaryoları modellenmiştir:
+
+- GPS spoofing
+
+- Heading spoofing
+
+- Position spoofing
+
+- Speed spoofing
+
+- DoS
+
+- Delayed sensor attack
+
+- Lane deviation
+
+- Sudden brake attack
+
+- Sensor noise injection
+
+CARLA ortamından elde edilen hız, konum, yönelim, şerit sapması, fren
+davranışı ve sensör verileri kullanılarak araç davranış özellikleri
+çıkarılmıştır. Daha sonra Random Forest [21] tabanlı modeller ile:
+
+- binary saldırı tespiti,
+
+- saldırı türü sınıflandırması
+
+gerçekleştirilmiştir.
+
+Bu katman, ağ seviyesinde görünmeyen ancak doğrudan araç davranışını
+etkileyen saldırıların analiz edilmesini sağlamaktadır.
+
+3.4 nuScenes Tabanlı Görsel Çevresel Bağlam Katmanı
+
+Önerilen sistemin üçüncü katmanında nuScenes veri seti [8] kullanılarak
+görsel çevresel bağlam özellikleri üretilmiştir. Bu katman doğrudan
+saldırı sınıflandırması yapmak yerine, çevresel tutarlılık ve bağlamsal
+risk analizi üretmek amacıyla kullanılmıştır.
+
+Bu kapsamda aşağıdaki çevresel özellikler çıkarılmıştır:
+
+- Yakındaki araç sayısı,
+
+- Yakındaki hassas obje sayısı,
+
+- En yakın obje mesafesi,
+
+- Çevresel yoğunluk bilgisi,
+
+- Görsel tutarlılık göstergeleri,
+
+- Hallucination olasılığı.
+
+Bu katmanın temel amacı, araç davranışı ile çevresel algı arasında
+oluşabilecek tutarsızlıkları belirlemektir. Örneğin araç sensörlerinin
+ani fren davranışı üretmesine rağmen çevrede kritik bir engel
+bulunmaması, potansiyel sensör manipülasyonu veya sahte veri saldırısı
+göstergesi olarak değerlendirilmektedir.
+
+Bu nedenle nuScenes katmanı doğrudan saldırı sınıflandırması
+gerçekleştiren bir model yerine, fusion karar katmanı için bağlamsal
+kanıt üretici bir yapı olarak tasarlanmıştır.
+
+3.5 Fusion Karar Katmanı
+
+Önerilen mimarinin temel bileşeni fusion tabanlı karar katmanıdır. Bu
+katmanda CIC, CARLA ve nuScenes analiz katmanlarından elde edilen
+özellikler birleştirilerek nihai operasyonel güvenlik kararı
+üretilmektedir.
+
+Fusion katmanına giriş olarak kullanılan temel özellikler şunlardır:
+
+- CIC attack probability
+
+- CIC confidence score
+
+- CARLA attack probability
+
+- CARLA confidence score
+
+- Hallucination probability
+
+- Yakındaki obje yoğunluğu
+
+- Kritik obje sayısı
+
+- En yakın obje mesafesi
+
+- Risk şiddeti skoru
+
+- Eşik tetikleme bilgileri
+
+- High-impact attack göstergeleri
+
+Fusion yapısında iki farklı Random Forest [21] modeli kullanılmıştır:
+
+- risk_model
+
+- Nihai risk sınıflandırması(attack / normal)
+
+- safe_mode_model
+
+- Güvenli mod sınıflandırması(normal_mode / monitoring_mode /
+  degraded_safe_mode / emergency_safe_mode)
+
+Bu yapı içerisinde saldırı türü doğrudan hedef değişken olarak
+kullanılmamıştır. Saldırı türü analizi alt katmanlarda
+gerçekleştirilmiş, fusion katmanı ise operasyonel risk değerlendirmesi
+ve güvenli mod karar üretimine odaklanmıştır. Böylece saldırı türü
+bağımlılığından kaynaklanan shortcut learning etkisinin azaltılması
+hedeflenmiştir.
+
+3.6 Güvenlik Guardrail Politikası
+
+Önerilen sistem yalnızca saf makine öğrenmesi tabanlı karar
+mekanizmasına dayanmamaktadır. Emniyet-kritik otonom araç senaryolarında
+güvenli davranışın korunabilmesi amacıyla güvenlik guardrail
+politikaları da sisteme entegre edilmiştir.
+
+Guardrail politikası, ML tabanlı fusion modellerinin ürettiği kararları
+tamamen değiştirmek yerine kritik durumlarda kararları güvenli tarafa
+yönlendiren bir güvenlik katmanı olarak görev yapmaktadır.
+
+Bu kapsamda aşağıdaki temel eşik politikaları uygulanmıştır:
+
+- Medium risk threshold : 0.55
+
+- High risk threshold : 0.70
+
+- Critical risk threshold : 0.85
+
+Sistem davranışı genel olarak aşağıdaki şekilde yapılandırılmıştır:
+
+- Düşük risk → normal_mode
+
+- Orta risk → monitoring_mode
+
+- Yüksek risk → degraded_safe_mode
+
+- Kritik risk → emergency_safe_mode
+
+Ayrıca yüksek etkili saldırı türleri ve yüksek hallucination olasılığı
+gibi emniyet-kritik durumlarda sistem kararları daha konservatif
+güvenlik modlarına yönlendirilmektedir.
+
+Bu hibrit yaklaşım sayesinde önerilen sistem yalnızca saldırı tespiti
+gerçekleştiren bir yapı olmaktan çıkarılarak operasyonel güvenlik kararı
+üretebilen açıklanabilir ve adaptif bir mimariye dönüştürülmüştür.
+
+4. DENEYSEL ÇALIŞMA
+
+Bu bölümde önerilen çok katmanlı güvenlik mimarisinde kullanılan veri
+setleri, ön işleme süreçleri, model eğitim yapısı ve deneysel
+değerlendirme ortamı açıklanmaktadır. Çalışma kapsamında ağ trafiği
+analizi, araç davranış analizi ve çevresel bağlam üretimi için farklı
+veri kaynakları birlikte kullanılmıştır. Daha sonra bu katmanlardan elde
+edilen özellikler fusion karar katmanında birleştirilerek nihai risk ve
+güvenli mod kararları üretilmiştir.
+
+4.1 Veri Setleri
+
+Çalışma kapsamında üç farklı veri kaynağı kullanılmıştır: CIC-ToN-IoT ağ
+saldırı veri seti [5], CARLA simülasyon ortamında tarafımızdan
+oluşturulan CARLA Tabular Dataset V6 [7] ve nuScenes çevresel bağlam
+veri seti [8]. Bu veri kaynakları, önerilen mimarinin üç farklı güvenlik
+boyutunu temsil edecek şekilde seçilmiştir. CIC-ToN-IoT ağ seviyesindeki
+siber saldırı örüntülerini, CARLA V6 araç davranışı ve sensör
+manipülasyonu kaynaklı fiziksel etkileri, nuScenes ise çevresel/görsel
+bağlam ve tutarlılık sinyallerini modellemek amacıyla kullanılmıştır.
+
+Ağ tabanlı saldırı analizi için CIC-ToN-IoT-V2 veri seti kullanılmıştır.
+Bu veri seti IoT ve IIoT ortamlarında oluşabilecek ağ trafiği
+davranışlarını ve saldırı örüntülerini içermektedir. Veri setinde
+normal/benign trafiğin yanı sıra DoS, DDoS, injection, XSS, ransomware,
+backdoor, scanning, MITM ve password gibi farklı saldırı kategorileri
+bulunmaktadır. Çalışmada bu veri seti, önerilen mimarinin ağ güvenliği
+katmanını oluşturmak için kullanılmıştır. CIC katmanı iki aşamalı
+hiyerarşik bir yapı ile modellenmiştir. İlk aşamada ağ trafiğinin
+attack/normal ayrımı yapılmış, ikinci aşamada ise attack olarak
+işaretlenen örnekler üzerinde saldırı türü sınıflandırması
+gerçekleştirilmiştir. Bu veri seti üzerinde eksik değer temizleme,
+sayısal özellik dönüşümü, etiket standardizasyonu ve model girişine
+uygun özellik seçimi uygulanmıştır. CIC katmanından elde edilen saldırı
+olasılığı, güven skoru ve saldırı türü bilgisi daha sonra fusion karar
+katmanına aktarılmıştır.
+
+Araç davranışı ve sensör anomalilerini modellemek amacıyla bu çalışma
+kapsamında CARLA simülasyon ortamında özel olarak CARLA Tabular Dataset
+V6 veri seti oluşturulmuştur. Bu veri seti çalışmanın özgün veri üretim
+bileşenini oluşturmaktadır. Hazır bir araç davranış veri seti kullanmak
+yerine, farklı saldırı senaryolarının araç dinamikleri üzerindeki
+etkilerini kontrollü biçimde gözlemleyebilmek için CARLA 0.9.16
+simülasyon ortamında özel sürüş koşuları tasarlanmıştır. Böylece ağ
+seviyesinde doğrudan gözlenemeyen, ancak aracın fiziksel davranışına ve
+sensör çıktısına yansıyan anomalilerin modellenmesi hedeflenmiştir.
+
+CARLA V6 veri setinin ham sürümü 54.000 satırdan oluşmaktadır. Veri seti
+66 sütun içermekte ve bu sütunlar zaman bilgisi, senaryo kimliği,
+saldırı koşusu kimliği, araç konumu, hız, ivme, yönelim, gözlenen sensör
+değerleri, kontrol komutları ve türetilmiş hata/risk özelliklerini
+kapsamaktadır. Veri setinde 27.000 normal sürüş örneği ve 27.000
+saldırı/anomali örneği bulunmaktadır. Böylece binary attack/normal
+sınıflandırması için dengeli bir veri yapısı elde edilmiştir.
+
+CARLA V6 kapsamında normal sürüşe ek olarak dokuz farklı saldırı/anomali
+türü modellenmiştir: GPS spoofing, position spoofing, heading spoofing,
+speed spoofing, delayed sensor attack, lane deviation, sudden brake,
+sensor noise ve DoS kaynaklı sensör/veri bozulması. Her saldırı türü
+için 3.000 örnek, normal sınıf için ise 27.000 örnek üretilmiştir. Veri
+seti eğitim, doğrulama ve test olmak üzere ayrılmıştır. Eğitim bölümünde
+37.800 satır, doğrulama bölümünde 8.100 satır ve test bölümünde 8.100
+satır bulunmaktadır. Doğrulama ve test kümelerinde her saldırı türü için
+450 örnek, normal sınıf için ise 4.050 örnek yer almaktadır.
+
+CARLA V6 veri setinde yalnızca ham hız, konum ve yönelim değerleri
+değil, aynı zamanda modelin saldırı etkisini daha anlamlı biçimde
+öğrenebilmesi için türetilmiş davranışsal özellikler de yer almaktadır.
+Bu özellikler arasında gerçek ve gözlenen konum farkları, hız farkı,
+ivme farkı, yaw error, GPS drift magnitude, drift rate, position jump
+magnitude, hard brake flag, brake intensity, deceleration rate, speed
+spoof ratio, speed spoof offset, missing ratio, stale packet flag,
+packet delay steps, sensor delay steps ve heading spoof offset gibi
+değişkenler bulunmaktadır. Bu sayede veri seti yalnızca etiketli saldırı
+örneklerinden oluşan basit bir tablo olmaktan çıkarılmış; saldırının
+araç dinamikleri ve sensör tutarlılığı üzerindeki etkisini temsil eden
+davranışsal bir modelleme kaynağı haline getirilmiştir.
+
+Veri sızıntısı riskini azaltmak amacıyla CARLA V6 veri setinde
+train/validation/test ayrımı satır bazında rastgele yapılmamış, saldırı
+koşusu kimlikleri dikkate alınarak gerçekleştirilmiştir. Her saldırı
+koşusu `attack_run_id` ile izlenmiş ve aynı koşuya ait örneklerin farklı
+veri bölümlerine karışması engellenmiştir. Bu yaklaşım, modelin aynı
+saldırı koşusuna ait ardışık veya benzer örnekleri ezberlemesini
+azaltmak amacıyla uygulanmıştır. Ayrıca eksik değer doldurma işlemleri
+yalnızca eğitim setinden elde edilen istatistiklerle yapılmış, doğrulama
+ve test verilerinde eğitim dışı bilgi kullanılmamıştır. Bu nedenle CARLA
+V6 veri seti, çalışmada leakage analizinin ve bağımsız test
+değerlendirmesinin temel bileşenlerinden biri olarak kullanılmıştır.
+
+Çevresel bağlam üretimi için nuScenes veri setinden yararlanılmıştır.
+nuScenes; kamera, LiDAR, radar, ego pose, sensör kalibrasyonları ve
+nesne anotasyonlarını içeren çok modlu bir otonom sürüş veri setidir.
+Çalışmada kullanılan nuScenes metadata yapısında 850 sahne, 34.149
+sample kaydı, 2.631.083 sample data kaydı, 1.166.187 nesne anotasyonu ve
+23 kategori bilgisi bulunmaktadır. Ayrıca CAN bus kayıtları üzerinden
+çok sayıda sahneye ait araç durumu, pose, IMU, rota ve direksiyon geri
+bildirimi gibi ek bilgiler sağlanmaktadır.
+
+Bu çalışmada nuScenes doğrudan saldırı sınıflandırması yapan bir model
+olarak kullanılmamıştır. Bunun yerine çevresel bağlam ve görsel
+tutarlılık göstergeleri üretmek amacıyla değerlendirilmiştir. Bu
+kapsamda yakındaki obje sayısı, kritik obje sayısı, en yakın obje
+mesafesi, görsel yoğunluk, ön kamera bağlamı ve
+hallucination/tutarsızlık olasılığı gibi özellikler çıkarılmıştır.
+Örneğin araç ani fren davranışı üretirken ön kamera veya çevresel
+bağlamda yakın bir engel bulunmaması, davranış/sensör katmanı ile görsel
+çevre arasında bir tutarsızlık olarak değerlendirilmiştir. Bu nedenle
+nuScenes katmanı, bağımsız bir saldırı sınıflandırıcısı olarak değil,
+fusion karar katmanını destekleyen bağlamsal kanıt üretici bir yapı
+olarak tasarlanmıştır.
+
+Sonuç olarak kullanılan üç veri kaynağı birbirini tamamlayan güvenlik
+katmanları oluşturmuştur. CIC-ToN-IoT veri seti ağ seviyesindeki saldırı
+örüntülerini, CARLA V6 veri seti araç davranışı ve sensör manipülasyonu
+etkilerini, nuScenes veri seti ise çevresel/görsel tutarlılık
+sinyallerini temsil etmektedir. Bu yapı sayesinde önerilen sistem
+yalnızca tek bir veri kaynağına dayalı saldırı tespiti yapmak yerine,
+ağ, davranış ve çevresel bağlam sinyallerini birleştiren çok katmanlı
+bir güvenlik değerlendirmesi gerçekleştirebilmiştir.
+
+4.2 Çok Katmanlı Güvenlik Mimarisi
+
+Önerilen sistem mimarisi; ağ saldırı analizi, araç davranış analizi,
+çevresel bağlam üretimi ve karar katmanı olmak üzere dört temel
+bileşenden oluşmaktadır. İlk katmanda CIC-ToN-IoT veri seti kullanılarak
+ağ tabanlı saldırılar analiz edilmiş, ikinci katmanda CARLA ortamından
+elde edilen davranışsal veriler üzerinden araç anomalileri
+modellenmiştir. Üçüncü katmanda ise nuScenes veri setinden elde edilen
+çevresel özellikler kullanılarak görsel tutarlılık ve çevresel risk
+göstergeleri üretilmiştir.
+
+Bu katmanlardan elde edilen özellikler fusion karar katmanında
+birleştirilmiştir. Fusion katmanında saldırı türünün yeniden tahmin
+edilmesi yerine nihai risk değerlendirmesi ve güvenli mod üretimi
+hedeflenmiştir. Bu amaçla iki farklı Random Forest modeli [21]
+kullanılmıştır. İlk model attack/normal ayrımı yaparak nihai risk
+seviyesini üretirken, ikinci model normal_mode, monitoring_mode,
+degraded_safe_mode ve emergency_safe_mode sınıfları arasında güvenli mod
+kararı vermektedir.
+
+Fusion katmanına giriş olarak CIC ve CARLA katmanlarından elde edilen
+saldırı olasılıkları, confidence skorları, çevresel yoğunluk bilgileri,
+hallucination olasılığı, risk şiddeti göstergeleri ve eşik tetikleme
+bilgileri kullanılmıştır. Böylece yalnızca ağ veya davranış verisine
+dayalı tek katmanlı bir yapı yerine çok kaynaklı bağlamsal karar üretimi
+gerçekleştirilmiştir.
+
+4.3 Güvenlik Guardrail Politikası
+
+Önerilen sistem tamamen kuralsız bir makine öğrenmesi yaklaşımına
+dayanmamaktadır. Emniyet-kritik otonom araç senaryolarında güvenli
+davranışın korunabilmesi amacıyla fusion karar katmanına ek olarak
+guardrail tabanlı güvenlik politikaları uygulanmıştır.
+
+Bu yapı içerisinde model çıktıları belirli risk eşikleri üzerinden
+yorumlanmaktadır. Çalışmada binary saldırı tespiti için 0.55, yüksek
+risk seviyesi için 0.70 ve kritik risk seviyesi için 0.85 eşikleri
+kullanılmıştır. Ayrıca görsel hallucination değerlendirmesi için 0.65
+eşik değeri belirlenmiştir.
+
+Risk seviyeleri düşük, orta, yüksek ve kritik olmak üzere dört
+kategoriye ayrılmıştır. Sistem düşük risk durumlarında normal_mode
+kararını üretirken, orta risk seviyesinde monitoring_mode, yüksek risk
+seviyesinde degraded_safe_mode ve kritik risk seviyesinde
+emergency_safe_mode kararına yönelmektedir.
+
+Guardrail politikası, model kararlarının yerine geçen statik bir yapı
+olarak değil; emniyet-kritik durumlarda kararları daha güvenli tarafa
+yönlendiren destekleyici bir güvenlik katmanı olarak tasarlanmıştır.
+Böylece sistem hem veri odaklı karar üretme yeteneğini korumakta hem de
+yüksek riskli durumlarda konservatif güvenlik davranışı
+sergileyebilmektedir.
+
+4.4 Model Eğitim Süreci
+
+Çalışma kapsamında kullanılan tüm sınıflandırma modelleri Random Forest
+algoritması kullanılarak eğitilmiştir [20]. CIC ve CARLA katmanlarında
+ayrı ayrı binary saldırı tespiti ve saldırı türü sınıflandırması
+gerçekleştirilmiştir. Fusion katmanında ise risk_model ve
+safe_mode_model olmak üzere iki farklı karar modeli eğitilmiştir.
+
+Model eğitim süreçlerinde train/test ayrımı kullanılmış ve
+değerlendirmeler bağımsız test verileri üzerinde gerçekleştirilmiştir.
+Özellikle fusion katmanında validation sonuçlarının yüksek çıkması
+nedeniyle asıl performans değerlendirmesi bağımsız CARLA test verisi
+üzerinden yapılmıştır. Böylece modelin gerçek genelleme performansının
+daha doğru şekilde ölçülmesi amaçlanmıştır.
+
+Çalışma kapsamında accuracy, macro F1-score, weighted F1-score ve
+log-loss metrikleri kullanılmıştır. Macro F1 metriği özellikle sınıflar
+arasındaki dengesizliği daha adil değerlendirebilmek amacıyla tercih
+edilmiştir.
+
+4.5 Deneysel Ortam
+
+Deneysel çalışmalar Python tabanlı makine öğrenmesi altyapısı
+kullanılarak gerçekleştirilmiştir. Model geliştirme sürecinde
+Scikit-learn, NumPy, Pandas ve Matplotlib kütüphanelerinden
+yararlanılmıştır. Araç davranış simülasyonları CARLA ortamında
+gerçekleştirilmiş, çevresel bağlam üretiminde ise nuScenes veri seti
+kullanılmıştır.
+
+Tüm deneyler GPU destekli sistemlerde yürütülmüş ve farklı katmanlardan
+elde edilen sonuçlar fusion karar mekanizmasında birleştirilmiştir.
+Böylece ağ trafiği, araç davranışı ve çevresel bağlamı birlikte
+değerlendirebilen çok katmanlı bir güvenlik mimarisi oluşturulmuştur.
+
+5. DENEYSEL SONUÇLAR VE PERFORMANS ANALİZİ
+
+Bu bölümde önerilen çok katmanlı güvenlik mimarisinin deneysel sonuçları
+sunulmakta ve farklı analiz katmanlarının performansları
+değerlendirilmektedir. Çalışma kapsamında CIC tabanlı ağ saldırı
+analizi, CARLA tabanlı araç davranış analizi ve fusion karar katmanı
+ayrı ayrı test edilmiştir. Ayrıca leakage analizi ve ablation
+çalışmaları ile modellerin gerçekçi genelleme performansları
+incelenmiştir.
+
+5.1 CIC Katmanı Sonuçları
+
+CIC-ToN-IoT veri seti üzerinde gerçekleştirilen deneylerde ağ tabanlı
+saldırı analiz katmanı yüksek performans göstermiştir. Özellikle binary
+saldırı tespiti görevinde model oldukça düşük false negative oranı
+üretmiştir. Güvenlik sistemlerinde saldırının gözden kaçırılması kritik
+önem taşıdığı için bu sonuç önemli bir avantaj sağlamaktadır.
+
+Bunun yanında saldırı türü sınıflandırması görevinde bazı sınıflar
+arasında karışmalar gözlemlenmiştir. Özellikle injection, XSS ve
+password tabanlı saldırıların benzer ağ davranış örüntüleri göstermesi
+nedeniyle sınıf ayrımı daha zor hale gelmiştir.
+
+Tablo 1. CIC Katmanı Performans SonuçlarıŞekil 1. CIC Binary Attack
+Detection Confusion Matrix
+
+  ------------------------------------------------
+  Gorev            Accuracy   Macro F1  Weighted
+                                        F1
+  ---------------- ---------- --------- ----------
+  Binary Attack    0.9940     0.9923    0.9940
+  Detection                             
+
+  Attack Type      0.6592     0.5539    0.6562
+  Classification                        
+  ------------------------------------------------
+
+[]
+
+Şekil 1 incelendiğinde modelin attack ve normal sınıflarını yüksek
+doğrulukla ayırabildiği görülmektedir. Özellikle düşük false negative
+değeri, ağ tabanlı saldırıların büyük bölümünün başarılı şekilde tespit
+edildiğini göstermektedir.
+
+Şekil 2. CIC Attack Type Classification Confusion Matrix[]
+
+Şekil 2’de saldırı türü sınıflandırma sonuçları görülmektedir.
+Injection, XSS ve password tabanlı saldırılar arasında bazı karışmalar
+oluşmasına rağmen modelin genel olarak anlamlı saldırı örüntülerini
+öğrenebildiği gözlemlenmiştir.
+
+5.2 CARLA Katmanı Sonuçları
+
+CARLA simülasyon ortamında oluşturulan özel veri seti üzerinde araç
+davranış analiz katmanı değerlendirilmiştir. Bu katmanda
+gerçekleştirilen deneyler, ağ tabanlı saldırılardan farklı olarak
+doğrudan araç davranışını etkileyen anomalilerin modellenmesini
+hedeflemektedir.
+
+Binary saldırı tespiti görevinde model gerçekçi ve leakage etkileri
+azaltılmış test koşulları altında başarılı sonuçlar üretmiştir. Araç
+davranış verilerinin daha gürültülü ve karmaşık yapıda olması nedeniyle
+bu problem ağ tabanlı saldırı analizine göre daha zor bir yapı
+oluşturmaktadır.
+
+Saldırı türü sınıflandırması görevinde özellikle GPS spoofing, lane
+deviation ve sensor noise sınıflarında başarılı sonuçlar elde
+edilmiştir. Buna karşın delayed sensor attack ve sudden brake gibi
+davranışsal etkileri birbirine benzeyen saldırılarda bazı sınıf
+karışmaları gözlemlenmiştir.
+
+Tablo 2. CARLA Katmanı Performans Sonuçları
+
+  -----------------------------------------------
+  Gorev            Accuracy   Macro F1 Weighted
+                                       F1
+  ---------------- ---------- -------- ----------
+  Binary Attack    0.8130     0.8128   0.8128
+  Detection                            
+
+  Attack Type      0.7237     0.7081   0.7081
+  Classification                       
+  -----------------------------------------------
+
+Şekil 3. CARLA Binary Attack Detection Confusion Matrix
+
+[]
+
+Şekil 3 incelendiğinde modelin saldırı davranışlarını büyük ölçüde ayırt
+edebildiği görülmektedir. Özellikle attack recall değerinin yüksek
+olması, saldırı davranışlarının başarılı biçimde tespit edildiğini
+göstermektedir.
+
+Şekil 4. CARLA Attack Type Classification Confusion Matrix
+
+[]
+
+Şekil 4’te saldırı türü sınıflandırma sonuçları görülmektedir. GPS
+spoofing, sensor noise ve lane deviation saldırılarında yüksek doğruluk
+elde edilirken, delayed sensor attack ve sudden brake sınıflarında bazı
+karışmalar oluşmuştur. Bunun temel nedeni bu saldırıların benzer
+davranışsal etkiler üretmesidir.
+
+Özellikle delayed_sensor_attack sınıfında elde edilen düşük F1 skorları,
+zamana yayılan ve ani davranış sapmaları üretmeyen sinsi saldırıların
+tekil davranış analiz katmanlarında tespit edilmesinin zor olduğunu
+göstermektedir. Bu durum, önerilen çok katmanlı fusion mimarisinin
+önemini ortaya koymaktadır. Ağ tabanlı göstergeler, çevresel bağlam
+sinyalleri ve çoklu risk skorlarının birlikte değerlendirilmesi
+sayesinde sistem, tekil katmanların kaçırabileceği emniyet-kritik
+anomalilere karşı daha dayanıklı hale gelmektedir.
+
+5.3 Leakage Analizi
+
+Çalışma kapsamında modellerin gerçek genelleme performansını
+değerlendirebilmek amacıyla leakage analizi gerçekleştirilmiştir. İlk
+deneylerde bazı özelliklerin saldırı etiketleri ile doğrudan ilişkili
+olması nedeniyle aşırı yüksek doğruluk değerleri elde edilmiştir.
+Özellikle fusion katmanında attack-type bilgilerinin doğrudan
+kullanılması shortcut learning etkisine neden olmuştur.
+
+Bu problemi azaltmak amacıyla strict/no-leakage yapılandırmaları
+uygulanmış ve attack-type bağımlılığı azaltılmıştır. Nihai sistem
+mimarisinde saldırı türü doğrudan fusion hedef değişkeni olarak
+kullanılmamış; bunun yerine risk şiddeti, confidence skorları ve
+çevresel bağlam özellikleri değerlendirilmiştir.
+
+Tablo 3. Leakage Analizi Sonuçları
+
+  --------------------------------------
+  Model        Accuracy     Macro F1
+  ------------ ------------ ------------
+  Baseline     1.0000       1.0000
+  Binary                    
+
+  Baseline     0.9726       0.9726
+  Attack Type               
+
+  Strict       0.5838       0.5051
+  Binary                    
+
+  Strict       0.7314       0.7327
+  Attack Type               
+  --------------------------------------
+
+Tablo 3 incelendiğinde leakage temizlendikten sonra performans düşüşü
+gözlemlendiği görülmektedir. Buna rağmen modelin tamamen başarısız
+olmaması, sistemin gerçek davranışsal örüntüleri öğrenebildiğini
+göstermektedir.
+
+5.4 Fusion Karar Katmanı Sonuçları
+
+Fusion karar katmanı, CIC, CARLA ve nuScenes katmanlarından elde edilen
+özellikleri birleştirerek nihai operasyonel güvenlik kararını
+üretmektedir. Bu katman doğrudan saldırı türü tahmini yapmak yerine risk
+değerlendirmesi ve güvenli mod üretimine odaklanmaktadır.
+
+Fusion risk modeli test sonuçlarında gerçekçi koşullar altında başarılı
+sonuçlar elde edilmiştir. Ayrıca safe-mode modeli yalnızca saldırının
+varlığını değil, aynı zamanda mevcut risk seviyesine göre uygulanacak
+operasyonel güvenlik davranışını da öğrenebilmiştir.
+
+Tablo 4. Fusion Karar Katmanı Sonuçları
+
+  --------------------------------------
+  Model        Accuracy     Macro F1
+  ------------ ------------ ------------
+  Risk Model   0.7842       0.7303
+
+  Safe-Mode    0.7516       0.7761
+  Model                     
+  --------------------------------------
+
+Şekil 5. Fusion Risk Model Confusion Matrix
+
+[]
+
+Şekil 5 incelendiğinde fusion risk modelinin attack ve normal
+sınıflarını gerçekçi doğruluk seviyelerinde ayırt edebildiği
+görülmektedir. Farklı güvenlik katmanlarından gelen bağlamsal bilgilerin
+birlikte değerlendirilmesi, sistemin yalnızca saldırı var/yok kararından
+öte operasyonel güvenli mod kararı üretebilmesini sağlamıştır.
+
+Şekil 6. Fusion Safe-Mode Confusion Matrix
+
+[]Şekil 6’da güvenli mod sınıflandırma sonuçları görülmektedir.
+Monitoring_mode ve degraded_safe_mode sınıflarında yüksek doğruluk elde
+edilirken, emergency_safe_mode sınıfında bazı normal_mode karışmaları
+oluşmuştur. Bu durum gerçek otonom araç senaryolarında risk
+seviyelerinin keskin sınırlar yerine geçişli yapıda olmasından
+kaynaklanmaktadır.
+
+5.5 Ablation Analizi
+
+Fusion karar katmanında kullanılan özelliklerin etkisini incelemek
+amacıyla kontrollü ablation deneyleri gerçekleştirilmiştir. Bu
+analizler, nihai retrain performans değerlendirmesinden farklı olarak
+küçük ölçekli leakage ve shortcut öğrenme etkilerini incelemek amacıyla
+hazırlanmıştır. Bu nedenle burada raporlanan sonuçlar final bağımsız
+test performansını temsil etmemektedir.
+
+İlk deneylerde attack-type bilgilerinin fusion katmanına doğrudan
+verilmesi durumunda çok yüksek doğruluk değerleri elde edilmiştir.
+Attack-type özellikleri kaldırıldığında risk sınıflandırma performansı
+bu küçük ölçekli deneyde yüksek kalmış, ancak saldırı türü sınıflandırma
+performansı belirgin biçimde düşmüştür. Bu durum fusion katmanının
+attack-type shortcut learning etkisine duyarlı olduğunu göstermektedir.
+
+Bu nedenle nihai sistem mimarisinde attack-type bilgisinin fusion karar
+katmanında doğrudan kullanılmaması tercih edilmiştir.
+
+Tablo 5. Küçük Ölçekli Legacy Fusion Ablation Sonuçları
+
+  ----------------------------------------------------
+  Feature Set  Risk       Risk     Type       Type
+               Accuracy   Macro F1 Accuracy   Macro F1
+  ------------ ---------- -------- ---------- --------
+  All Features 0.9958     0.9882   0.9958     0.9958
+
+  No Attack    0.9958     0.9882   0.5042     0.4997
+  Type                                        
+
+  Visual Only  0.9875     0.9632   0.3458     0.3412
+
+  Prediction   0.9958     0.9882   0.9958     0.9958
+  Only                                        
+  ----------------------------------------------------
+
+Tablo 5 incelendiğinde attack-type bilgisinin kaldırılmasının risk
+sınıflandırma performansını bu küçük ölçekli deneyde doğrudan
+düşürmediği görülmektedir. Buna karşın saldırı türü sınıflandırma
+performansı belirgin biçimde azalmıştır. Bu sonuç, attack-type
+bilgisinin özellikle saldırı türü tahmini görevinde shortcut learning
+etkisi oluşturduğunu göstermektedir.
+
+Visual-only senaryosunda ise risk sınıflandırma performansı yüksek
+görünmesine rağmen saldırı türü tahmini ciddi biçimde düşmüştür. Bu
+durum görsel bağlam özelliklerinin tek başına detaylı saldırı ayrımı
+için yeterli olmadığını göstermektedir.
+
+Bu analizler doğrultusunda nihai fusion mimarisinde attack-type bilgisi
+doğrudan hedef değişken olarak kullanılmamış; fusion karar katmanı
+yalnızca nihai risk seviyesi ve operasyonel safe-mode kararına
+odaklanacak şekilde tasarlanmıştır.
+
+5.6 Güvenli Mod Karar Analizi
+
+Safe-mode sınıflandırma sonuçları incelendiğinde modelin özellikle
+monitoring_mode ve degraded_safe_mode sınıflarında güçlü performans
+sergilediği görülmektedir. Monitoring_mode sınıfında yüksek precision ve
+recall değerleri elde edilirken, degraded_safe_mode sınıfında da dengeli
+bir sınıflandırma performansı gözlemlenmiştir.
+
+Buna karşın emergency_safe_mode sınıfında bazı sınıf karışmaları
+oluşmuştur. Özellikle emergency_safe_mode ile normal_mode arasında
+belirli düzeyde yanlış sınıflandırmalar gözlemlenmiştir. Model bu
+sınıfta 0.8170 precision, 0.5556 recall ve 0.6614 F1 skoru üretmiştir.
+Bu durum, kritik risk senaryolarının bir bölümünün daha düşük güvenli
+mod seviyelerine yönlendirilebildiğini göstermektedir.
+
+Elde edilen sonuçlar, güvenli mod karar probleminin özellikle
+emniyet-kritik sınıflarda daha zor bir yapı oluşturduğunu
+göstermektedir. Bununla birlikte modelin monitoring_mode ve
+degraded_safe_mode gibi operasyonel olarak önemli ara güvenlik
+seviyelerinde başarılı sonuçlar üretebildiği gözlemlenmiştir.
+
+5.7 CARLA Canlı Simülasyon Testleri
+
+Offline model eğitimi ve bağımsız test seti değerlendirmelerine ek
+olarak, önerilen mimarinin canlı simülasyon koşullarında nasıl
+davrandığını incelemek amacıyla CARLA tabanlı entegrasyon testleri
+gerçekleştirilmiştir. Bu testler, statik veri seti üzerinde ölçülen
+model başarısından farklı olarak, zaman içinde değişen senaryo
+aşamaları, katmanlar arası sinyal uyumsuzlukları, görsel bağlam
+değişimleri ve operasyonel safe-mode kararlarının birlikte
+değerlendirilmesini hedeflemektedir. Bu nedenle canlı test sonuçları,
+final offline test metriklerinin doğrudan tekrarı olarak değil, sistemin
+entegre çalışma koşullarındaki davranışını gösteren ek doğrulama
+bulguları olarak ele alınmıştır.
+
+Canlı testlerde eğitilmiş CIC, CARLA ve fusion modelleri birlikte
+çalıştırılmıştır. Her senaryo aşamasında ağ katmanı, araç
+davranış/sensör katmanı, görsel tutarlılık katmanı ve karar katmanı
+tarafından üretilen sinyaller kaydedilmiştir. Testler sonunda sistem,
+hem makine tarafından işlenebilir olay kayıtları hem de araç sahibi veya
+insan operatör tarafından okunabilecek HTML tabanlı bir güvenlik raporu
+üretmiştir. Bu raporlar; toplam olay sayısı, saldırı/anomali dağılımı,
+güvenli mod gerektiren olay sayısı, katman bazlı tetiklemeler, tehdit
+sıklıkları, risk dağılımı ve nihai güvenli mod kararını içermektedir.
+
+Canlı testler iki temel senaryo ailesinde gerçekleştirilmiştir. İlk
+senaryo ailesi, NPC trafiğinin bulunmadığı izole ve deterministik final
+pipeline testleridir. Bu testlerde sistemin temiz başlangıç durumundan
+ağ anomalisi, sensör bozulması, ani fren tutarsızlığı ve koordineli
+kontrol sapması gibi aşamalara verdiği tepki incelenmiştir. İkinci
+senaryo ailesi ise 15 NPC aracın bulunduğu daha karmaşık trafik
+koşullarında gerçekleştirilen NPC ve hallucination stres testleridir. Bu
+testlerde ağ saldırısı, davranışsal anomali ve görsel tutarlılık
+sinyalleri birlikte değerlendirilmiş; özellikle katmanlar arası çelişki
+durumlarında fusion karar mekanizmasının davranışı analiz edilmiştir.
+
+5.7.1 Final Pipeline Canlı Testi
+
+Final pipeline canlı testi, sistemin temel entegrasyon akışının
+doğrulanması amacıyla tasarlanmıştır. Bu senaryoda NPC araç bulunmayan
+izole bir ortamda toplam 26 karar olayı değerlendirilmiştir. Senaryo beş
+aşamadan oluşmaktadır. İlk aşamada temiz sürüş davranışı ile sistemin
+normal çalışma durumu gözlenmiştir. İkinci aşamada araç davranışı normal
+kalırken yalnızca ağ katmanında MITM/probe karakterli bir anomali
+tetiklenmiştir. Üçüncü aşamada DoS kaynaklı sensör/veri bozulması
+oluşturulmuş, dördüncü aşamada ise görsel bağlamda yakın engel
+bulunmamasına rağmen ani fren davranışı üretilerek görsel tutarsızlık
+riski incelenmiştir. Son aşamada şerit sapması ve ağ alarmı birlikte
+verilerek çok katmanlı kritik kontrol sapması senaryosu test edilmiştir.
+
+Bu testte sistem 26 olayın 17’sini saldırı/anomali, 9’unu normal olarak
+sınıflandırmıştır. Raporlama katmanı 23 olay için güvenli mod
+gereksinimi tespit etmiş ve nihai önerilen safe-mode kararını
+emergency_safe_mode olarak atamıştır. Risk modeli için accuracy 0.692 ve
+Macro F1 0.609 olarak ölçülmüştür. Safe-mode modeli için accuracy 0.346
+ve Macro F1 0.307 seviyesinde kalmıştır. Bu düşüş, offline test
+setindeki kontrollü dağılıma kıyasla canlı simülasyon aşamalarında
+zamanlama geçişleri ve sınıflar arası belirsizliklerin daha belirgin
+hale gelmesinden kaynaklanmaktadır.
+
+Risk confusion matrix incelendiğinde, 21 gerçek saldırı/anomali olayının
+15’inin attack olarak doğru sınıflandırıldığı, 6’sının ise normal olarak
+değerlendirildiği görülmektedir. Normal sınıfta ise 5 olaydan 3’ü doğru
+normal olarak tahmin edilmiş, 2 olay attack olarak işaretlenmiştir. Bu
+sonuç, risk modelinin canlı simülasyonda saldırı sinyallerini belirli
+ölçüde yakalayabildiğini, ancak kısa süreli faz geçişlerinde bazı
+saldırı olaylarını kaçırabildiğini göstermektedir.
+
+Safe-mode confusion matrix daha konservatif bir karar eğilimine işaret
+etmektedir. Gerçek degraded_safe_mode ve monitoring_mode olaylarının
+önemli bir bölümü emergency_safe_mode olarak yükseltilmiştir. Bu durum
+salt sınıflandırma metriği açısından accuracy düşüşüne neden olsa da,
+emniyet-kritik otonom araç bağlamında sistemin belirsiz veya çok
+katmanlı risklerde daha güvenli tarafa karar verme eğilimini
+göstermektedir. Özellikle şerit sapması ve ağ katmanı alarmının birlikte
+görüldüğü çok katmanlı kontrol sapması aşamasında sistemin
+emergency_safe_mode yönünde karar üretmesi beklenen ve tercih edilen bir
+davranış olarak değerlendirilmiştir.
+
+Katman bazlı bulgular incelendiğinde CIC ağ katmanının 17 olayda, CARLA
+davranış/sensör katmanının 17 olayda, görsel tutarlılık katmanının 10
+olayda ve fusion karar katmanının 17 olayda tetiklendiği görülmektedir.
+Final risk dağılımında 19 kritik, 4 yüksek ve 3 düşük seviye olay
+raporlanmıştır. Güvenli mod dağılımında ise 19 olay emergency_safe_mode,
+4 olay degraded_safe_mode ve 3 olay normal_mode olarak belirlenmiştir.
+Bu tablo, sistemin saldırı zinciri boyunca yalnızca anomali tespiti
+yapmakla kalmadığını, aynı zamanda operasyonel güvenli mod kararını da
+üretebildiğini göstermektedir.
+
+Tehdit sıklıkları açısından en baskın anomali lane_deviation olmuştur.
+Bu sınıf 7 olay ile toplam olayların %26.9’unu oluşturmuştur. Bunu 4
+olay ile sudden_brake, 3 olay ile dos, 2 olay ile sensor_noise ve 1 olay
+ile gps_spoofing izlemiştir. Bu dağılım, deterministik final pipeline
+testinin özellikle davranış/sensör anomalileri ve kontrol sapmaları
+üzerinden sistemi zorladığını göstermektedir.
+
+5.7.2 NPC ve Hallucination Stres Testi
+
+İkinci canlı test ailesi, daha karmaşık trafik koşullarında sistemin
+karar kararlılığını incelemek amacıyla tasarlanmıştır. Bu senaryoda 15
+NPC araç kullanılmış ve ağ katmanı ile CARLA davranış/sensör katmanı
+arasında kimi aşamalarda uyumlu, kimi aşamalarda ise bilerek uyumsuz
+saldırı sinyalleri oluşturulmuştur. Bu sayede fusion katmanının yalnızca
+tek bir veri kaynağına bağlı kalmadan çok katmanlı karar üretme
+kabiliyeti incelenmiştir.
+
+NPC stres testi altı aşamadan oluşmaktadır. İlk aşamada NPC trafiği
+altında temiz sürüş davranışı gözlenmiştir. İkinci aşamada araç
+davranışı normal kalırken ağ katmanında MITM saldırısı tetiklenmiştir.
+Üçüncü aşamada DoS/DDoS karakterli ağ saldırısı ani fren davranışı ile
+birlikte değerlendirilmiştir. Dördüncü aşamada ağ tarama saldırısı şerit
+sapması ile birleştirilmiş, beşinci aşamada DoS etkisi hız sensörü
+manipülasyonu ile birlikte test edilmiştir. Son aşamada ise ağ tarama
+davranışı ile gecikmeli sensör saldırısı aynı senaryo içinde
+değerlendirilmiştir.
+
+Bu testte toplam 34 karar olayı üretilmiştir. Sistem 22 olayı
+saldırı/anomali, 12 olayı normal olarak sınıflandırmıştır. Raporlama
+katmanı 30 olayda güvenli mod gereksinimi tespit etmiş ve nihai
+safe-mode kararını emergency_safe_mode olarak üretmiştir. Risk modeli
+accuracy değeri 0.706, Macro F1 değeri ise 0.622 olarak ölçülmüştür.
+Safe-mode modeli accuracy değeri 0.618, Macro F1 değeri ise 0.393 olarak
+raporlanmıştır. Bu sonuç, NPC trafiği ve katmanlar arası sinyal
+çelişkisi bulunmasına rağmen risk modelinin canlı koşullarda
+kararlılığını belirli ölçüde koruduğunu göstermektedir.
+
+Risk confusion matrix incelendiğinde, 28 gerçek attack/anomali olayının
+20’si doğru attack olarak sınıflandırılmış, 8’i normal olarak tahmin
+edilmiştir. Normal sınıfta ise 6 olaydan 4’ü doğru normal olarak tahmin
+edilmiş, 2’si attack olarak işaretlenmiştir. Bu dağılım, modelin canlı
+NPC senaryosunda saldırı olaylarını yakalama eğiliminin korunduğunu,
+ancak bazı davranışsal ve zamansal geçişlerin normal sınıfa
+kayabildiğini göstermektedir.
+
+Safe-mode confusion matrix, sistemin özellikle kritik aşamalarda
+emergency kararını öne çıkardığını göstermektedir. Gerçek
+emergency_safe_mode olaylarının 17’si de emergency_safe_mode olarak
+doğru sınıflandırılmıştır. Buna karşın degraded_safe_mode ve
+monitoring_mode olaylarının bir bölümü emergency sınıfına
+yükseltilmiştir. Bu durum çok sınıflı safe-mode probleminin zorluğunu
+göstermekle birlikte, güvenlik açısından konservatif bir karar
+politikasının uygulandığına işaret etmektedir.
+
+Katman bazlı tetikleme sayıları NPC stres testinde daha belirgin hale
+gelmiştir. CIC ağ katmanı 28 olayda, CARLA davranış/sensör katmanı 22
+olayda, görsel tutarlılık katmanı 6 olayda ve fusion karar katmanı 22
+olayda tetiklenmiştir. Final risk dağılımında 27 kritik, 3 yüksek ve 4
+düşük seviye olay bulunmaktadır. Safe-mode dağılımında ise 27 olay
+emergency_safe_mode, 3 olay degraded_safe_mode ve 4 olay normal_mode
+olarak raporlanmıştır. Bu bulgular, NPC trafiği ve çoklu saldırı
+koşullarında sistemin genel olarak yüksek güvenlik seviyesine
+yöneldiğini göstermektedir.
+
+Tehdit sıklıkları incelendiğinde en baskın tehdit position_spoofing
+olmuştur. Bu sınıf 9 olay ile toplam olayların %26.5’ini oluşturmuştur.
+Bunu 5 olay ile sudden_brake, 5 olay ile speed_spoofing, 1 olay ile
+lane_deviation, 1 olay ile sensor_noise ve 1 olay ile dos izlemiştir.
+Ani fren aşamalarında görsel karşılaştırma kayıtları, kamera önünde
+yakın tehlike bulunmamasına rağmen fren davranışının maksimum seviyeye
+çıktığını göstermiştir. Bu tür durumlar görsel tutarlılık katmanının
+fusion karar mekanizmasına destekleyici bağlamsal kanıt sağlamasını
+mümkün kılmıştır.
+
+5.7.3 Offline Testler ile Canlı Testlerin Karşılaştırılması
+
+Offline final testlerde fusion risk modeli 0.7842 accuracy ve 0.7303
+Macro F1 üretirken, safe-mode modeli 0.7516 accuracy ve 0.7761 Macro F1
+değerlerine ulaşmıştır. Buna karşın canlı CARLA testlerinde risk
+accuracy değeri final pipeline koşusunda 0.692, NPC ve hallucination
+stres testinde ise 0.706 olarak ölçülmüştür. Safe-mode tarafında final
+pipeline testinde accuracy 0.346 ve Macro F1 0.307, NPC stres testinde
+ise accuracy 0.618 ve Macro F1 0.393 olarak raporlanmıştır.
+
+Bu fark, canlı simülasyon testlerinin offline testlerden doğal olarak
+daha zor olduğunu göstermektedir. Offline testlerde örnekler ayrık ve
+etiketlenmiş veri satırları olarak değerlendirilirken, canlı testlerde
+aşamalar arası geçişler, zamansal gecikmeler, katmanlar arası
+uyumsuzluklar ve operasyonel karar sınırları aynı anda ortaya
+çıkmaktadır. Özellikle safe-mode tahmini yalnızca attack/normal ayrımına
+dayanmadığı için daha karmaşık bir karar problemidir. Bir olay saldırı
+olarak doğru tespit edilse bile, bu olay için monitoring, degraded veya
+emergency modlarından hangisinin uygulanacağı bağlamsal olarak daha zor
+belirlenmektedir.
+
+Canlı test sonuçlarının en önemli bulgusu, sistemin offline
+metriklerdeki performansı birebir korumasından çok, entegre koşullarda
+operasyonel safe-mode kararı üretebilmesidir. Her iki senaryo ailesinde
+de nihai karar emergency_safe_mode olarak üretilmiş ve raporlama katmanı
+kritik olayları insan operatör incelemesine aktarılacak şekilde
+işaretlemiştir. Bu durum önerilen mimarinin yalnızca model performansı
+açısından değil, karar destek ve güvenli mod yönetimi açısından da
+uygulanabilir bir iş akışına sahip olduğunu göstermektedir.
+
+Tablo X. Offline ve Canlı Simülasyon Sonuçlarının Karşılaştırılması
+
++----------------+---------+---------------------+---------------------+
+| Test           | Offline | CARLA final         | NPC + hallucination |
+|                | final   | pipeline live       | live                |
+|                | test    |                     |                     |
++----------------+---------+---------------------+---------------------+
+| Olay           | 5000    | 26                  | 34                  |
++----------------+---------+---------------------+---------------------+
+| Attack/anomali | 4050    | 17                  | 22                  |
++----------------+---------+---------------------+---------------------+
+| Normal         | 950     | 9                   | 12                  |
++----------------+---------+---------------------+---------------------+
+| Risk Acc.      | 0.7842  | 0.692               | 0.706               |
++----------------+---------+---------------------+---------------------+
+| Risk Macro F1  | 0.7303  | 0.609               | 0.622               |
++----------------+---------+---------------------+---------------------+
+| Safe-mode Acc  | 0.7516  | 0.346               | 0.618               |
++----------------+---------+---------------------+---------------------+
+| Safe-mode      | 0.7761  | 0.307               | 0.393               |
+|                |         |                     |                     |
+| Macro F1       |         |                     |                     |
++----------------+---------+---------------------+---------------------+
+| Nihai Mod      | -       | emergency_safe_mode | emergency_safe_mode |
++================+=========+=====================+=====================+
+
+5.7.4 Kullanıcıya Sunulan Raporlama Arayüzü
+
+Canlı testlerin her biri için otomatik olarak HTML tabanlı dashboard
+raporu üretilmiştir. Bu dashboard, ham model çıktısını doğrudan
+kullanıcıya sunmak yerine, olayları karar verilebilir ve yorumlanabilir
+bir formata dönüştürmektedir. Raporda toplam olay sayısı,
+saldırı/anomali oranı, normal olay sayısı, safe-mode gerektiren olay
+sayısı, en baskın tehditler, katman bazlı tetiklemeler, risk dağılımı,
+güvenli mod dağılımı ve öncelikli olay örnekleri yer almaktadır.
+
+Bu raporlama katmanı, sistemin akademik modelleme tarafını operasyonel
+kullanım senaryosuna bağlamaktadır. Araç sahibi veya insan operatör,
+yalnızca modelin attack ya da normal tahminini değil, hangi katmanların
+tetiklendiğini, hangi tehditlerin baskın olduğunu ve neden belirli bir
+safe-mode kararının verildiğini görebilmektedir. Bu nedenle HTML
+dashboard, önerilen sistemin açıklanabilirlik ve kullanıcıya
+sunulabilirlik boyutunu destekleyen önemli bir bileşen olarak
+değerlendirilmiştir.
+
+5.7.5 Genel Değerlendirme
+
+CARLA canlı simülasyon testleri, önerilen çok katmanlı mimarinin statik
+veri seti koşullarının dışında da çalıştırılabildiğini göstermiştir.
+Risk modeli canlı testlerde offline sonuçlara göre daha düşük performans
+üretmiş olsa da, hem deterministik final pipeline testinde hem de
+NPC/hallucination stres testinde saldırı zincirlerini anlamlı ölçüde
+yakalayabilmiştir. Safe-mode tahmininde gözlenen sınıf karışmaları ise
+modelin operasyonel karar sınırlarında daha konservatif davranması ve
+bazı monitoring/degraded olaylarını emergency seviyesine
+yükseltilmesiyle açıklanabilir.
+
+Bu bulgular, otonom araç güvenliği bağlamında yalnızca sınıflandırma
+doğruluğunun yeterli olmadığını göstermektedir. Emniyet-kritik
+sistemlerde daha önemli hedef, kritik risklerin gözden kaçırılmasını
+azaltmak ve belirsizlik durumunda aracı daha güvenli davranışa
+yönlendirmektir. Önerilen sistemin guardrail destekli safe-mode
+mekanizması, bu amaca uygun olarak kritik ve çok katmanlı risklerde
+emergency_safe_mode kararını öne çıkarmaktadır. Bu nedenle canlı
+testler, sistemin pratik operasyonel karar üretme kabiliyetini
+destekleyen tamamlayıcı deneysel kanıt olarak sunulabilir.
+
+6. TARTIŞMA
+
+Bu çalışmada önerilen çok katmanlı güvenlik mimarisi; ağ trafiği
+analizi, araç davranış analizi ve çevresel bağlam doğrulamasını
+birleştiren hibrit bir yaklaşım sunmuştur. Elde edilen deneysel
+sonuçlar, sistemin yalnızca saldırı tespiti gerçekleştirmediğini, aynı
+zamanda operasyonel güvenlik kararı da üretebildiğini göstermektedir.
+Bununla birlikte çalışma kapsamında elde edilen bulgular, çok katmanlı
+güvenlik sistemlerinde veri bağımlılığı, leakage etkileri, bağlamsal
+öğrenme ve güvenli mod karar mekanizmaları açısından önemli
+değerlendirmeler ortaya koymuştur.
+
+Çalışmanın dikkat çekici sonuçlarından biri, CIC tabanlı ağ saldırı
+analiz katmanının oldukça yüksek performans göstermesidir. Özellikle
+binary saldırı tespiti görevinde elde edilen yüksek doğruluk ve düşük
+false negative oranı, ağ seviyesindeki saldırı örüntülerinin başarılı
+biçimde öğrenilebildiğini göstermektedir. Buna karşın saldırı türü
+sınıflandırması görevinde daha düşük performans elde edilmesi, bazı
+saldırı türlerinin benzer ağ davranışları üretmesinden
+kaynaklanmaktadır. Özellikle injection, XSS ve password tabanlı
+saldırıların ağ davranış örüntülerinin kısmen benzer olması sınıf
+ayrımını zorlaştırmıştır.
+
+CARLA tabanlı araç davranış analiz katmanında elde edilen sonuçlar, ağ
+tabanlı saldırı analizine kıyasla daha zorlu bir problem yapısına işaret
+etmektedir. Araç davranış verileri; sensör gürültüsü, sürüş dinamikleri
+ve çevresel değişkenlerden etkilendiği için daha karmaşık örüntüler
+içermektedir. Buna rağmen sistemin GPS spoofing, lane deviation ve
+sensor noise gibi saldırı türlerini anlamlı doğruluk seviyelerinde ayırt
+edebilmesi, davranış tabanlı saldırı analizinin uygulanabilir olduğunu
+göstermektedir.
+
+Çalışma kapsamında en kritik değerlendirme konularından biri leakage
+problemidir. İlk deneylerde fusion katmanında bazı özelliklerin saldırı
+etiketleri ile doğrudan ilişkili olması nedeniyle aşırı yüksek doğruluk
+değerleri elde edilmiştir. Özellikle attack-type bilgilerinin fusion
+karar katmanına doğrudan verilmesi shortcut learning etkisine neden
+olmuş ve modelin gerçek davranış örüntülerini öğrenmek yerine etiket
+bağımlı örüntülere yöneldiği gözlemlenmiştir. Bu nedenle
+strict/no-leakage yapılandırmaları uygulanmış ve attack-type bağımlılığı
+azaltılmıştır.
+
+Leakage etkilerinin azaltılması sonrasında performans değerlerinde düşüş
+gözlemlenmesine rağmen sistemin tamamen başarısız olmaması önemli bir
+bulgudur. Bu durum modellerin yalnızca yüzeysel etiket ilişkilerini
+değil, gerçek davranışsal ve bağlamsal örüntüleri de öğrenebildiğini
+göstermektedir. Özellikle fusion katmanında risk şiddeti, confidence
+skorları, çevresel bağlam ve hallucination göstergeleri gibi
+özelliklerin kullanılması daha genellenebilir bir karar yapısı
+oluşturmuştur.
+
+Fusion karar katmanının saldırı türü tahmini yerine operasyonel risk
+değerlendirmesi ve güvenli mod üretimine odaklanması çalışmanın temel
+katkılarından biridir. Literatürdeki birçok çalışma yalnızca saldırının
+tespit edilmesine odaklanırken, bu çalışmada saldırı sonrası aracın
+nasıl davranması gerektiği de değerlendirilmiştir. Bu yaklaşım özellikle
+emniyet-kritik otonom araç sistemlerinde önemli avantaj sağlamaktadır.
+Çünkü gerçek dünya senaryolarında yalnızca saldırının belirlenmesi
+yeterli değildir; aynı zamanda aracın mevcut risk seviyesine göre
+güvenli operasyonel moda geçebilmesi gerekmektedir.
+
+Önerilen guardrail tabanlı güvenlik politikası da çalışmanın önemli
+bileşenlerinden biridir. Sistem tamamen kuralsız bir makine öğrenmesi
+yaklaşımına dayanmamaktadır. Bunun yerine makine öğrenmesi tabanlı karar
+mekanizması, emniyet-kritik durumlarda güvenli tarafa yönlendiren
+güvenlik politikaları ile desteklenmiştir. Bu yapı sayesinde model
+kararları korunurken, yüksek riskli durumlarda daha konservatif güvenlik
+davranışı sağlanabilmiştir.
+
+Çalışmada kullanılan nuScenes tabanlı çevresel bağlam katmanı doğrudan
+saldırı sınıflandırması yapmak yerine bağlamsal kanıt üretici bir yapı
+olarak değerlendirilmiştir. Ablation sonuçlarında yalnızca görsel
+özellikler kullanıldığında saldırı türü ayrımının zayıfladığı
+görülmüştür. Bu durum görsel katmanın bağımsız bir saldırı
+sınıflandırıcısı olmaktan çok, fusion karar mekanizmasını destekleyen
+çevresel doğrulama katmanı olarak daha uygun olduğunu göstermektedir.
+
+Bununla birlikte çalışmanın bazı sınırlılıkları bulunmaktadır. Öncelikle
+deneysel süreç büyük ölçüde simülasyon tabanlı veri setleri üzerinde
+gerçekleştirilmiştir. CARLA ortamı gerçekçi sürüş davranışları
+üretmesine rağmen, gerçek dünya trafik koşullarının tüm karmaşıklığını
+tam olarak temsil edememektedir. Ayrıca fusion katmanında kullanılan
+eşik değerleri deneysel gözlemler doğrultusunda belirlenmiş olup
+otomatik threshold optimization süreçleri uygulanmamıştır.
+
+Bir diğer sınırlılık ise sistemin gerçek zamanlı gömülü araç donanımları
+üzerinde henüz test edilmemiş olmasıdır. Özellikle edge cihazlarda
+gecikme süresi, hesaplama maliyeti ve enerji tüketimi gibi faktörler
+gerçek araç uygulamalarında önemli hale gelmektedir. Bunun yanında
+gerçek araç sensörlerinden elde edilen verilerin simülasyon ortamlarına
+göre daha gürültülü olması model performansını etkileyebilir.
+
+Genel olarak değerlendirildiğinde elde edilen sonuçlar, önerilen çok
+katmanlı hibrit yaklaşımın yalnızca saldırı tespiti değil, aynı zamanda
+operasyonel güvenlik kararı açısından da uygulanabilir bir yapı
+sunduğunu göstermektedir. Özellikle ML tabanlı fusion karar mekanizması
+ile güvenlik guardrail politikalarının birlikte kullanılması, otonom
+araç güvenliği açısından açıklanabilir ve emniyet odaklı bir karar
+mimarisi oluşturmuştur.
+
+7. SONUÇ VE GELECEK ÇALIŞMALAR
+
+Bu çalışmada, otonom araç sistemlerine yönelik çok katmanlı yapay zeka
+destekli bir siber güvenlik ve adaptif güvenli mod karar mimarisi
+önerilmiştir. Önerilen yapı; ağ trafiği analizi, araç davranış analizi
+ve çevresel bağlam doğrulamasını birleştiren hibrit bir güvenlik
+yaklaşımı sunmaktadır. Sistem mimarisinde CIC-ToN-IoT veri seti
+kullanılarak ağ tabanlı saldırılar analiz edilmiş, CARLA simülasyon
+ortamında oluşturulan özel veri seti ile araç davranış anomalileri
+modellenmiş ve nuScenes veri setinden elde edilen çevresel bağlam
+özellikleri fusion karar katmanına dahil edilmiştir.
+
+Çalışma kapsamında geliştirilen fusion karar mekanizması, yalnızca
+saldırı tespiti gerçekleştirmek yerine operasyonel risk değerlendirmesi
+ve güvenli mod üretimine odaklanmıştır. Bu amaçla risk_model ve
+safe_mode_model olmak üzere iki farklı Random Forest tabanlı karar
+modeli kullanılmıştır. Ayrıca emniyet-kritik durumlarda sistem
+davranışını güvenli tarafa yönlendirebilmek amacıyla guardrail tabanlı
+güvenlik politikaları uygulanmıştır.
+
+Deneysel sonuçlar, önerilen mimarinin hem ağ tabanlı saldırılar hem de
+davranış tabanlı araç anomalileri üzerinde başarılı sonuçlar
+üretebildiğini göstermiştir. CIC katmanında yüksek doğruluk seviyeleri
+elde edilirken, CARLA tabanlı davranış analiz katmanı gerçekçi ve daha
+zorlu senaryolarda anlamlı performans üretmiştir. Fusion karar
+katmanında elde edilen sonuçlar ise çok kaynaklı bağlamsal analiz
+kullanılarak operasyonel güvenlik kararlarının üretilebildiğini
+göstermektedir.
+
+Çalışma kapsamında gerçekleştirilen leakage ve ablation analizleri, çok
+katmanlı güvenlik sistemlerinde shortcut learning etkisinin önemli bir
+problem oluşturabileceğini ortaya koymuştur. Özellikle attack-type
+bilgilerinin fusion katmanına doğrudan verilmesi durumunda yapay biçimde
+yüksek doğruluk değerleri oluştuğu gözlemlenmiştir. Bu nedenle nihai
+mimaride attack-type bağımlılığı azaltılmış ve daha genellenebilir bir
+karar yapısı hedeflenmiştir.
+
+Önerilen yaklaşımın önemli katkılarından biri, saldırı tespiti ile
+operasyonel güvenli mod yönetimini birlikte ele almasıdır. Literatürdeki
+birçok çalışma yalnızca saldırının belirlenmesine odaklanırken, bu
+çalışmada aracın mevcut risk seviyesine göre uygun operasyonel davranış
+üretmesi de değerlendirilmiştir. Bu yapı sayesinde sistem yalnızca bir
+saldırı tespit mekanizması olmaktan çıkarılarak adaptif güvenlik
+davranışı üretebilen hibrit bir karar mimarisine dönüştürülmüştür.
+
+Bununla birlikte çalışmanın bazı sınırlılıkları bulunmaktadır. Deneysel
+süreç büyük ölçüde simülasyon tabanlı veri setleri üzerinde
+gerçekleştirilmiştir ve gerçek dünya sürüş koşullarının tüm karmaşıklığı
+tam olarak temsil edilememektedir. Ayrıca guardrail eşik değerleri
+deneysel gözlemler doğrultusunda belirlenmiş olup otomatik threshold
+optimization yöntemleri kullanılmamıştır. Sistem ayrıca gerçek zamanlı
+gömülü araç donanımları üzerinde henüz test edilmemiştir.
+
+Gelecek çalışmalarda sistemin gerçek araç platformları üzerinde test
+edilmesi, gerçek zamanlı edge donanımlara uyarlanması ve farklı derin
+öğrenme mimarileri ile desteklenmesi planlanmaktadır. Özellikle
+reinforcement learning tabanlı adaptif güvenlik politikaları, otomatik
+threshold optimization yöntemleri ve explainable AI tabanlı karar
+analizleri gelecekteki önemli araştırma alanları arasında
+değerlendirilmektedir. Bunun yanında gerçek dünya sensör verileri ve
+fiziksel araç testleri ile sistemin güvenilirliğinin artırılması
+hedeflenmektedir.
+
+Sonuç olarak elde edilen bulgular, önerilen çok katmanlı hibrit
+yaklaşımın yalnızca saldırı tespiti açısından değil, aynı zamanda
+operasyonel güvenlik yönetimi açısından da uygulanabilir ve
+ölçeklenebilir bir çözüm sunduğunu göstermektedir. Özellikle yapay zeka
+tabanlı fusion karar mekanizması ile güvenlik guardrail politikalarının
+birlikte kullanılması, otonom araç güvenliği açısından açıklanabilir,
+adaptif ve emniyet odaklı bir karar yapısı oluşturmuştur.
+
+Kaynakça
+
+[1] J. R. V. Solaas, E. Mariconti, and N. Tuptuk, “Systematic Literature
+Review: Anomaly Detection in Connected and Autonomous Vehicles,” IEEE
+Transactions on Intelligent Transportation Systems, vol. 26, no. 1, pp.
+43-58, 2025, doi: 10.1109/TITS.2024.3495031.
+
+[2] R. K. Mane and P. Sharma, “Securing Autonomous Vehicles: An In-Depth
+Review of Cyber Attacks and Anomaly Detection Challenges,” Expert
+Systems, 2025, doi: 10.1111/exsy.70100.
+
+[3] B. Wang, W. Li, and Z. Khattak, “Anomaly Detection in Connected and
+Autonomous Vehicle Trajectories Using LSTM Autoencoder and Gaussian
+Mixture Model,” Electronics, vol. 13, no. 7, article 1251, 2024, doi:
+10.3390/electronics13071251.
+
+[4] Q. Zhang, S. Hu, J. Sun, Q. A. Chen, and Z. M. Mao, “On Adversarial
+Robustness of Trajectory Prediction for Autonomous Vehicles,” in
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, pp. 15138-15147, 2022, doi: 10.1109/CVPR52688.2022.01473.
+
+[5] A. Alsaedi, N. Moustafa, and A. Anwar, “TON_IoT Telemetry Dataset: A
+New Generation Dataset of IoT and IIoT for Data-Driven Intrusion
+Detection Systems,” IEEE Access, vol. 8, pp. 165130-165150, 2020, doi:
+10.1109/ACCESS.2020.3022862.
+
+[6] T. M. Booij, I. Chiscop, E. Meeuwissen, N. Moustafa, and F. T. H.
+den Hartog, “ToN_IoT: The Role of Heterogeneity and the Need for
+Standardization of Features and Attack Types in IoT Network Intrusion
+Data Sets,” IEEE Internet of Things Journal, vol. 9, no. 1, pp. 485-496,
+2022.
+
+[7] A. Dosovitskiy, G. Ros, F. Codevilla, A. Lopez, and V. Koltun,
+“CARLA: An Open Urban Driving Simulator,” in Proceedings of the
+Conference on Robot Learning, pp. 1-16, 2017.
+
+[8] H. Caesar et al., “nuScenes: A Multimodal Dataset for Autonomous
+Driving,” in Proceedings of the IEEE/CVF Conference on Computer Vision
+and Pattern Recognition, pp. 11621-11631, 2020.
+
+[9] H. Sun, M. Chen, J. Weng, Z. Liu, and G. Geng, “Anomaly Detection
+for In-Vehicle Network Using CNN-LSTM With Attention Mechanism,” IEEE
+Transactions on Vehicular Technology, vol. 70, no. 10, pp. 10880-10893,
+2021, doi: 10.1109/TVT.2021.3106940.
+
+[10] H. Min, X. Lei, X. Wu, Y. Fang, S. Chen, W. Wang, and X. Zhao,
+“Toward Interpretable Anomaly Detection for Autonomous Vehicles With
+Denoising Variational Transformer,” Engineering Applications of
+Artificial Intelligence, vol. 129, article 107601, 2024, doi:
+10.1016/j.engappai.2023.107601.
+
+[11] P. Paul, X. Liu, H. H. Lou, and R. Wang, “Edge ML for CAN Bus
+Intrusion Detection in AVs,” ITU Journal on Future and Evolving
+Technologies, vol. 6, no. 2, pp. 170-182, 2025, doi: 10.52953/SPQL9105.
+
+[12] S. B. Prathiba et al., “A Hybrid Deep Sensor Anomaly Detection for
+Autonomous Vehicles in 6G-V2X Environment,” IEEE Transactions on Network
+Science and Engineering, vol. 10, no. 3, pp. 1246-1255, 2023, doi:
+10.1109/TNSE.2022.3188304.
+
+[13] T. Ji, N. Chakraborty, A. Schreiber, and K. Driggs-Campbell, “An
+Expert Ensemble for Detecting Anomalous Scenes, Interactions, and
+Behaviors in Autonomous Driving,” The International Journal of Robotics
+Research, 2025, doi: 10.1177/02783649241297998.
+
+[14] A. D. M. Ibrahum, M. Hussain, and J.-E. Hong, “Deep Learning
+Adversarial Attacks and Defenses in Autonomous Vehicles: A Systematic
+Literature Review From a Safety Perspective,” Artificial Intelligence
+Review, vol. 58, article 28, 2025, doi: 10.1007/s10462-024-11014-8.
+
+[15] J. Akshya et al., “Explainable AI-Driven Intrusion Detection for
+Securing IoT-Enabled Autonomous Transportation Systems,” Cluster
+Computing, vol. 28, article 884, 2025, doi: 10.1007/s10586-025-05617-1.
+
+[16] D. Torre and A. Javid, “Toward Real-Time Intrusion Detection for
+Autonomous Vehicles: A Vision for Deep Learning-Based Security
+Frameworks,” in Proceedings of the ACM/IEEE International Symposium on
+Empirical Software Engineering and Measurement, pp. 428-434, 2025.
+
+[17] T. Kim, J. Kim, and I. You, “An Anomaly Detection Method Based on
+Multiple LSTM-Autoencoder Models for In-Vehicle Network,” Electronics,
+vol. 12, no. 17, article 3543, 2023, doi: 10.3390/electronics12173543.
+
+[18] P. Cheng, K. Xu, S. Li, and M. Han, “TCAN-IDS: Intrusion Detection
+System for Internet of Vehicle Using Temporal Convolutional Attention
+Network,” Symmetry, vol. 14, no. 2, article 310, 2022, doi:
+10.3390/sym14020310.
+
+[19] D. Bogdoll, M. Nitsche, and J. M. Zöllner, “Anomaly Detection in
+Autonomous Driving: A Survey,” IEEE Transactions on Intelligent
+Transportation Systems, 2022.
+
+[21] L. Breiman, “Random Forests,” Machine Learning, vol. 45, no. 1, pp.
+5-32, 2001, doi: 10.1023/A:1010933404324.
+
+[20] J. Lin, W. Yu, X. Yang, Q. Yang, X. Fu, and W. Zhao, “A Survey on
+Internet of Things: Architecture, Enabling Technologies, Security and
+Privacy, and Applications,” IEEE Internet of Things Journal, vol. 4, no.
+5, pp. 1125-1142, 2017.

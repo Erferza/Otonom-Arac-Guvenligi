@@ -1,0 +1,117 @@
+{
+  "risk": {
+    "accuracy": 0.8028,
+    "macro_f1": 0.7451553146540967,
+    "weighted_f1": 0.820301876711414,
+    "classification_report": {
+      "attack": {
+        "precision": 0.9603365384615384,
+        "recall": 0.7891358024691358,
+        "f1-score": 0.8663594470046083,
+        "support": 4050.0
+      },
+      "normal": {
+        "precision": 0.4892344497607656,
+        "recall": 0.8610526315789474,
+        "f1-score": 0.623951182303585,
+        "support": 950.0
+      },
+      "accuracy": 0.8028,
+      "macro avg": {
+        "precision": 0.724785494111152,
+        "recall": 0.8250942170240416,
+        "f1-score": 0.7451553146540967,
+        "support": 5000.0
+      },
+      "weighted avg": {
+        "precision": 0.8708271416083915,
+        "recall": 0.8028,
+        "f1-score": 0.820301876711414,
+        "support": 5000.0
+      }
+    },
+    "log_loss": 1.5343700738071828
+  },
+  "attack_type": {
+    "accuracy": 0.397,
+    "macro_f1": 0.33173273058674063,
+    "weighted_f1": 0.36092668059331695,
+    "classification_report": {
+      "delayed_sensor_attack": {
+        "precision": 0.0189873417721519,
+        "recall": 0.013333333333333334,
+        "f1-score": 0.015665796344647518,
+        "support": 450.0
+      },
+      "dos": {
+        "precision": 0.4963768115942029,
+        "recall": 0.30444444444444446,
+        "f1-score": 0.3774104683195592,
+        "support": 450.0
+      },
+      "gps_spoofing": {
+        "precision": 0.5386363636363637,
+        "recall": 0.5266666666666666,
+        "f1-score": 0.5325842696629214,
+        "support": 450.0
+      },
+      "heading_spoofing": {
+        "precision": 0.2383177570093458,
+        "recall": 0.11333333333333333,
+        "f1-score": 0.1536144578313253,
+        "support": 450.0
+      },
+      "lane_deviation": {
+        "precision": 0.27976190476190477,
+        "recall": 0.31333333333333335,
+        "f1-score": 0.29559748427672955,
+        "support": 450.0
+      },
+      "normal": {
+        "precision": 0.4875444839857651,
+        "recall": 0.8652631578947368,
+        "f1-score": 0.6236722306525038,
+        "support": 950.0
+      },
+      "position_spoofing": {
+        "precision": 0.14622641509433962,
+        "recall": 0.06888888888888889,
+        "f1-score": 0.09365558912386707,
+        "support": 450.0
+      },
+      "sensor_noise": {
+        "precision": 0.6495726495726496,
+        "recall": 0.5066666666666667,
+        "f1-score": 0.5692883895131086,
+        "support": 450.0
+      },
+      "speed_spoofing": {
+        "precision": 0.4421052631578947,
+        "recall": 0.18666666666666668,
+        "f1-score": 0.2625,
+        "support": 450.0
+      },
+      "sudden_brake": {
+        "precision": 0.30579531442663377,
+        "recall": 0.5511111111111111,
+        "f1-score": 0.39333862014274384,
+        "support": 450.0
+      },
+      "accuracy": 0.397,
+      "macro avg": {
+        "precision": 0.3603324305011252,
+        "recall": 0.34497076023391815,
+        "f1-score": 0.33173273058674063,
+        "support": 5000.0
+      },
+      "weighted avg": {
+        "precision": 0.37305363584958917,
+        "recall": 0.397,
+        "f1-score": 0.36092668059331695,
+        "support": 5000.0
+      }
+    },
+    "log_loss": 4.551073194506912
+  },
+  "sample_count": 5000
+}

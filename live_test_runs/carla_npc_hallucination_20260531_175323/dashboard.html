@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Otonom Arac Guvenlik Dashboard</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --rail: #0d1422;
+      --panel: #111827;
+      --panel-2: #162033;
+      --panel-3: #0f172a;
+      --ink: #f8fafc;
+      --muted: #94a3b8;
+      --line: rgba(255,255,255,0.08);
+      --line-strong: rgba(255,255,255,0.14);
+      --red: #f43f5e;
+      --red-soft: rgba(244,63,94,0.12);
+      --orange: #f97316;
+      --orange-soft: rgba(249,115,22,0.13);
+      --cyan: #38bdf8;
+      --cyan-soft: rgba(56,189,248,0.12);
+      --green: #22c55e;
+      --green-soft: rgba(34,197,94,0.12);
+      --slate: #64748b;
+      --shadow: 0 24px 70px rgba(0,0,0,0.34);
+      --mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: Inter, "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 16% -8%, rgba(56,189,248,0.13), transparent 34%),
+        radial-gradient(circle at 88% 4%, rgba(244,63,94,0.11), transparent 32%),
+        linear-gradient(180deg, #090d16 0%, #0b1120 100%);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.45;
+    }
+    a { color: inherit; }
+    button, input, select { font: inherit; }
+    .app { min-height: 100vh; }
+    .main { max-width: 1440px; min-width: 0; margin: 0 auto; padding: 26px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 20px; }
+    .eyebrow { color: var(--cyan); font-size: 12px; font-weight: 900; text-transform: uppercase; }
+    h1, h2, h3, p { margin: 0; }
+    h1 { margin-top: 6px; font-size: 32px; line-height: 1.12; letter-spacing: 0; }
+    h2 { font-size: 18px; margin-bottom: 14px; }
+    h3 { font-size: 14px; margin-bottom: 8px; }
+    p { color: var(--muted); }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .btn {
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,0.04);
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 9px 12px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+    .btn.primary { background: linear-gradient(135deg, #e11d48, var(--red)); border-color: rgba(244,63,94,0.58); }
+    .panel {
+      background: linear-gradient(180deg, rgba(17,24,39,0.96), rgba(15,23,42,0.96));
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .command-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr); gap: 18px; margin-bottom: 18px; }
+    .summary { padding: 20px; display: grid; gap: 18px; }
+    .summary-copy p { max-width: 880px; }
+    .metric-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+    .metric { border: 1px solid var(--line); background: rgba(255,255,255,0.035); border-radius: 8px; padding: 13px; }
+    .metric .label { color: var(--muted); font-size: 12px; font-weight: 850; }
+    .metric strong { display: block; margin-top: 6px; font-size: 25px; line-height: 1.04; }
+    .metric span { display: block; margin-top: 4px; color: #64748b; font-size: 12px; }
+    .decision-card { padding: 20px; display: grid; gap: 14px; }
+    .mode-badge { display: inline-flex; width: fit-content; padding: 7px 10px; border-radius: 999px; background: var(--red-soft); color: #fb7185; border: 1px solid rgba(244,63,94,0.26); font-weight: 900; font-size: 12px; }
+    .gauge-row { display: grid; grid-template-columns: 96px 1fr; gap: 12px; align-items: center; }
+    .gauge { width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--red) 0 67.5%, rgba(148,163,184,0.16) 67.5%); position: relative; font-weight: 950; }
+    .gauge:after { content: ""; position: absolute; inset: 11px; border-radius: 50%; background: var(--panel); }
+    .gauge span { z-index: 1; }
+    .evidence-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .evidence { border: 1px solid var(--line); border-radius: 8px; padding: 11px; background: rgba(255,255,255,0.035); }
+    .evidence .label { color: var(--muted); font-size: 11px; font-weight: 900; text-transform: uppercase; }
+    .evidence strong { display: block; margin-top: 5px; font-size: 18px; }
+    .analysis-grid { display: grid; grid-template-columns: minmax(390px, 0.9fr) minmax(0, 1.1fr); gap: 18px; margin-bottom: 18px; }
+    .vehicle-module { padding: 16px; position: relative; }
+    .module-head { display: flex; align-items: start; justify-content: space-between; gap: 14px; margin-bottom: 12px; }
+    .module-head p { font-size: 13px; }
+    .vehicle-stage { position: relative; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #0d1b2a; }
+    .vehicle-stage button { display: block; width: 100%; border: 0; padding: 0; background: transparent; cursor: pointer; }
+    .vehicle-stage img { display: block; width: 100%; aspect-ratio: 16/10; object-fit: cover; object-position: center; transition: transform 180ms ease, filter 180ms ease; }
+    .vehicle-stage:hover img { transform: scale(1.025); filter: saturate(1.08) contrast(1.04); }
+    .tap-hint { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 9px 10px; border-radius: 8px; background: rgba(8,13,24,0.78); color: #fff; font-size: 12px; font-weight: 900; backdrop-filter: blur(10px); }
+    .hotspot { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 8px rgba(249,115,22,0.16), 0 0 18px rgba(249,115,22,0.35); pointer-events: none; }
+    .hotspot.h1 { left: 48%; top: 26%; }
+    .hotspot.h2 { left: 24%; top: 54%; }
+    .hotspot.h3 { right: 23%; top: 55%; }
+    .layer-drawer { margin-top: 12px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .layer-drawer[hidden] { display: none; }
+    .layer-box { border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: rgba(255,255,255,0.035); }
+    .layer-box.active { border-color: rgba(249,115,22,0.34); background: rgba(249,115,22,0.08); }
+    .layer-box .label { color: var(--muted); font-size: 11px; font-weight: 900; text-transform: uppercase; }
+    .layer-box strong { display: block; margin: 5px 0; font-size: 17px; }
+    .layer-box p { font-size: 12px; }
+    .matrix { padding: 16px; }
+    .timeline { display: grid; gap: 10px; }
+    .step { display: grid; grid-template-columns: 34px 1fr; gap: 11px; align-items: start; }
+    .step-num { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: var(--cyan-soft); color: #7dd3fc; border: 1px solid rgba(56,189,248,0.22); font-weight: 950; }
+    .step-body { border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: rgba(255,255,255,0.035); }
+    .step-body p { font-size: 13px; }
+    .content-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(360px, 0.64fr); gap: 18px; margin-bottom: 18px; }
+    .bars, .action-list, .table-panel { padding: 16px; }
+    .bar-list { display: grid; gap: 11px; }
+    .bar-row { display: grid; grid-template-columns: 150px 1fr 74px; gap: 10px; align-items: center; }
+    .bar-label, .bar-value, td:nth-child(2), td:nth-child(4), td:nth-child(6), td:nth-child(7), td:nth-child(8) { font-family: var(--mono); }
+    .bar-label { color: #e2e8f0; font-size: 12px; font-weight: 800; overflow-wrap: anywhere; }
+    .bar-track { height: 11px; border-radius: 999px; background: rgba(148,163,184,0.14); overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, #dc2626, #f97316); }
+    .bar-value { color: var(--muted); font-size: 12px; text-align: right; }
+    .action-list { display: grid; gap: 10px; }
+    .action-item { border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: rgba(255,255,255,0.035); }
+    .action-item strong { display: block; font-size: 13px; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; }
+    .table-wrap { width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left; vertical-align: top; }
+    th { color: #cbd5e1; font-size: 11px; text-transform: uppercase; background: rgba(15,23,42,0.86); }
+    td { color: #e2e8f0; }
+    td:nth-child(2) { color: #64748b; font-size: 12px; white-space: nowrap; }
+    tr:hover td { background: rgba(30,41,59,0.62); }
+    .pill { display: inline-flex; padding: 4px 8px; border-radius: 999px; font-size: 12px; font-weight: 900; }
+    .pill.danger { background: var(--red-soft); color: #fb7185; border: 1px solid rgba(244,63,94,0.18); }
+    .pill.warn { background: var(--orange-soft); color: #fdba74; border: 1px solid rgba(249,115,22,0.18); }
+    .pill.ok { background: var(--green-soft); color: #86efac; border: 1px solid rgba(34,197,94,0.18); }
+    .pill.neutral { background: rgba(100,116,139,0.13); color: #cbd5e1; border: 1px solid rgba(100,116,139,0.20); }
+    .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+    input, select { min-height: 38px; border: 1px solid var(--line-strong); border-radius: 8px; background: rgba(15,23,42,0.92); color: var(--ink); padding: 9px 10px; }
+    .section-head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; margin-bottom: 12px; }
+    .section-head p { font-size: 13px; max-width: 760px; }
+    .section-tag { display: inline-flex; white-space: nowrap; padding: 5px 9px; border-radius: 999px; color: #cbd5e1; border: 1px solid var(--line); background: rgba(255,255,255,0.04); font-size: 12px; font-weight: 900; }
+    .footer { color: var(--muted); font-size: 12px; padding: 20px 0 8px; }
+    @media (max-width: 1100px) {
+      .command-grid, .analysis-grid, .content-grid { grid-template-columns: 1fr; }
+      .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 720px) {
+      .main { padding: 16px; }
+      .topbar, .section-head { display: block; }
+      .actions { margin-top: 12px; }
+      .metric-grid, .evidence-grid, .layer-drawer { grid-template-columns: 1fr; }
+      h1 { font-size: 27px; }
+      .bar-row { grid-template-columns: 1fr; }
+      .bar-value { text-align: left; }
+    }
+    @media print {
+      body { background: #fff; color: #111827; }
+      .actions, .filters { display: none; }
+      .main { padding: 0; }
+      .panel { box-shadow: none; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <main class="main">
+      <header class="topbar" id="overview">
+        <div>
+          <div class="eyebrow">AI destekli otonom arac guvenlik izleme</div>
+          <h1>Katmanli Anomali Tespiti ve Guvenli Mod Karari</h1>
+        </div>
+        <div class="actions">
+          <a class="btn primary" href="report.json" download>JSON indir</a>
+          <a class="btn" href="report.md" download>Markdown rapor indir</a>
+          <button class="btn" onclick="window.print()">PDF/Print</button>
+        </div>
+      </header>
+
+      <section class="command-grid">
+        <div class="panel summary">
+          <div class="summary-copy">
+            <h2>Komuta Ozeti</h2>
+            <p>34 olaylik izleme penceresinde 22 olay attack/anomali olarak isaretlendi. Karar, CIC ag kaynagindan gelen 28 tetikleme ve fusion katmaninin kritik birlestirmesiyle Acil Guvenli Mod seviyesine cikti.</p>
+          </div>
+          <div class="metric-grid">
+            <div class="metric"><div class="label">Toplam Olay</div><strong>34</strong><span>Izlenen pencere</span></div>
+            <div class="metric"><div class="label">Attack/Anomali</div><strong>22</strong><span>64.7%</span></div>
+            <div class="metric"><div class="label">Normal</div><strong>12</strong><span>35.3%</span></div>
+            <div class="metric"><div class="label">Insan Incelemesi</div><strong>22</strong><span>64.7%</span></div>
+            <div class="metric"><div class="label">Guvenli Mod</div><strong>30</strong><span>88.2%</span></div>
+          </div>
+        </div>
+        <aside class="panel decision-card">
+          <div>
+            <h2>Nihai Karar</h2>
+            <span class="mode-badge">Acil Guvenli Mod</span>
+          </div>
+          <div class="gauge-row"><div class="gauge" style="background: conic-gradient(var(--red) 0 88.2%, rgba(148,163,184,0.16) 88.2% 100%)"><span>88.2%</span></div><p>Guvenli mod gerektiren olay orani. Bu oran karar katmaninin operasyonel mod onerisine temel olusturur.</p></div>
+          <div class="evidence-grid">
+            <div class="evidence"><div class="label">Karar kaniti</div><strong>position_spoofing (10)</strong></div>
+            <div class="evidence"><div class="label">Aktif katman</div><strong>CIC ag (28)</strong></div>
+            <div class="evidence"><div class="label">Kritik bulgu</div><strong>27</strong></div>
+            <div class="evidence"><div class="label">Acil mod</div><strong>27</strong></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="analysis-grid" id="layers">
+        <div class="panel vehicle-module">
+          <div class="module-head">
+            <div><h2>Sensor Fusion Arac Paneli</h2><p>Araca tiklayinca katman analizi kutulari acilir.</p></div>
+            <span class="section-tag">Interactive</span>
+          </div>
+          <div class="vehicle-stage">
+            <button id="layerTrigger" type="button" aria-expanded="false" aria-controls="layerDrawer">
+              <img src="assets/autonomous-blueprint-sensor.png" alt="Blueprint tarzinda sensor alanlari olan otonom arac gorseli">
+              <span class="hotspot h1"></span><span class="hotspot h2"></span><span class="hotspot h3"></span>
+              <span class="tap-hint"><span>Katman Analizi</span><span>CIC / CARLA / VIS / AI</span></span>
+            </button>
+          </div>
+          <div id="layerDrawer" class="layer-drawer" hidden>
+            <div class="layer-box active"><div class="label">CIC ag katmani</div><strong>28 tetik</strong><p>Ag trafigi ve saldiri turu sinyalleri.</p></div>
+<div class="layer-box active"><div class="label">CARLA davranis/sensor</div><strong>22 tetik</strong><p>Davranis ve sensor anomalileri.</p></div>
+<div class="layer-box active"><div class="label">nuScenes gorsel</div><strong>6 tetik</strong><p>Gorsel tutarlilik ve cevre kaniti.</p></div>
+<div class="layer-box active"><div class="label">Fusion karar</div><strong>22 tetik</strong><p>Nihai risk ve safe-mode birlestirmesi.</p></div>
+          </div>
+        </div>
+
+        <div class="panel matrix">
+          <h2>Karar Zinciri</h2>
+          <div class="timeline">
+            <div class="step"><div class="step-num">1</div><div class="step-body"><h3>Olay yogunlugu</h3><p>34 kaydin 22'i attack/anomali olarak siniflandi; normal olay sayisi 12.</p></div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-body"><h3>Katman kaniti</h3><p>CIC ag katmani 28 esik tetiklemesi uretti; diger katmanlar fusion kararina baglamsal kanit sagladi.</p></div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-body"><h3>Fusion karari</h3><p>Fusion katmani 22 olayi riskli olarak birlestirdi ve safe-mode ihtiyacini netlestirdi.</p></div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-body"><h3>Operasyon</h3><p>Arac politikasi Acil Guvenli Mod seviyesine alinmali; olay paketleri operator incelemesine aktarilmali.</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-grid" id="threats">
+        <div class="panel bars">
+          <div class="section-head"><div><h2>Tehdit Onceliklendirmesi</h2><p>Attack/anomali siniflarinin bu penceredeki gorulme sikligi.</p></div><span class="section-tag">34 olay</span></div>
+          <div class="bar-list">
+            <div class="bar-row"><div class="bar-label">position_spoofing</div><div class="bar-track"><div class="bar-fill" style="width:100.0%"></div></div><div class="bar-value">10 / 29.4%</div></div>
+<div class="bar-row"><div class="bar-label">sudden_brake</div><div class="bar-track"><div class="bar-fill" style="width:50.0%"></div></div><div class="bar-value">5 / 14.7%</div></div>
+<div class="bar-row"><div class="bar-label">speed_spoofing</div><div class="bar-track"><div class="bar-fill" style="width:50.0%"></div></div><div class="bar-value">5 / 14.7%</div></div>
+<div class="bar-row"><div class="bar-label">lane_deviation</div><div class="bar-track"><div class="bar-fill" style="width:10.0%"></div></div><div class="bar-value">1 / 2.9%</div></div>
+<div class="bar-row"><div class="bar-label">sensor_noise</div><div class="bar-track"><div class="bar-fill" style="width:10.0%"></div></div><div class="bar-value">1 / 2.9%</div></div>
+          </div>
+        </div>
+        <div class="panel action-list" id="actions">
+          <h2>Operasyonel Aksiyonlar</h2>
+          <div class="action-item"><strong>Acil mod</strong><p>Hiz, rota degisimi, serit degisimi ve riskli manevra izinleri kisitlanmali.</p></div>
+          <div class="action-item"><strong>Kanittaki agirlik</strong><p>CIC ag katmani ciktisi olay bazinda saklanmali ve operator ekraninda ilk siraya alinmali.</p></div>
+          <div class="action-item"><strong>Capraz dogrulama</strong><p>position_spoofing sinyali ham sensor, odometri ve ag kayitlariyla kontrol edilmeli.</p></div>
+          <div class="action-item"><strong>Karar yonetimi</strong><p>Safe-mode karari kurum politikasi, yol durumu ve insan operator onayi ile birlikte uygulanmali.</p></div>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <div class="panel table-panel">
+          <div class="section-head"><div><h2>Katman Analizi</h2><p>Hangi model katmaninin karari tasidigini gosterir.</p></div><span class="section-tag">Kanit kaynagi</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Katman</th><th>Tetiklenen</th><th>Seviye Dagilimi</th><th>Yorum</th></tr></thead><tbody>
+            <tr><td><strong>CIC ag katmani</strong></td><td>28</td><td>critical: 26, high: 1, medium: 1, low: 6</td><td>Ag katmani bulgulari izlenmistir.</td></tr>
+<tr><td><strong>CARLA davranis/sensor</strong></td><td>22</td><td>critical: 6, high: 9, medium: 7, low: 12</td><td>Davranis/sensor anomalileri karar uzerinde belirleyici oldu.</td></tr>
+<tr><td><strong>nuScenes gorsel tutarlilik</strong></td><td>6</td><td>high: 6, medium: 10, low: 18</td><td>Gorsel tutarlilik sinyali izlenmistir.</td></tr>
+<tr><td><strong>Fusion karar katmani</strong></td><td>22</td><td>critical: 15, high: 7, low: 12</td><td>Katman sinyallerini birlestirerek nihai risk kararini destekledi.</td></tr>
+          </tbody></table></div>
+        </div>
+        <div class="panel table-panel">
+          <div class="section-head"><div><h2>Model Performans Ozeti</h2><p>Canli CARLA test penceresi icin hesaplanan metrikler.</p></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Model</th><th>Risk Acc.</th><th>Risk Macro F1</th><th>Safe Mode Acc.</th><th>Safe Mode Macro F1</th></tr></thead><tbody>
+            <tr><td>npc_test</td><td>0.706</td><td>0.622</td><td>0.618</td><td>0.393</td></tr>
+          </tbody></table></div>
+        </div>
+      </section>
+
+      <section class="panel table-panel" id="distribution">
+        <div class="section-head"><div><h2>Risk ve Safe Mode Dagilimi</h2><p>Karar penceresinde uretilen risk ve operasyonel mod dagilimi.</p></div><span class="section-tag">Dagilim</span></div>
+        <div class="content-grid" style="margin-bottom:0">
+          <div><h3>Risk</h3><div class="bar-list"><div class="bar-row"><div class="bar-label">attack</div><div class="bar-track"><div class="bar-fill blue" style="width:100.0%"></div></div><div class="bar-value">22 / 64.7%</div></div>
+<div class="bar-row"><div class="bar-label">normal</div><div class="bar-track"><div class="bar-fill blue" style="width:54.5%"></div></div><div class="bar-value">12 / 35.3%</div></div></div></div>
+          <div><h3>Safe Mode</h3><div class="bar-list"><div class="bar-row"><div class="bar-label">Acil Guvenli Mod</div><div class="bar-track"><div class="bar-fill warn" style="width:100.0%"></div></div><div class="bar-value">27 / 79.4%</div></div>
+<div class="bar-row"><div class="bar-label">Normal Mod</div><div class="bar-track"><div class="bar-fill warn" style="width:14.8%"></div></div><div class="bar-value">4 / 11.8%</div></div>
+<div class="bar-row"><div class="bar-label">Kisitli Guvenli Mod</div><div class="bar-track"><div class="bar-fill warn" style="width:11.1%"></div></div><div class="bar-value">3 / 8.8%</div></div></div></div>
+        </div>
+      </section>
+
+      <section class="panel table-panel" id="events">
+        <div class="section-head">
+          <div><h2>Olay Inceleme Masasi</h2><p>Filtreler ile saldiri turu veya safe-mode karari daraltilabilir; p degerleri her katmanin olaya verdigi olasilik sinyalidir.</p></div>
+          <span class="section-tag"><span id="visibleCount">0</span> olay gorunuyor</span>
+        </div>
+        <div class="filters"><input id="eventSearch" type="search" placeholder="Saldiri turu ara"><select id="modeFilter"><option value="">Tum safe mode kararlari</option><option value="emergency_safe_mode">Acil Guvenli Mod</option><option value="degraded_safe_mode">Kisitli Guvenli Mod</option><option value="monitoring_mode">Izleme Modu</option><option value="normal_mode">Normal Mod</option></select></div>
+        <div class="table-wrap"><table class="event-table"><thead><tr><th>#</th><th>Zaman</th><th>Risk</th><th>Saldiri turu</th><th>Safe mode</th><th>CARLA p</th><th>CIC p</th><th>Gorsel p</th></tr></thead><tbody>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>3</td><td>209.74510688707232</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.613</td><td>0.004</td><td>0.120</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>4</td><td>209.99510689079762</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.682</td><td>0.000</td><td>0.120</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>6</td><td>210.4951068982482</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.758</td><td>0.916</td><td>0.120</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>7</td><td>210.7451069019735</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.679</td><td>1.000</td><td>0.120</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>8</td><td>210.99510690569878</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.748</td><td>0.790</td><td>0.120</td></tr>
+<tr data-event-row data-attack="lane_deviation" data-mode="emergency_safe_mode"><td>9</td><td>211.24510690942407</td><td><span class="pill danger">attack</span></td><td>lane_deviation</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.771</td><td>0.958</td><td>0.120</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>10</td><td>211.49510691314936</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.835</td><td>0.944</td><td>0.120</td></tr>
+<tr data-event-row data-attack="sudden_brake" data-mode="emergency_safe_mode"><td>11</td><td>211.74510691687465</td><td><span class="pill danger">attack</span></td><td>sudden_brake</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.791</td><td>0.983</td><td>0.820</td></tr>
+<tr data-event-row data-attack="sudden_brake" data-mode="emergency_safe_mode"><td>12</td><td>211.99510692059994</td><td><span class="pill danger">attack</span></td><td>sudden_brake</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.861</td><td>1.000</td><td>0.820</td></tr>
+<tr data-event-row data-attack="sudden_brake" data-mode="emergency_safe_mode"><td>13</td><td>212.24510692432523</td><td><span class="pill danger">attack</span></td><td>sudden_brake</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.837</td><td>1.000</td><td>0.820</td></tr>
+<tr data-event-row data-attack="sudden_brake" data-mode="emergency_safe_mode"><td>14</td><td>212.49510692805052</td><td><span class="pill danger">attack</span></td><td>sudden_brake</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.867</td><td>0.842</td><td>0.820</td></tr>
+<tr data-event-row data-attack="sudden_brake" data-mode="emergency_safe_mode"><td>15</td><td>212.7451069317758</td><td><span class="pill danger">attack</span></td><td>sudden_brake</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.853</td><td>0.992</td><td>0.820</td></tr>
+<tr data-event-row data-attack="speed_spoofing" data-mode="degraded_safe_mode"><td>24</td><td>214.99510696530342</td><td><span class="pill danger">attack</span></td><td>speed_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.807</td><td>1.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="speed_spoofing" data-mode="degraded_safe_mode"><td>25</td><td>215.2451069690287</td><td><span class="pill danger">attack</span></td><td>speed_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.833</td><td>0.977</td><td>0.500</td></tr>
+<tr data-event-row data-attack="speed_spoofing" data-mode="degraded_safe_mode"><td>26</td><td>215.495106972754</td><td><span class="pill danger">attack</span></td><td>speed_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.960</td><td>1.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="speed_spoofing" data-mode="degraded_safe_mode"><td>27</td><td>215.7451069764793</td><td><span class="pill danger">attack</span></td><td>speed_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.963</td><td>0.977</td><td>0.500</td></tr>
+<tr data-event-row data-attack="speed_spoofing" data-mode="degraded_safe_mode"><td>28</td><td>215.99510698020458</td><td><span class="pill danger">attack</span></td><td>speed_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.957</td><td>0.905</td><td>0.500</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>29</td><td>216.24510698392987</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.920</td><td>0.977</td><td>0.500</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>30</td><td>216.49510698765516</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.868</td><td>0.992</td><td>0.500</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>31</td><td>216.74510699138045</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.861</td><td>1.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="sensor_noise" data-mode="monitoring_mode"><td>32</td><td>216.99510699510574</td><td><span class="pill danger">attack</span></td><td>sensor_noise</td><td><span class="pill neutral">Izleme Modu</span></td><td>0.969</td><td>0.980</td><td>0.500</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>33</td><td>217.24510699883103</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.942</td><td>0.976</td><td>0.500</td></tr>
+        </tbody></table></div>
+      </section>
+
+      <section class="panel table-panel" id="note"><h2>Sunum Notu</h2><p>Bu dashboard karar destek amaclidir. Nihai operasyon karari kurum politikasi, arac durumu ve insan operator onayi ile birlikte verilmelidir.</p></section>
+      <div class="footer">Olusturulan rapor: 34 olay, onerilen mod: Acil Guvenli Mod.</div>
+    </main>
+  </div>
+  <script>
+    const search = document.getElementById('eventSearch');
+    const modeFilter = document.getElementById('modeFilter');
+    const visibleCount = document.getElementById('visibleCount');
+    const rows = Array.from(document.querySelectorAll('[data-event-row]'));
+    const layerTrigger = document.getElementById('layerTrigger');
+    const layerDrawer = document.getElementById('layerDrawer');
+    function filterRows() {
+      const q = (search.value || '').toLowerCase();
+      const mode = modeFilter.value || '';
+      let count = 0;
+      for (const row of rows) {
+        const attack = row.dataset.attack || '';
+        const rowMode = row.dataset.mode || '';
+        const visible = (!q || attack.includes(q)) && (!mode || rowMode === mode);
+        row.style.display = visible ? '' : 'none';
+        if (visible) count += 1;
+      }
+      visibleCount.textContent = count;
+    }
+    search.addEventListener('input', filterRows);
+    modeFilter.addEventListener('change', filterRows);
+    layerTrigger.addEventListener('click', () => {
+      const isOpen = !layerDrawer.hasAttribute('hidden');
+      layerDrawer.toggleAttribute('hidden', isOpen);
+      layerTrigger.setAttribute('aria-expanded', String(!isOpen));
+    });
+    filterRows();
+  </script>
+</body>
+</html>

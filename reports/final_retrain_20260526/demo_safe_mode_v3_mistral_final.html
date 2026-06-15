@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Otonom Arac Guvenlik Dashboard</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --rail: #0d1422;
+      --panel: #111827;
+      --panel-2: #162033;
+      --panel-3: #0f172a;
+      --ink: #f8fafc;
+      --muted: #94a3b8;
+      --line: rgba(255,255,255,0.08);
+      --line-strong: rgba(255,255,255,0.14);
+      --red: #f43f5e;
+      --red-soft: rgba(244,63,94,0.12);
+      --orange: #f97316;
+      --orange-soft: rgba(249,115,22,0.13);
+      --cyan: #38bdf8;
+      --cyan-soft: rgba(56,189,248,0.12);
+      --green: #22c55e;
+      --green-soft: rgba(34,197,94,0.12);
+      --slate: #64748b;
+      --shadow: 0 24px 70px rgba(0,0,0,0.34);
+      --mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: Inter, "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 16% -8%, rgba(56,189,248,0.13), transparent 34%),
+        radial-gradient(circle at 88% 4%, rgba(244,63,94,0.11), transparent 32%),
+        linear-gradient(180deg, #090d16 0%, #0b1120 100%);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.45;
+    }
+    a { color: inherit; }
+    button, input, select { font: inherit; }
+    .app { min-height: 100vh; }
+    .main { max-width: 1440px; min-width: 0; margin: 0 auto; padding: 26px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 20px; }
+    .eyebrow { color: var(--cyan); font-size: 12px; font-weight: 900; text-transform: uppercase; }
+    h1, h2, h3, p { margin: 0; }
+    h1 { margin-top: 6px; font-size: 32px; line-height: 1.12; letter-spacing: 0; }
+    h2 { font-size: 18px; margin-bottom: 14px; }
+    h3 { font-size: 14px; margin-bottom: 8px; }
+    p { color: var(--muted); }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .btn {
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,0.04);
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 9px 12px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+    .btn.primary { background: linear-gradient(135deg, #e11d48, var(--red)); border-color: rgba(244,63,94,0.58); }
+    .panel {
+      background: linear-gradient(180deg, rgba(17,24,39,0.96), rgba(15,23,42,0.96));
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .command-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr); gap: 18px; margin-bottom: 18px; }
+    .summary { padding: 20px; display: grid; gap: 18px; }
+    .summary-copy p { max-width: 880px; }
+    .metric-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+    .metric { border: 1px solid var(--line); background: rgba(255,255,255,0.035); border-radius: 8px; padding: 13px; }
+    .metric .label { color: var(--muted); font-size: 12px; font-weight: 850; }
+    .metric strong { display: block; margin-top: 6px; font-size: 25px; line-height: 1.04; }
+    .metric span { display: block; margin-top: 4px; color: #64748b; font-size: 12px; }
+    .decision-card { padding: 20px; display: grid; gap: 14px; }
+    .mode-badge { display: inline-flex; width: fit-content; padding: 7px 10px; border-radius: 999px; background: var(--red-soft); color: #fb7185; border: 1px solid rgba(244,63,94,0.26); font-weight: 900; font-size: 12px; }
+    .gauge-row { display: grid; grid-template-columns: 96px 1fr; gap: 12px; align-items: center; }
+    .gauge { width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--red) 0 67.5%, rgba(148,163,184,0.16) 67.5%); position: relative; font-weight: 950; }
+    .gauge:after { content: ""; position: absolute; inset: 11px; border-radius: 50%; background: var(--panel); }
+    .gauge span { z-index: 1; }
+    .evidence-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .evidence { border: 1px solid var(--line); border-radius: 8px; padding: 11px; background: rgba(255,255,255,0.035); }
+    .evidence .label { color: var(--muted); font-size: 11px; font-weight: 900; text-transform: uppercase; }
+    .evidence strong { display: block; margin-top: 5px; font-size: 18px; }
+    .analysis-grid { display: grid; grid-template-columns: minmax(390px, 0.9fr) minmax(0, 1.1fr); gap: 18px; margin-bottom: 18px; }
+    .vehicle-module { padding: 16px; position: relative; }
+    .module-head { display: flex; align-items: start; justify-content: space-between; gap: 14px; margin-bottom: 12px; }
+    .module-head p { font-size: 13px; }
+    .vehicle-stage { position: relative; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #0d1b2a; }
+    .vehicle-stage button { display: block; width: 100%; border: 0; padding: 0; background: transparent; cursor: pointer; }
+    .vehicle-stage img { display: block; width: 100%; aspect-ratio: 16/10; object-fit: cover; object-position: center; transition: transform 180ms ease, filter 180ms ease; }
+    .vehicle-stage:hover img { transform: scale(1.025); filter: saturate(1.08) contrast(1.04); }
+    .tap-hint { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 9px 10px; border-radius: 8px; background: rgba(8,13,24,0.78); color: #fff; font-size: 12px; font-weight: 900; backdrop-filter: blur(10px); }
+    .hotspot { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 8px rgba(249,115,22,0.16), 0 0 18px rgba(249,115,22,0.35); pointer-events: none; }
+    .hotspot.h1 { left: 48%; top: 26%; }
+    .hotspot.h2 { left: 24%; top: 54%; }
+    .hotspot.h3 { right: 23%; top: 55%; }
+    .layer-drawer { margin-top: 12px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .layer-drawer[hidden] { display: none; }
+    .layer-box { border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: rgba(255,255,255,0.035); }
+    .layer-box.active { border-color: rgba(249,115,22,0.34); background: rgba(249,115,22,0.08); }
+    .layer-box .label { color: var(--muted); font-size: 11px; font-weight: 900; text-transform: uppercase; }
+    .layer-box strong { display: block; margin: 5px 0; font-size: 17px; }
+    .layer-box p { font-size: 12px; }
+    .matrix { padding: 16px; }
+    .timeline { display: grid; gap: 10px; }
+    .step { display: grid; grid-template-columns: 34px 1fr; gap: 11px; align-items: start; }
+    .step-num { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: var(--cyan-soft); color: #7dd3fc; border: 1px solid rgba(56,189,248,0.22); font-weight: 950; }
+    .step-body { border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: rgba(255,255,255,0.035); }
+    .step-body p { font-size: 13px; }
+    .content-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(360px, 0.64fr); gap: 18px; margin-bottom: 18px; }
+    .bars, .action-list, .table-panel { padding: 16px; }
+    .bar-list { display: grid; gap: 11px; }
+    .bar-row { display: grid; grid-template-columns: 150px 1fr 74px; gap: 10px; align-items: center; }
+    .bar-label, .bar-value, td:nth-child(2), td:nth-child(4), td:nth-child(6), td:nth-child(7), td:nth-child(8) { font-family: var(--mono); }
+    .bar-label { color: #e2e8f0; font-size: 12px; font-weight: 800; overflow-wrap: anywhere; }
+    .bar-track { height: 11px; border-radius: 999px; background: rgba(148,163,184,0.14); overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, #dc2626, #f97316); }
+    .bar-value { color: var(--muted); font-size: 12px; text-align: right; }
+    .action-list { display: grid; gap: 10px; }
+    .action-item { border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: rgba(255,255,255,0.035); }
+    .action-item strong { display: block; font-size: 13px; margin-bottom: 4px; }
+    .action-item p { font-size: 13px; }
+    .table-wrap { width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.06); text-align: left; vertical-align: top; }
+    th { color: #cbd5e1; font-size: 11px; text-transform: uppercase; background: rgba(15,23,42,0.86); }
+    td { color: #e2e8f0; }
+    td:nth-child(2) { color: #64748b; font-size: 12px; white-space: nowrap; }
+    tr:hover td { background: rgba(30,41,59,0.62); }
+    .pill { display: inline-flex; padding: 4px 8px; border-radius: 999px; font-size: 12px; font-weight: 900; }
+    .pill.danger { background: var(--red-soft); color: #fb7185; border: 1px solid rgba(244,63,94,0.18); }
+    .pill.warn { background: var(--orange-soft); color: #fdba74; border: 1px solid rgba(249,115,22,0.18); }
+    .pill.ok { background: var(--green-soft); color: #86efac; border: 1px solid rgba(34,197,94,0.18); }
+    .pill.neutral { background: rgba(100,116,139,0.13); color: #cbd5e1; border: 1px solid rgba(100,116,139,0.20); }
+    .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+    input, select { min-height: 38px; border: 1px solid var(--line-strong); border-radius: 8px; background: rgba(15,23,42,0.92); color: var(--ink); padding: 9px 10px; }
+    .section-head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; margin-bottom: 12px; }
+    .section-head p { font-size: 13px; max-width: 760px; }
+    .section-tag { display: inline-flex; white-space: nowrap; padding: 5px 9px; border-radius: 999px; color: #cbd5e1; border: 1px solid var(--line); background: rgba(255,255,255,0.04); font-size: 12px; font-weight: 900; }
+    .footer { color: var(--muted); font-size: 12px; padding: 20px 0 8px; }
+    @media (max-width: 1100px) {
+      .command-grid, .analysis-grid, .content-grid { grid-template-columns: 1fr; }
+      .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 720px) {
+      .main { padding: 16px; }
+      .topbar, .section-head { display: block; }
+      .actions { margin-top: 12px; }
+      .metric-grid, .evidence-grid, .layer-drawer { grid-template-columns: 1fr; }
+      h1 { font-size: 27px; }
+      .bar-row { grid-template-columns: 1fr; }
+      .bar-value { text-align: left; }
+    }
+    @media print {
+      body { background: #fff; color: #111827; }
+      .actions, .filters { display: none; }
+      .main { padding: 0; }
+      .panel { box-shadow: none; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <main class="main">
+      <header class="topbar" id="overview">
+        <div>
+          <div class="eyebrow">AI destekli otonom arac guvenlik izleme</div>
+          <h1>Katmanli Anomali Tespiti ve Guvenli Mod Karari</h1>
+        </div>
+        <div class="actions">
+          <a class="btn primary" href="demo_safe_mode_v3_mistral_final.json" download>JSON indir</a>
+          <a class="btn" href="demo_safe_mode_v3_mistral_final.md" download>Markdown rapor indir</a>
+          <button class="btn" onclick="window.print()">PDF/Print</button>
+        </div>
+      </header>
+
+      <section class="command-grid">
+        <div class="panel summary">
+          <div class="summary-copy">
+            <h2>Komuta Ozeti</h2>
+            <p>200 olaylik test penceresinde 135 olay attack/anomali olarak isaretlendi. Karar, agirlikli olarak CARLA davranis/sensor katmanindan gelen bulgular ve fusion katmaninin kritik birlestirmesiyle Acil Guvenli Mod seviyesine cikti.</p>
+          </div>
+          <div class="metric-grid">
+            <div class="metric"><div class="label">Toplam Olay</div><strong>200</strong><span>Izlenen pencere</span></div>
+            <div class="metric"><div class="label">Attack/Anomali</div><strong>135</strong><span>67.5%</span></div>
+            <div class="metric"><div class="label">Normal</div><strong>65</strong><span>32.5%</span></div>
+            <div class="metric"><div class="label">Insan Incelemesi</div><strong>135</strong><span>67.5%</span></div>
+            <div class="metric"><div class="label">Guvenli Mod</div><strong>135</strong><span>67.5%</span></div>
+          </div>
+        </div>
+        <aside class="panel decision-card">
+          <div>
+            <h2>Nihai Karar</h2>
+            <span class="mode-badge">Acil Guvenli Mod</span>
+          </div>
+          <div class="gauge-row"><div class="gauge"><span>67.5%</span></div><p>Guvenli mod gerektiren olay orani. Bu oran karar katmaninin operasyonel mod onerisine temel olusturur.</p></div>
+          <div class="evidence-grid">
+            <div class="evidence"><div class="label">Karar kaniti</div><strong>heading_spoofing (22)</strong></div>
+            <div class="evidence"><div class="label">Aktif katman</div><strong>CARLA (135)</strong></div>
+            <div class="evidence"><div class="label">Kritik bulgu</div><strong>135</strong></div>
+            <div class="evidence"><div class="label">Acil mod</div><strong>135</strong></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="analysis-grid" id="layers">
+        <div class="panel vehicle-module">
+          <div class="module-head">
+            <div><h2>Sensor Fusion Arac Paneli</h2><p>Araca tiklayinca katman analizi kutulari acilir.</p></div>
+            <span class="section-tag">Interactive</span>
+          </div>
+          <div class="vehicle-stage">
+            <button id="layerTrigger" type="button" aria-expanded="false" aria-controls="layerDrawer">
+              <img src="assets/autonomous-blueprint-sensor.png" alt="Blueprint tarzinda sensor alanlari olan otonom arac gorseli">
+              <span class="hotspot h1"></span><span class="hotspot h2"></span><span class="hotspot h3"></span>
+              <span class="tap-hint"><span>Katman Analizi</span><span>CIC / CARLA / VIS / AI</span></span>
+            </button>
+          </div>
+          <div id="layerDrawer" class="layer-drawer" hidden>
+            <div class="layer-box"><div class="label">CIC ag katmani</div><strong>0 tetik</strong><p>Bu pencerede esik ustu ag bulgusu yok.</p></div>
+            <div class="layer-box active"><div class="label">CARLA davranis/sensor</div><strong>135 tetik</strong><p>Karari tasiyan ana sinyal kaynagi.</p></div>
+            <div class="layer-box"><div class="label">nuScenes gorsel</div><strong>0 tetik</strong><p>Gorsel tutarlilikte esik ustu bulgu yok.</p></div>
+            <div class="layer-box active"><div class="label">Fusion karar</div><strong>135 kritik</strong><p>Safe-mode kararini kritik seviyeye tasidi.</p></div>
+          </div>
+        </div>
+
+        <div class="panel matrix">
+          <h2>Karar Zinciri</h2>
+          <div class="timeline">
+            <div class="step"><div class="step-num">1</div><div class="step-body"><h3>Olay yogunlugu</h3><p>200 kaydin 135'i attack/anomali olarak siniflandi; normal olaylar azinlikta kaldi.</p></div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-body"><h3>Katman kaniti</h3><p>CARLA davranis/sensor katmani 135 esik tetiklemesi uretti; CIC ve gorsel katman bu pencerede esik ustu degil.</p></div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-body"><h3>Fusion karari</h3><p>Fusion katmani 135 olayi kritik risk olarak birlestirdi ve safe-mode ihtiyacini netlestirdi.</p></div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-body"><h3>Operasyon</h3><p>Arac politikasi acil guvenli moda alinmali; olay paketleri operator incelemesine aktarilmali.</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-grid" id="threats">
+        <div class="panel bars">
+          <div class="section-head"><div><h2>Tehdit Onceliklendirmesi</h2><p>Attack/anomali siniflarinin bu penceredeki gorulme sikligi.</p></div><span class="section-tag">200 olay</span></div>
+          <div class="bar-list">
+            <div class="bar-row"><div class="bar-label">heading_spoofing</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="bar-value">22 / 11.0%</div></div>
+            <div class="bar-row"><div class="bar-label">sensor_noise</div><div class="bar-track"><div class="bar-fill" style="width:90.9%"></div></div><div class="bar-value">20 / 10.0%</div></div>
+            <div class="bar-row"><div class="bar-label">gps_spoofing</div><div class="bar-track"><div class="bar-fill" style="width:90.9%"></div></div><div class="bar-value">20 / 10.0%</div></div>
+            <div class="bar-row"><div class="bar-label">dos</div><div class="bar-track"><div class="bar-fill" style="width:77.3%"></div></div><div class="bar-value">17 / 8.5%</div></div>
+            <div class="bar-row"><div class="bar-label">speed_spoofing</div><div class="bar-track"><div class="bar-fill" style="width:77.3%"></div></div><div class="bar-value">17 / 8.5%</div></div>
+            <div class="bar-row"><div class="bar-label">position_spoofing</div><div class="bar-track"><div class="bar-fill" style="width:68.2%"></div></div><div class="bar-value">15 / 7.5%</div></div>
+            <div class="bar-row"><div class="bar-label">lane_deviation</div><div class="bar-track"><div class="bar-fill" style="width:54.5%"></div></div><div class="bar-value">12 / 6.0%</div></div>
+            <div class="bar-row"><div class="bar-label">sudden_brake</div><div class="bar-track"><div class="bar-fill" style="width:50%"></div></div><div class="bar-value">11 / 5.5%</div></div>
+            <div class="bar-row"><div class="bar-label">delayed_sensor_attack</div><div class="bar-track"><div class="bar-fill" style="width:4.5%"></div></div><div class="bar-value">1 / 0.5%</div></div>
+          </div>
+        </div>
+        <div class="panel action-list" id="actions">
+          <h2>Operasyonel Aksiyonlar</h2>
+          <div class="action-item"><strong>Acil mod</strong><p>Hiz, rota degisimi, serit degisimi ve riskli manevra izinleri kisitlanmali.</p></div>
+          <div class="action-item"><strong>Kanittaki agirlik</strong><p>CARLA davranis/sensor ciktilari olay bazinda saklanmali ve operator ekraninda ilk siraya alinmali.</p></div>
+          <div class="action-item"><strong>Capraz dogrulama</strong><p>Heading/GPS/sensor_noise sinyalleri ham sensor, odometri ve ag kayitlariyla kontrol edilmeli.</p></div>
+          <div class="action-item"><strong>Karar yonetimi</strong><p>Safe-mode karari kurum politikasi, yol durumu ve insan operator onayi ile birlikte uygulanmali.</p></div>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <div class="panel table-panel">
+          <div class="section-head"><div><h2>Katman Analizi</h2><p>Hangi model katmaninin karari tasidigini gosterir.</p></div><span class="section-tag">Kanit kaynagi</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Katman</th><th>Tetiklenen</th><th>Seviye Dagilimi</th><th>Yorum</th></tr></thead><tbody>
+            <tr><td><strong>CIC ag katmani</strong></td><td>0</td><td>low: 200</td><td>Bu pencerede esik ustu bulgu uretmedi.</td></tr>
+            <tr><td><strong>CARLA davranis/sensor katmani</strong></td><td>135</td><td>critical: 94, high: 24, low: 65, medium: 17</td><td>Davranis/sensor anomalileri karar uzerinde belirleyici oldu.</td></tr>
+            <tr><td><strong>nuScenes gorsel tutarlilik katmani</strong></td><td>0</td><td>low: 200</td><td>Bu pencerede esik ustu bulgu uretmedi.</td></tr>
+            <tr><td><strong>Fusion karar katmani</strong></td><td>135</td><td>critical: 135, low: 65</td><td>Katman sinyallerini birlestirerek nihai risk kararini destekledi.</td></tr>
+          </tbody></table></div>
+        </div>
+        <div class="panel table-panel">
+          <div class="section-head"><div><h2>Model Performans Ozeti</h2><p>v3 modeli safe-mode kararinda daha dengeli sonuc verdi.</p></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Model</th><th>Risk Acc.</th><th>Risk Macro F1</th><th>Safe Acc.</th><th>Safe Macro F1</th></tr></thead><tbody>
+            <tr><td>fusion_safe_mode_v1</td><td>0.790</td><td>0.736</td><td>0.587</td><td>0.487</td></tr>
+            <tr><td>fusion_safe_mode_v2</td><td>0.790</td><td>0.737</td><td>0.577</td><td>0.531</td></tr>
+            <tr><td>fusion_safe_mode_v3</td><td>0.784</td><td>0.730</td><td>0.752</td><td>0.776</td></tr>
+          </tbody></table></div>
+        </div>
+      </section>
+
+      <section class="panel table-panel" id="events">
+        <div class="section-head">
+          <div><h2>Olay Inceleme Masasi</h2><p>Filtreler ile saldiri turu veya safe-mode karari daraltilabilir; p degerleri her katmanin olaya verdigi olasilik sinyalidir.</p></div>
+          <span class="section-tag"><span id="visibleCount">0</span> olay gorunuyor</span>
+        </div>
+        <div class="filters"><input id="eventSearch" type="search" placeholder="Saldiri turu ara"><select id="modeFilter"><option value="">Tum safe mode kararlari</option><option value="emergency_safe_mode">Acil Guvenli Mod</option><option value="degraded_safe_mode">Kisitli Guvenli Mod</option><option value="monitoring_mode">Izleme Modu</option><option value="normal_mode">Normal Mod</option></select></div>
+        <div class="table-wrap"><table class="event-table"><thead><tr><th>#</th><th>Zaman</th><th>Risk</th><th>Saldiri turu</th><th>Safe mode</th><th>CARLA p</th><th>CIC p</th><th>Gorsel p</th></tr></thead><tbody>
+<tr data-event-row data-attack="lane_deviation" data-mode="emergency_safe_mode"><td>0</td><td>1779212898.3934238</td><td><span class="pill danger">attack</span></td><td>lane_deviation</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.599</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="dos" data-mode="degraded_safe_mode"><td>2</td><td>1779212962.2976928</td><td><span class="pill danger">attack</span></td><td>dos</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.787</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="sensor_noise" data-mode="monitoring_mode"><td>3</td><td>1779212934.4065194</td><td><span class="pill danger">attack</span></td><td>sensor_noise</td><td><span class="pill neutral">Izleme Modu</span></td><td>0.997</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>4</td><td>1779212816.6771135</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.968</td><td>0.001</td><td>0.420</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>6</td><td>1779213045.1833088</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.891</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="speed_spoofing" data-mode="degraded_safe_mode"><td>7</td><td>1779212823.5263176</td><td><span class="pill danger">attack</span></td><td>speed_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.932</td><td>0.003</td><td>0.500</td></tr>
+<tr data-event-row data-attack="speed_spoofing" data-mode="degraded_safe_mode"><td>8</td><td>1779212840.8920867</td><td><span class="pill danger">attack</span></td><td>speed_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.975</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="gps_spoofing" data-mode="degraded_safe_mode"><td>9</td><td>1779212776.5570138</td><td><span class="pill danger">attack</span></td><td>gps_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.924</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>10</td><td>1779213045.6523046</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.952</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="sudden_brake" data-mode="emergency_safe_mode"><td>14</td><td>1779212881.833623</td><td><span class="pill danger">attack</span></td><td>sudden_brake</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.938</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="speed_spoofing" data-mode="degraded_safe_mode"><td>15</td><td>1779212822.8202488</td><td><span class="pill danger">attack</span></td><td>speed_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.973</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="gps_spoofing" data-mode="degraded_safe_mode"><td>16</td><td>1779212777.1653347</td><td><span class="pill danger">attack</span></td><td>gps_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.974</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="sensor_noise" data-mode="monitoring_mode"><td>17</td><td>1779212934.3494008</td><td><span class="pill danger">attack</span></td><td>sensor_noise</td><td><span class="pill neutral">Izleme Modu</span></td><td>1.000</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="lane_deviation" data-mode="emergency_safe_mode"><td>18</td><td>1779212898.3332891</td><td><span class="pill danger">attack</span></td><td>lane_deviation</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.567</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>19</td><td>1779213044.8565724</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.675</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>20</td><td>1779212818.3472695</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.909</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="sensor_noise" data-mode="monitoring_mode"><td>22</td><td>1779212945.2198455</td><td><span class="pill danger">attack</span></td><td>sensor_noise</td><td><span class="pill neutral">Izleme Modu</span></td><td>0.993</td><td>0.001</td><td>0.500</td></tr>
+<tr data-event-row data-attack="lane_deviation" data-mode="emergency_safe_mode"><td>23</td><td>1779212898.530738</td><td><span class="pill danger">attack</span></td><td>lane_deviation</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.661</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="dos" data-mode="degraded_safe_mode"><td>25</td><td>1779213046.3554225</td><td><span class="pill danger">attack</span></td><td>dos</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.943</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>27</td><td>1779213046.69474</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.981</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="sudden_brake" data-mode="emergency_safe_mode"><td>28</td><td>1779212815.7669916</td><td><span class="pill danger">attack</span></td><td>sudden_brake</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.773</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>29</td><td>1779212788.7369423</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.728</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="gps_spoofing" data-mode="degraded_safe_mode"><td>32</td><td>1779212767.2186773</td><td><span class="pill danger">attack</span></td><td>gps_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.977</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>33</td><td>1779213030.0958269</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.848</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="sensor_noise" data-mode="monitoring_mode"><td>34</td><td>1779212934.9271376</td><td><span class="pill danger">attack</span></td><td>sensor_noise</td><td><span class="pill neutral">Izleme Modu</span></td><td>0.994</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="lane_deviation" data-mode="emergency_safe_mode"><td>35</td><td>1779212580.9345632</td><td><span class="pill danger">attack</span></td><td>lane_deviation</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.778</td><td>0.003</td><td>0.420</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>36</td><td>1779212789.21596</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.771</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>37</td><td>1779212788.6041722</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.936</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="speed_spoofing" data-mode="degraded_safe_mode"><td>38</td><td>1779212841.7374828</td><td><span class="pill danger">attack</span></td><td>speed_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.973</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>39</td><td>1779213044.4407272</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.904</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="sudden_brake" data-mode="emergency_safe_mode"><td>41</td><td>1779212858.5623355</td><td><span class="pill danger">attack</span></td><td>sudden_brake</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.953</td><td>0.016</td><td>0.180</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>42</td><td>1779212961.848692</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.897</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="speed_spoofing" data-mode="degraded_safe_mode"><td>43</td><td>1779212982.9779108</td><td><span class="pill danger">attack</span></td><td>speed_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.976</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="dos" data-mode="degraded_safe_mode"><td>46</td><td>1779212965.8048575</td><td><span class="pill danger">attack</span></td><td>dos</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.747</td><td>0.003</td><td>0.500</td></tr>
+<tr data-event-row data-attack="sensor_noise" data-mode="monitoring_mode"><td>48</td><td>1779212933.968096</td><td><span class="pill danger">attack</span></td><td>sensor_noise</td><td><span class="pill neutral">Izleme Modu</span></td><td>0.991</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>51</td><td>1779212823.6095138</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.844</td><td>0.004</td><td>0.420</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>53</td><td>1779212817.4693358</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.930</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="sensor_noise" data-mode="monitoring_mode"><td>56</td><td>1779212950.280967</td><td><span class="pill danger">attack</span></td><td>sensor_noise</td><td><span class="pill neutral">Izleme Modu</span></td><td>0.982</td><td>0.009</td><td>0.180</td></tr>
+<tr data-event-row data-attack="lane_deviation" data-mode="emergency_safe_mode"><td>57</td><td>1779212897.961965</td><td><span class="pill danger">attack</span></td><td>lane_deviation</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.750</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>58</td><td>1779212822.960068</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.943</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="speed_spoofing" data-mode="degraded_safe_mode"><td>60</td><td>1779212830.2504988</td><td><span class="pill danger">attack</span></td><td>speed_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.880</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="lane_deviation" data-mode="emergency_safe_mode"><td>61</td><td>1779212897.7730536</td><td><span class="pill danger">attack</span></td><td>lane_deviation</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.689</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="dos" data-mode="degraded_safe_mode"><td>62</td><td>1779212983.1106012</td><td><span class="pill danger">attack</span></td><td>dos</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.988</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="dos" data-mode="degraded_safe_mode"><td>64</td><td>1779212962.241557</td><td><span class="pill danger">attack</span></td><td>dos</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.829</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="gps_spoofing" data-mode="degraded_safe_mode"><td>66</td><td>1779212767.1455128</td><td><span class="pill danger">attack</span></td><td>gps_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.986</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="sudden_brake" data-mode="emergency_safe_mode"><td>67</td><td>1779212878.2299418</td><td><span class="pill danger">attack</span></td><td>sudden_brake</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.821</td><td>0.003</td><td>0.180</td></tr>
+<tr data-event-row data-attack="lane_deviation" data-mode="emergency_safe_mode"><td>68</td><td>1779212898.4530632</td><td><span class="pill danger">attack</span></td><td>lane_deviation</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.639</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="sudden_brake" data-mode="emergency_safe_mode"><td>69</td><td>1779212816.3744428</td><td><span class="pill danger">attack</span></td><td>sudden_brake</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.667</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="gps_spoofing" data-mode="degraded_safe_mode"><td>70</td><td>1779212784.52411</td><td><span class="pill danger">attack</span></td><td>gps_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.990</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>71</td><td>1779212818.6630185</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.969</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="speed_spoofing" data-mode="degraded_safe_mode"><td>72</td><td>1779212823.3960185</td><td><span class="pill danger">attack</span></td><td>speed_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.967</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="gps_spoofing" data-mode="degraded_safe_mode"><td>73</td><td>1779212784.6528645</td><td><span class="pill danger">attack</span></td><td>gps_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.993</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="dos" data-mode="degraded_safe_mode"><td>76</td><td>1779212982.1538415</td><td><span class="pill danger">attack</span></td><td>dos</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.870</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>81</td><td>1779213029.4713817</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.947</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="gps_spoofing" data-mode="degraded_safe_mode"><td>82</td><td>1779212783.5549934</td><td><span class="pill danger">attack</span></td><td>gps_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.961</td><td>0.007</td><td>0.420</td></tr>
+<tr data-event-row data-attack="sudden_brake" data-mode="emergency_safe_mode"><td>84</td><td>1779212882.7209544</td><td><span class="pill danger">attack</span></td><td>sudden_brake</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.854</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="speed_spoofing" data-mode="degraded_safe_mode"><td>86</td><td>1779212841.9855564</td><td><span class="pill danger">attack</span></td><td>speed_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.999</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="dos" data-mode="degraded_safe_mode"><td>87</td><td>1779212965.2291274</td><td><span class="pill danger">attack</span></td><td>dos</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.974</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>89</td><td>1779213046.66968</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.973</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="dos" data-mode="degraded_safe_mode"><td>90</td><td>1779212962.1844404</td><td><span class="pill danger">attack</span></td><td>dos</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.808</td><td>0.004</td><td>0.500</td></tr>
+<tr data-event-row data-attack="sensor_noise" data-mode="monitoring_mode"><td>91</td><td>1779212950.61524</td><td><span class="pill danger">attack</span></td><td>sensor_noise</td><td><span class="pill neutral">Izleme Modu</span></td><td>0.976</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="dos" data-mode="degraded_safe_mode"><td>93</td><td>1779212962.3713706</td><td><span class="pill danger">attack</span></td><td>dos</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.754</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>94</td><td>1779213026.864344</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.603</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="sudden_brake" data-mode="emergency_safe_mode"><td>95</td><td>1779212881.756452</td><td><span class="pill danger">attack</span></td><td>sudden_brake</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.601</td><td>0.003</td><td>0.180</td></tr>
+<tr data-event-row data-attack="sensor_noise" data-mode="monitoring_mode"><td>96</td><td>1779212934.0532825</td><td><span class="pill danger">attack</span></td><td>sensor_noise</td><td><span class="pill neutral">Izleme Modu</span></td><td>0.989</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="delayed_sensor_attack" data-mode="degraded_safe_mode"><td>97</td><td>1779213025.9893334</td><td><span class="pill danger">attack</span></td><td>delayed_sensor_attack</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.972</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="dos" data-mode="degraded_safe_mode"><td>98</td><td>1779212983.2608116</td><td><span class="pill danger">attack</span></td><td>dos</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>1.000</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>99</td><td>1779212818.268601</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.804</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>100</td><td>1779213026.7365</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.587</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>101</td><td>1779212961.79906</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.784</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="sensor_noise" data-mode="monitoring_mode"><td>102</td><td>1779212934.7908614</td><td><span class="pill danger">attack</span></td><td>sensor_noise</td><td><span class="pill neutral">Izleme Modu</span></td><td>0.997</td><td>0.016</td><td>0.500</td></tr>
+<tr data-event-row data-attack="sensor_noise" data-mode="monitoring_mode"><td>103</td><td>1779212944.1599014</td><td><span class="pill danger">attack</span></td><td>sensor_noise</td><td><span class="pill neutral">Izleme Modu</span></td><td>0.997</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="sensor_noise" data-mode="monitoring_mode"><td>105</td><td>1779212950.3526192</td><td><span class="pill danger">attack</span></td><td>sensor_noise</td><td><span class="pill neutral">Izleme Modu</span></td><td>0.969</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>107</td><td>1779213030.0321825</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.841</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="sensor_noise" data-mode="monitoring_mode"><td>109</td><td>1779212949.5386915</td><td><span class="pill danger">attack</span></td><td>sensor_noise</td><td><span class="pill neutral">Izleme Modu</span></td><td>1.000</td><td>0.005</td><td>0.500</td></tr>
+<tr data-event-row data-attack="speed_spoofing" data-mode="degraded_safe_mode"><td>110</td><td>1779212840.9687526</td><td><span class="pill danger">attack</span></td><td>speed_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.898</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>111</td><td>1779213026.6713746</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.587</td><td>0.000</td><td>0.180</td></tr>
+<tr data-event-row data-attack="sensor_noise" data-mode="monitoring_mode"><td>113</td><td>1779212935.0103168</td><td><span class="pill danger">attack</span></td><td>sensor_noise</td><td><span class="pill neutral">Izleme Modu</span></td><td>0.969</td><td>0.000</td><td>0.500</td></tr>
+<tr data-event-row data-attack="heading_spoofing" data-mode="degraded_safe_mode"><td>114</td><td>1779213030.1594632</td><td><span class="pill danger">attack</span></td><td>heading_spoofing</td><td><span class="pill warn">Kisitli Guvenli Mod</span></td><td>0.857</td><td>0.000</td><td>0.420</td></tr>
+<tr data-event-row data-attack="position_spoofing" data-mode="emergency_safe_mode"><td>115</td><td>1779212788.3831394</td><td><span class="pill danger">attack</span></td><td>position_spoofing</td><td><span class="pill danger">Acil Guvenli Mod</span></td><td>0.871</td><td>0.000</td><td>0.420</td></tr>
+        </tbody></table></div>
+      </section>
+
+      <section class="panel table-panel" id="note"><h2>Sunum Notu</h2><p>Bu dashboard karar destek amaclidir. Nihai operasyon karari kurum politikasi, arac durumu ve insan operator onayi ile birlikte verilmelidir.</p></section>
+      <div class="footer">Olusturulan rapor: 200 olay, onerilen mod: Acil Guvenli Mod.</div>
+    </main>
+  </div>
+  <script>
+    const search = document.getElementById('eventSearch');
+    const modeFilter = document.getElementById('modeFilter');
+    const visibleCount = document.getElementById('visibleCount');
+    const rows = Array.from(document.querySelectorAll('[data-event-row]'));
+    const layerTrigger = document.getElementById('layerTrigger');
+    const layerDrawer = document.getElementById('layerDrawer');
+    function filterRows() {
+      const q = (search.value || '').toLowerCase();
+      const mode = modeFilter.value || '';
+      let count = 0;
+      for (const row of rows) {
+        const attack = row.dataset.attack || '';
+        const rowMode = row.dataset.mode || '';
+        const visible = (!q || attack.includes(q)) && (!mode || rowMode === mode);
+        row.style.display = visible ? '' : 'none';
+        if (visible) count += 1;
+      }
+      visibleCount.textContent = count;
+    }
+    search.addEventListener('input', filterRows);
+    modeFilter.addEventListener('change', filterRows);
+    layerTrigger.addEventListener('click', () => {
+      const isOpen = !layerDrawer.hasAttribute('hidden');
+      layerDrawer.toggleAttribute('hidden', isOpen);
+      layerTrigger.setAttribute('aria-expanded', String(!isOpen));
+    });
+    filterRows();
+  </script>
+</body>
+</html>

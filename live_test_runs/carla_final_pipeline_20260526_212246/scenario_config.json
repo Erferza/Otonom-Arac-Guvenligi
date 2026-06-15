@@ -1,0 +1,62 @@
+{
+  "host": "127.0.0.1",
+  "port": 2000,
+  "traffic_manager_port": 8000,
+  "map_name": "Carla/Maps/Town10HD_Opt",
+  "seed": 42,
+  "npc_count": 4,
+  "eval_stride": 5,
+  "camera_width": 1280,
+  "camera_height": 720,
+  "camera_fov": 90.0,
+  "phase_scale": 1.0,
+  "model_root": "C:\\Users\\Beyza\\Desktop\\CARLA_0.9.16\\PythonAPI\\Final_Pipeline\\final_retrain_20260526",
+  "cic_parquet": "C:\\Users\\Beyza\\Desktop\\CARLA_0.9.16\\PythonAPI\\Guvenlik Proje\\CIC-ToN-IoT-V2.parquet",
+  "phases": [
+    {
+      "name": "baseline_normal",
+      "duration_ticks": 24,
+      "carla_attack_type": "normal",
+      "cic_attack_name": "Benign",
+      "expected_safe_mode": "normal_mode",
+      "objective": "Establish a clean baseline before the attack chain starts.",
+      "visual_expectation": "camera_clear_and_sensor_consistent"
+    },
+    {
+      "name": "network_intrusion_probe",
+      "duration_ticks": 24,
+      "carla_attack_type": "normal",
+      "cic_attack_name": "mitm",
+      "expected_safe_mode": "monitoring_mode",
+      "objective": "Trigger the CIC branch while the vehicle dynamics remain nominal.",
+      "visual_expectation": "camera_clear_network_only_anomaly"
+    },
+    {
+      "name": "dos_sensor_corruption",
+      "duration_ticks": 28,
+      "carla_attack_type": "dos",
+      "cic_attack_name": "dos",
+      "expected_safe_mode": "degraded_safe_mode",
+      "objective": "Mix network pressure with packet loss/stale sensor observations in the V6 branch.",
+      "visual_expectation": "camera_clear_sensor_stream_unreliable"
+    },
+    {
+      "name": "hallucinated_sudden_brake",
+      "duration_ticks": 24,
+      "carla_attack_type": "sudden_brake",
+      "cic_attack_name": "Benign",
+      "expected_safe_mode": "monitoring_mode",
+      "objective": "Force a hard brake while the front camera context stays clear to expose a visual hallucination risk.",
+      "visual_expectation": "camera_clear_but_vehicle_brakes_hard"
+    },
+    {
+      "name": "coordinated_control_takeover",
+      "duration_ticks": 30,
+      "carla_attack_type": "lane_deviation",
+      "cic_attack_name": "scanning",
+      "expected_safe_mode": "emergency_safe_mode",
+      "objective": "Escalate into a coordinated multi-layer anomaly with steering deviation plus a live CIC alert.",
+      "visual_expectation": "camera_clear_control_plane_anomaly"
+    }
+  ]
+}

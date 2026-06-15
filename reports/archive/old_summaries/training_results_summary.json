@@ -1,0 +1,557 @@
+{
+  "models": [
+    {
+      "path": "models/carla/hierarchical_model.joblib",
+      "size_mb": 10.15
+    },
+    {
+      "path": "models/carla_smoke/hierarchical_model.joblib",
+      "size_mb": 2.6
+    },
+    {
+      "path": "models/carla_v2/hierarchical_model.joblib",
+      "size_mb": 41.16
+    },
+    {
+      "path": "models/cic/hierarchical_model.joblib",
+      "size_mb": 670.01
+    },
+    {
+      "path": "models/cic_v2/hierarchical_model.joblib",
+      "size_mb": 5596.69
+    },
+    {
+      "path": "models/fusion/decision_fusion_model.joblib",
+      "size_mb": 43.8
+    },
+    {
+      "path": "models/fusion_v2/decision_fusion_model.joblib",
+      "size_mb": 11.53
+    }
+  ],
+  "metrics": [
+    {
+      "name": "CIC v2 binary",
+      "status": "ok",
+      "accuracy": 0.99343,
+      "macro_f1": 0.9922956648121368,
+      "weighted_f1": 0.9934179681420483,
+      "log_loss": 0.026139503825984324,
+      "metric_path": "models/cic_v2/metrics/cic_validation_binary_metrics.json",
+      "confusion_matrix_path": "models/cic_v2/metrics/cic_validation_binary_confusion_matrix.csv",
+      "labels": [
+        "0",
+        "1"
+      ],
+      "confusion_matrix": [
+        [
+          30486,
+          532
+        ],
+        [
+          125,
+          68857
+        ]
+      ]
+    },
+    {
+      "name": "CIC v2 attack type",
+      "status": "ok",
+      "accuracy": 0.6178568322171001,
+      "macro_f1": 0.5397303611876652,
+      "weighted_f1": 0.6201414670826441,
+      "log_loss": 0.8172762370733034,
+      "metric_path": "models/cic_v2/metrics/cic_validation_attack_type_metrics.json",
+      "confusion_matrix_path": "models/cic_v2/metrics/cic_validation_attack_type_confusion_matrix.csv",
+      "labels": [
+        "backdoor",
+        "ddos",
+        "dos",
+        "injection",
+        "mitm",
+        "password",
+        "ransomware",
+        "scanning",
+        "xss"
+      ],
+      "confusion_matrix": [
+        [
+          5414,
+          0,
+          0,
+          0,
+          0,
+          0,
+          15,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          19,
+          0,
+          19,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          22,
+          1,
+          0,
+          6,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          4179,
+          0,
+          3806,
+          0,
+          1174,
+          3061
+        ],
+        [
+          0,
+          20,
+          19,
+          0,
+          64,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          2345,
+          0,
+          5963,
+          0,
+          1942,
+          2578
+        ],
+        [
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          954,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          3,
+          364,
+          1,
+          967,
+          0,
+          5418,
+          359
+        ],
+        [
+          0,
+          0,
+          0,
+          2757,
+          0,
+          4403,
+          0,
+          2474,
+          20626
+        ]
+      ]
+    },
+    {
+      "name": "CARLA v2 binary",
+      "status": "ok",
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "log_loss": 0.005906449518847529,
+      "metric_path": "models/carla_v2/metrics/carla_validation_binary_metrics.json",
+      "confusion_matrix_path": "models/carla_v2/metrics/carla_validation_binary_confusion_matrix.csv",
+      "labels": [
+        "0",
+        "1"
+      ],
+      "confusion_matrix": [
+        [
+          4050,
+          0
+        ],
+        [
+          0,
+          4050
+        ]
+      ]
+    },
+    {
+      "name": "CARLA v2 attack type",
+      "status": "ok",
+      "accuracy": 0.9765432098765432,
+      "macro_f1": 0.9765453457458761,
+      "weighted_f1": 0.9765453457458764,
+      "log_loss": 0.2510062968892295,
+      "metric_path": "models/carla_v2/metrics/carla_validation_attack_type_metrics.json",
+      "confusion_matrix_path": "models/carla_v2/metrics/carla_validation_attack_type_confusion_matrix.csv",
+      "labels": [
+        "delayed_sensor_attack",
+        "dos",
+        "gps_spoofing",
+        "heading_spoofing",
+        "lane_deviation",
+        "position_spoofing",
+        "sensor_noise",
+        "speed_spoofing",
+        "sudden_brake"
+      ],
+      "confusion_matrix": [
+        [
+          415,
+          35,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          394,
+          0,
+          0,
+          56,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          450,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          450,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          450,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          450,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          450,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          450,
+          0
+        ],
+        [
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          446
+        ]
+      ]
+    },
+    {
+      "name": "Fusion v2 risk",
+      "status": "ok",
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "log_loss": 8.185731032220467e-05,
+      "metric_path": "models/fusion_v2/metrics/fusion_validation_risk_metrics.json",
+      "confusion_matrix_path": "models/fusion_v2/metrics/fusion_validation_risk_confusion_matrix.csv",
+      "labels": [
+        "attack",
+        "normal"
+      ],
+      "confusion_matrix": [
+        [
+          3600,
+          0
+        ],
+        [
+          0,
+          400
+        ]
+      ]
+    },
+    {
+      "name": "Fusion v2 attack type",
+      "status": "ok",
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "log_loss": 0.003627590853170294,
+      "metric_path": "models/fusion_v2/metrics/fusion_validation_attack_type_metrics.json",
+      "confusion_matrix_path": "models/fusion_v2/metrics/fusion_validation_attack_type_confusion_matrix.csv",
+      "labels": [
+        "delayed_sensor_attack",
+        "dos",
+        "gps_spoofing",
+        "heading_spoofing",
+        "lane_deviation",
+        "normal",
+        "position_spoofing",
+        "sensor_noise",
+        "speed_spoofing",
+        "sudden_brake"
+      ],
+      "confusion_matrix": [
+        [
+          400,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          400,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          400,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          400,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          400,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          400,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          400,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          400,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          400,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          400
+        ]
+      ]
+    }
+  ],
+  "existing_reports": [
+    {
+      "path": "reports/demo_report.json",
+      "summary": {
+        "event_count": 25,
+        "risk_distribution": {
+          "medium": 14,
+          "low": 11
+        },
+        "review_required_count": 0,
+        "top_threats": [
+          {
+            "attack_type": "delayed_sensor_attack",
+            "count": 25
+          }
+        ]
+      },
+      "size_kb": 40.84
+    },
+    {
+      "path": "reports/demo_with_model_report.json",
+      "summary": {
+        "event_count": 25,
+        "risk_distribution": {
+          "medium": 14,
+          "low": 11
+        },
+        "review_required_count": 10,
+        "top_threats": [
+          {
+            "attack_type": "delayed_sensor_attack",
+            "count": 25
+          }
+        ]
+      },
+      "size_kb": 41.3
+    },
+    {
+      "path": "reports/ml_fusion_demo.json",
+      "summary": {
+        "event_count": 100,
+        "risk_distribution": {
+          "attack": 100
+        },
+        "review_required_count": 100,
+        "top_threats": [
+          {
+            "attack_type": "sudden_brake",
+            "count": 86
+          },
+          {
+            "attack_type": "dos",
+            "count": 9
+          },
+          {
+            "attack_type": "speed_spoofing",
+            "count": 5
+          }
+        ]
+      },
+      "size_kb": 207.91
+    }
+  ]
+}

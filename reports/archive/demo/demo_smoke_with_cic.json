@@ -1,0 +1,201 @@
+{
+  "summary": {
+    "event_count": 2,
+    "risk_distribution": {
+      "attack": 2
+    },
+    "review_required_count": 2,
+    "top_threats": [
+      {
+        "attack_type": "sensor_noise",
+        "count": 2
+      }
+    ]
+  },
+  "durations": {
+    "sensor_noise": {
+      "seconds": 141.238,
+      "samples": 2.0
+    }
+  },
+  "critical_findings": [
+    {
+      "index": 0,
+      "timestamp": 1779212982.907003,
+      "cic_prediction": {
+        "attack_probability": 4.419086996664744e-08,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.99999995580913
+      },
+      "carla_prediction": {
+        "attack_probability": 0.9905897595470725,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.7507656220169543
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "e93e98b63d3b40209056d129dc53ceee",
+          "scene_name": "scene-0001",
+          "timestamp": 1531883530449377,
+          "close_object_count": 8,
+          "close_vehicle_count": 3,
+          "close_vulnerable_count": 2,
+          "nearest_object_m": 10.314163232696739,
+          "camera_files": [
+            "samples/CAM_FRONT/n015-2018-07-18-11-07-57+0800__CAM_FRONT__1531883530412470.jpg",
+            "samples/CAM_FRONT_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_RIGHT__1531883530420339.jpg",
+            "samples/CAM_BACK_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_BACK_RIGHT__1531883530427893.jpg",
+            "samples/CAM_BACK/n015-2018-07-18-11-07-57+0800__CAM_BACK__1531883530437525.jpg",
+            "samples/CAM_BACK_LEFT/n015-2018-07-18-11-07-57+0800__CAM_BACK_LEFT__1531883530447423.jpg",
+            "samples/CAM_FRONT_LEFT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_LEFT__1531883530404844.jpg"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.9992071354166666,
+        "risk_level": "attack",
+        "final_attack_type": "sensor_noise",
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.999, type_confidence=0.405"
+      }
+    },
+    {
+      "index": 1,
+      "timestamp": 1779212841.6688433,
+      "cic_prediction": {
+        "attack_probability": 3.575039245885257e-05,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9999642496075412
+      },
+      "carla_prediction": {
+        "attack_probability": 0.9802184522813833,
+        "is_attack": true,
+        "attack_type": "speed_spoofing",
+        "attack_type_confidence": 0.6698157343399438
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "14d5adfe50bb4445bc3aa5fe607691a8",
+          "scene_name": "scene-0001",
+          "timestamp": 1531883530949817,
+          "close_object_count": 8,
+          "close_vehicle_count": 3,
+          "close_vulnerable_count": 2,
+          "nearest_object_m": 12.470368275073653,
+          "camera_files": [
+            "samples/CAM_FRONT/n015-2018-07-18-11-07-57+0800__CAM_FRONT__1531883530912460.jpg",
+            "samples/CAM_FRONT_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_RIGHT__1531883530920339.jpg",
+            "samples/CAM_BACK_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_BACK_RIGHT__1531883530927893.jpg",
+            "samples/CAM_BACK/n015-2018-07-18-11-07-57+0800__CAM_BACK__1531883530937525.jpg",
+            "samples/CAM_BACK_LEFT/n015-2018-07-18-11-07-57+0800__CAM_BACK_LEFT__1531883530947423.jpg",
+            "samples/CAM_FRONT_LEFT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_LEFT__1531883530904844.jpg"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.997763236254025,
+        "risk_level": "attack",
+        "final_attack_type": "sensor_noise",
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.998, type_confidence=0.338"
+      }
+    }
+  ],
+  "events": [
+    {
+      "index": 0,
+      "timestamp": 1779212982.907003,
+      "cic_prediction": {
+        "attack_probability": 4.419086996664744e-08,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.99999995580913
+      },
+      "carla_prediction": {
+        "attack_probability": 0.9905897595470725,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.7507656220169543
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "e93e98b63d3b40209056d129dc53ceee",
+          "scene_name": "scene-0001",
+          "timestamp": 1531883530449377,
+          "close_object_count": 8,
+          "close_vehicle_count": 3,
+          "close_vulnerable_count": 2,
+          "nearest_object_m": 10.314163232696739,
+          "camera_files": [
+            "samples/CAM_FRONT/n015-2018-07-18-11-07-57+0800__CAM_FRONT__1531883530412470.jpg",
+            "samples/CAM_FRONT_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_RIGHT__1531883530420339.jpg",
+            "samples/CAM_BACK_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_BACK_RIGHT__1531883530427893.jpg",
+            "samples/CAM_BACK/n015-2018-07-18-11-07-57+0800__CAM_BACK__1531883530437525.jpg",
+            "samples/CAM_BACK_LEFT/n015-2018-07-18-11-07-57+0800__CAM_BACK_LEFT__1531883530447423.jpg",
+            "samples/CAM_FRONT_LEFT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_LEFT__1531883530404844.jpg"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.9992071354166666,
+        "risk_level": "attack",
+        "final_attack_type": "sensor_noise",
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.999, type_confidence=0.405"
+      }
+    },
+    {
+      "index": 1,
+      "timestamp": 1779212841.6688433,
+      "cic_prediction": {
+        "attack_probability": 3.575039245885257e-05,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9999642496075412
+      },
+      "carla_prediction": {
+        "attack_probability": 0.9802184522813833,
+        "is_attack": true,
+        "attack_type": "speed_spoofing",
+        "attack_type_confidence": 0.6698157343399438
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "14d5adfe50bb4445bc3aa5fe607691a8",
+          "scene_name": "scene-0001",
+          "timestamp": 1531883530949817,
+          "close_object_count": 8,
+          "close_vehicle_count": 3,
+          "close_vulnerable_count": 2,
+          "nearest_object_m": 12.470368275073653,
+          "camera_files": [
+            "samples/CAM_FRONT/n015-2018-07-18-11-07-57+0800__CAM_FRONT__1531883530912460.jpg",
+            "samples/CAM_FRONT_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_RIGHT__1531883530920339.jpg",
+            "samples/CAM_BACK_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_BACK_RIGHT__1531883530927893.jpg",
+            "samples/CAM_BACK/n015-2018-07-18-11-07-57+0800__CAM_BACK__1531883530937525.jpg",
+            "samples/CAM_BACK_LEFT/n015-2018-07-18-11-07-57+0800__CAM_BACK_LEFT__1531883530947423.jpg",
+            "samples/CAM_FRONT_LEFT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_LEFT__1531883530904844.jpg"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.997763236254025,
+        "risk_level": "attack",
+        "final_attack_type": "sensor_noise",
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.998, type_confidence=0.338"
+      }
+    }
+  ]
+}

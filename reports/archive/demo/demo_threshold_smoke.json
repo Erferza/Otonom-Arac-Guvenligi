@@ -1,0 +1,778 @@
+{
+  "summary": {
+    "event_count": 5,
+    "risk_distribution": {
+      "attack": 4,
+      "normal": 1
+    },
+    "review_required_count": 4,
+    "safe_mode_required_count": 4,
+    "top_threats": [
+      {
+        "attack_type": "dos",
+        "count": 2
+      },
+      {
+        "attack_type": "sudden_brake",
+        "count": 2
+      }
+    ],
+    "recommended_safe_mode": "emergency_safe_mode"
+  },
+  "threshold_summary": {
+    "final_level_distribution": {
+      "critical": 4,
+      "low": 1
+    },
+    "safe_mode_distribution": {
+      "emergency_safe_mode": 4,
+      "normal_mode": 1
+    },
+    "recommended_safe_mode": "emergency_safe_mode",
+    "triggered_layers": {
+      "carla": 4,
+      "fusion": 4
+    },
+    "layer_level_distribution": {
+      "cic": {
+        "low": 5
+      },
+      "carla": {
+        "critical": 3,
+        "low": 1,
+        "medium": 1
+      },
+      "visual": {
+        "low": 5
+      },
+      "fusion": {
+        "critical": 4,
+        "low": 1
+      }
+    }
+  },
+  "durations": {
+    "dos": {
+      "seconds": 141.238,
+      "samples": 2.0
+    },
+    "sudden_brake": {
+      "seconds": 76.39,
+      "samples": 2.0
+    },
+    "normal": {
+      "seconds": 0.0,
+      "samples": 1.0
+    }
+  },
+  "critical_findings": [
+    {
+      "index": 0,
+      "timestamp": 1779212982.907003,
+      "cic_prediction": {
+        "attack_probability": 4.419086996664744e-08,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.99999995580913
+      },
+      "carla_prediction": {
+        "attack_probability": 0.9905897595470724,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.7507656220169543
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "e93e98b63d3b40209056d129dc53ceee",
+          "scene_name": "scene-0001",
+          "timestamp": 1531883530449377,
+          "close_object_count": 8,
+          "close_vehicle_count": 3,
+          "close_vulnerable_count": 2,
+          "nearest_object_m": 10.314163232696739,
+          "camera_files": [
+            "samples/CAM_FRONT/n015-2018-07-18-11-07-57+0800__CAM_FRONT__1531883530412470.jpg",
+            "samples/CAM_FRONT_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_RIGHT__1531883530420339.jpg",
+            "samples/CAM_BACK_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_BACK_RIGHT__1531883530427893.jpg",
+            "samples/CAM_BACK/n015-2018-07-18-11-07-57+0800__CAM_BACK__1531883530437525.jpg",
+            "samples/CAM_BACK_LEFT/n015-2018-07-18-11-07-57+0800__CAM_BACK_LEFT__1531883530447423.jpg",
+            "samples/CAM_FRONT_LEFT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_LEFT__1531883530404844.jpg"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 1.0,
+        "risk_level": "attack",
+        "final_attack_type": "dos",
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=1.000, type_confidence=0.304"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 4.419086996664744e-08,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.9905897595470724,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.991; attack_type=dos; type_confidence=0.751; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.5,
+          "level": "low",
+          "triggered": false,
+          "reason": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=1.000, type_confidence=0.304"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: carla,fusion"
+      }
+    },
+    {
+      "index": 1,
+      "timestamp": 1779212950.280967,
+      "cic_prediction": {
+        "attack_probability": 3.575039245885257e-05,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9999642496075412
+      },
+      "carla_prediction": {
+        "attack_probability": 0.9816724002330476,
+        "is_attack": true,
+        "attack_type": "sensor_noise",
+        "attack_type_confidence": 0.8483747333299835
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.18,
+        "explanation": "Ani fren gorsel baglamla uyumlu: yakinda obje/yaya/arac var.",
+        "context": {
+          "sample_token": "14d5adfe50bb4445bc3aa5fe607691a8",
+          "scene_name": "scene-0001",
+          "timestamp": 1531883530949817,
+          "close_object_count": 8,
+          "close_vehicle_count": 3,
+          "close_vulnerable_count": 2,
+          "nearest_object_m": 12.470368275073653,
+          "camera_files": [
+            "samples/CAM_FRONT/n015-2018-07-18-11-07-57+0800__CAM_FRONT__1531883530912460.jpg",
+            "samples/CAM_FRONT_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_RIGHT__1531883530920339.jpg",
+            "samples/CAM_BACK_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_BACK_RIGHT__1531883530927893.jpg",
+            "samples/CAM_BACK/n015-2018-07-18-11-07-57+0800__CAM_BACK__1531883530937525.jpg",
+            "samples/CAM_BACK_LEFT/n015-2018-07-18-11-07-57+0800__CAM_BACK_LEFT__1531883530947423.jpg",
+            "samples/CAM_FRONT_LEFT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_LEFT__1531883530904844.jpg"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.9936080202117938,
+        "risk_level": "attack",
+        "final_attack_type": "sudden_brake",
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.994, type_confidence=0.322"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 3.575039245885257e-05,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.9816724002330476,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.982; attack_type=sensor_noise; type_confidence=0.848; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.18,
+          "level": "low",
+          "triggered": false,
+          "reason": "Ani fren gorsel baglamla uyumlu: yakinda obje/yaya/arac var."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.9936080202117938,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.994, type_confidence=0.322"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: carla,fusion"
+      }
+    },
+    {
+      "index": 3,
+      "timestamp": 1779212841.6688433,
+      "cic_prediction": {
+        "attack_probability": 0.002383690123256575,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9976163098767434
+      },
+      "carla_prediction": {
+        "attack_probability": 0.9802184522813833,
+        "is_attack": true,
+        "attack_type": "speed_spoofing",
+        "attack_type_confidence": 0.6698157343399438
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "8de7ec06e1ac48c689c4d24d6cc64fd7",
+          "scene_name": "scene-0001",
+          "timestamp": 1531883531950107,
+          "close_object_count": 9,
+          "close_vehicle_count": 4,
+          "close_vulnerable_count": 2,
+          "nearest_object_m": 14.012018962369991,
+          "camera_files": [
+            "samples/CAM_FRONT/n015-2018-07-18-11-07-57+0800__CAM_FRONT__1531883531912467.jpg",
+            "samples/CAM_FRONT_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_RIGHT__1531883531920339.jpg",
+            "samples/CAM_BACK_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_BACK_RIGHT__1531883531927893.jpg",
+            "samples/CAM_BACK/n015-2018-07-18-11-07-57+0800__CAM_BACK__1531883531937525.jpg",
+            "samples/CAM_BACK_LEFT/n015-2018-07-18-11-07-57+0800__CAM_BACK_LEFT__1531883531947423.jpg",
+            "samples/CAM_FRONT_LEFT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_LEFT__1531883531904844.jpg"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.9970016666666667,
+        "risk_level": "attack",
+        "final_attack_type": "dos",
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.997, type_confidence=0.343"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.002383690123256575,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.002; attack_type=normal; type_confidence=0.998; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.9802184522813833,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.980; attack_type=speed_spoofing; type_confidence=0.670; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.5,
+          "level": "low",
+          "triggered": false,
+          "reason": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.9970016666666667,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.997, type_confidence=0.343"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: carla,fusion"
+      }
+    },
+    {
+      "index": 4,
+      "timestamp": 1779213026.6713746,
+      "cic_prediction": {
+        "attack_probability": 0.002404242125176327,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9975957578748237
+      },
+      "carla_prediction": {
+        "attack_probability": 0.5971554145023286,
+        "is_attack": true,
+        "attack_type": "heading_spoofing",
+        "attack_type_confidence": 0.3691631677818032
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.18,
+        "explanation": "Ani fren gorsel baglamla uyumlu: yakinda obje/yaya/arac var.",
+        "context": {
+          "sample_token": "ba94cb79ebc74614bc2442185cb53c26",
+          "scene_name": "scene-0001",
+          "timestamp": 1531883532449967,
+          "close_object_count": 9,
+          "close_vehicle_count": 4,
+          "close_vulnerable_count": 2,
+          "nearest_object_m": 14.730537650164074,
+          "camera_files": [
+            "samples/CAM_FRONT/n015-2018-07-18-11-07-57+0800__CAM_FRONT__1531883532412464.jpg",
+            "samples/CAM_FRONT_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_RIGHT__1531883532420339.jpg",
+            "samples/CAM_BACK_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_BACK_RIGHT__1531883532427893.jpg",
+            "samples/CAM_BACK/n015-2018-07-18-11-07-57+0800__CAM_BACK__1531883532437525.jpg",
+            "samples/CAM_BACK_LEFT/n015-2018-07-18-11-07-57+0800__CAM_BACK_LEFT__1531883532447423.jpg",
+            "samples/CAM_FRONT_LEFT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_LEFT__1531883532404844.jpg"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.9761383499118625,
+        "risk_level": "attack",
+        "final_attack_type": "sudden_brake",
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.976, type_confidence=0.414"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.002404242125176327,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.002; attack_type=normal; type_confidence=0.998; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.5971554145023286,
+          "level": "medium",
+          "triggered": true,
+          "reason": "attack_probability=0.597; attack_type=heading_spoofing; type_confidence=0.369; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.18,
+          "level": "low",
+          "triggered": false,
+          "reason": "Ani fren gorsel baglamla uyumlu: yakinda obje/yaya/arac var."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.9761383499118625,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.976, type_confidence=0.414"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: fusion"
+      }
+    }
+  ],
+  "llm_interpretation": {
+    "enabled": false,
+    "status": "not_requested"
+  },
+  "events": [
+    {
+      "index": 0,
+      "timestamp": 1779212982.907003,
+      "cic_prediction": {
+        "attack_probability": 4.419086996664744e-08,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.99999995580913
+      },
+      "carla_prediction": {
+        "attack_probability": 0.9905897595470724,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.7507656220169543
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "e93e98b63d3b40209056d129dc53ceee",
+          "scene_name": "scene-0001",
+          "timestamp": 1531883530449377,
+          "close_object_count": 8,
+          "close_vehicle_count": 3,
+          "close_vulnerable_count": 2,
+          "nearest_object_m": 10.314163232696739,
+          "camera_files": [
+            "samples/CAM_FRONT/n015-2018-07-18-11-07-57+0800__CAM_FRONT__1531883530412470.jpg",
+            "samples/CAM_FRONT_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_RIGHT__1531883530420339.jpg",
+            "samples/CAM_BACK_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_BACK_RIGHT__1531883530427893.jpg",
+            "samples/CAM_BACK/n015-2018-07-18-11-07-57+0800__CAM_BACK__1531883530437525.jpg",
+            "samples/CAM_BACK_LEFT/n015-2018-07-18-11-07-57+0800__CAM_BACK_LEFT__1531883530447423.jpg",
+            "samples/CAM_FRONT_LEFT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_LEFT__1531883530404844.jpg"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 1.0,
+        "risk_level": "attack",
+        "final_attack_type": "dos",
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=1.000, type_confidence=0.304"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 4.419086996664744e-08,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.9905897595470724,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.991; attack_type=dos; type_confidence=0.751; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.5,
+          "level": "low",
+          "triggered": false,
+          "reason": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=1.000, type_confidence=0.304"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: carla,fusion"
+      }
+    },
+    {
+      "index": 1,
+      "timestamp": 1779212950.280967,
+      "cic_prediction": {
+        "attack_probability": 3.575039245885257e-05,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9999642496075412
+      },
+      "carla_prediction": {
+        "attack_probability": 0.9816724002330476,
+        "is_attack": true,
+        "attack_type": "sensor_noise",
+        "attack_type_confidence": 0.8483747333299835
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.18,
+        "explanation": "Ani fren gorsel baglamla uyumlu: yakinda obje/yaya/arac var.",
+        "context": {
+          "sample_token": "14d5adfe50bb4445bc3aa5fe607691a8",
+          "scene_name": "scene-0001",
+          "timestamp": 1531883530949817,
+          "close_object_count": 8,
+          "close_vehicle_count": 3,
+          "close_vulnerable_count": 2,
+          "nearest_object_m": 12.470368275073653,
+          "camera_files": [
+            "samples/CAM_FRONT/n015-2018-07-18-11-07-57+0800__CAM_FRONT__1531883530912460.jpg",
+            "samples/CAM_FRONT_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_RIGHT__1531883530920339.jpg",
+            "samples/CAM_BACK_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_BACK_RIGHT__1531883530927893.jpg",
+            "samples/CAM_BACK/n015-2018-07-18-11-07-57+0800__CAM_BACK__1531883530937525.jpg",
+            "samples/CAM_BACK_LEFT/n015-2018-07-18-11-07-57+0800__CAM_BACK_LEFT__1531883530947423.jpg",
+            "samples/CAM_FRONT_LEFT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_LEFT__1531883530904844.jpg"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.9936080202117938,
+        "risk_level": "attack",
+        "final_attack_type": "sudden_brake",
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.994, type_confidence=0.322"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 3.575039245885257e-05,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.9816724002330476,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.982; attack_type=sensor_noise; type_confidence=0.848; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.18,
+          "level": "low",
+          "triggered": false,
+          "reason": "Ani fren gorsel baglamla uyumlu: yakinda obje/yaya/arac var."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.9936080202117938,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.994, type_confidence=0.322"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: carla,fusion"
+      }
+    },
+    {
+      "index": 2,
+      "timestamp": 1779212556.5497148,
+      "cic_prediction": {
+        "attack_probability": 3.9880260043138065e-07,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9999996011973996
+      },
+      "carla_prediction": {
+        "attack_probability": 0.22517191040718512,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.7748280895928149
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "ae4e0c3aa3f24c91aab599e8b54e9264",
+          "scene_name": "scene-0001",
+          "timestamp": 1531883531450214,
+          "close_object_count": 9,
+          "close_vehicle_count": 4,
+          "close_vulnerable_count": 2,
+          "nearest_object_m": 13.08398425970607,
+          "camera_files": [
+            "samples/CAM_FRONT/n015-2018-07-18-11-07-57+0800__CAM_FRONT__1531883531412477.jpg",
+            "samples/CAM_FRONT_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_RIGHT__1531883531420339.jpg",
+            "samples/CAM_BACK_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_BACK_RIGHT__1531883531427893.jpg",
+            "samples/CAM_BACK/n015-2018-07-18-11-07-57+0800__CAM_BACK__1531883531437525.jpg",
+            "samples/CAM_BACK_LEFT/n015-2018-07-18-11-07-57+0800__CAM_BACK_LEFT__1531883531447423.jpg",
+            "samples/CAM_FRONT_LEFT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_LEFT__1531883531404844.jpg"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.0649602588886362,
+        "risk_level": "normal",
+        "final_attack_type": "normal",
+        "needs_human_review": false,
+        "reason": "ml_decision attack_probability=0.065, type_confidence=0.993"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 3.9880260043138065e-07,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.22517191040718512,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.225; attack_type=normal; type_confidence=0.775; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.0649602588886362,
+          "level": "low",
+          "triggered": false,
+          "reason": "ml_decision attack_probability=0.065, type_confidence=0.993"
+        },
+        "final_level": "low",
+        "safe_mode": "normal_mode",
+        "safe_mode_required": false,
+        "reason": "below_thresholds"
+      }
+    },
+    {
+      "index": 3,
+      "timestamp": 1779212841.6688433,
+      "cic_prediction": {
+        "attack_probability": 0.002383690123256575,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9976163098767434
+      },
+      "carla_prediction": {
+        "attack_probability": 0.9802184522813833,
+        "is_attack": true,
+        "attack_type": "speed_spoofing",
+        "attack_type_confidence": 0.6698157343399438
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "8de7ec06e1ac48c689c4d24d6cc64fd7",
+          "scene_name": "scene-0001",
+          "timestamp": 1531883531950107,
+          "close_object_count": 9,
+          "close_vehicle_count": 4,
+          "close_vulnerable_count": 2,
+          "nearest_object_m": 14.012018962369991,
+          "camera_files": [
+            "samples/CAM_FRONT/n015-2018-07-18-11-07-57+0800__CAM_FRONT__1531883531912467.jpg",
+            "samples/CAM_FRONT_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_RIGHT__1531883531920339.jpg",
+            "samples/CAM_BACK_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_BACK_RIGHT__1531883531927893.jpg",
+            "samples/CAM_BACK/n015-2018-07-18-11-07-57+0800__CAM_BACK__1531883531937525.jpg",
+            "samples/CAM_BACK_LEFT/n015-2018-07-18-11-07-57+0800__CAM_BACK_LEFT__1531883531947423.jpg",
+            "samples/CAM_FRONT_LEFT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_LEFT__1531883531904844.jpg"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.9970016666666667,
+        "risk_level": "attack",
+        "final_attack_type": "dos",
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.997, type_confidence=0.343"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.002383690123256575,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.002; attack_type=normal; type_confidence=0.998; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.9802184522813833,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.980; attack_type=speed_spoofing; type_confidence=0.670; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.5,
+          "level": "low",
+          "triggered": false,
+          "reason": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.9970016666666667,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.997, type_confidence=0.343"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: carla,fusion"
+      }
+    },
+    {
+      "index": 4,
+      "timestamp": 1779213026.6713746,
+      "cic_prediction": {
+        "attack_probability": 0.002404242125176327,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9975957578748237
+      },
+      "carla_prediction": {
+        "attack_probability": 0.5971554145023286,
+        "is_attack": true,
+        "attack_type": "heading_spoofing",
+        "attack_type_confidence": 0.3691631677818032
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.18,
+        "explanation": "Ani fren gorsel baglamla uyumlu: yakinda obje/yaya/arac var.",
+        "context": {
+          "sample_token": "ba94cb79ebc74614bc2442185cb53c26",
+          "scene_name": "scene-0001",
+          "timestamp": 1531883532449967,
+          "close_object_count": 9,
+          "close_vehicle_count": 4,
+          "close_vulnerable_count": 2,
+          "nearest_object_m": 14.730537650164074,
+          "camera_files": [
+            "samples/CAM_FRONT/n015-2018-07-18-11-07-57+0800__CAM_FRONT__1531883532412464.jpg",
+            "samples/CAM_FRONT_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_RIGHT__1531883532420339.jpg",
+            "samples/CAM_BACK_RIGHT/n015-2018-07-18-11-07-57+0800__CAM_BACK_RIGHT__1531883532427893.jpg",
+            "samples/CAM_BACK/n015-2018-07-18-11-07-57+0800__CAM_BACK__1531883532437525.jpg",
+            "samples/CAM_BACK_LEFT/n015-2018-07-18-11-07-57+0800__CAM_BACK_LEFT__1531883532447423.jpg",
+            "samples/CAM_FRONT_LEFT/n015-2018-07-18-11-07-57+0800__CAM_FRONT_LEFT__1531883532404844.jpg"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.9761383499118625,
+        "risk_level": "attack",
+        "final_attack_type": "sudden_brake",
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.976, type_confidence=0.414"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.002404242125176327,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.002; attack_type=normal; type_confidence=0.998; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.5971554145023286,
+          "level": "medium",
+          "triggered": true,
+          "reason": "attack_probability=0.597; attack_type=heading_spoofing; type_confidence=0.369; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.18,
+          "level": "low",
+          "triggered": false,
+          "reason": "Ani fren gorsel baglamla uyumlu: yakinda obje/yaya/arac var."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.9761383499118625,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.976, type_confidence=0.414"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: fusion"
+      }
+    }
+  ]
+}

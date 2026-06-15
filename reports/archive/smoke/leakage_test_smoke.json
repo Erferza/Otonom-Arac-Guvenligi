@@ -1,0 +1,693 @@
+{
+  "config": {
+    "max_rows": 1200,
+    "visual_samples": 1200,
+    "n_estimators": 80
+  },
+  "carla_baseline": {
+    "binary": {
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "classification_report": {
+        "0": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 4050.0
+        },
+        "1": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 4050.0
+        },
+        "accuracy": 1.0,
+        "macro avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 8100.0
+        },
+        "weighted avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 8100.0
+        }
+      },
+      "log_loss": 0.07751466564304536
+    },
+    "attack_type": {
+      "accuracy": 0.9725925925925926,
+      "macro_f1": 0.9726314317576742,
+      "weighted_f1": 0.9726314317576742,
+      "classification_report": {
+        "delayed_sensor_attack": {
+          "precision": 0.9799554565701559,
+          "recall": 0.9777777777777777,
+          "f1-score": 0.978865406006674,
+          "support": 450.0
+        },
+        "dos": {
+          "precision": 0.9928571428571429,
+          "recall": 0.9266666666666666,
+          "f1-score": 0.9586206896551724,
+          "support": 450.0
+        },
+        "gps_spoofing": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 450.0
+        },
+        "heading_spoofing": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 450.0
+        },
+        "lane_deviation": {
+          "precision": 0.9327731092436975,
+          "recall": 0.9866666666666667,
+          "f1-score": 0.958963282937365,
+          "support": 450.0
+        },
+        "position_spoofing": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 450.0
+        },
+        "sensor_noise": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 450.0
+        },
+        "speed_spoofing": {
+          "precision": 0.96875,
+          "recall": 0.8955555555555555,
+          "f1-score": 0.930715935334873,
+          "support": 450.0
+        },
+        "sudden_brake": {
+          "precision": 0.8895705521472392,
+          "recall": 0.9666666666666667,
+          "f1-score": 0.9265175718849841,
+          "support": 450.0
+        },
+        "accuracy": 0.9725925925925926,
+        "macro avg": {
+          "precision": 0.9737673623131372,
+          "recall": 0.9725925925925927,
+          "f1-score": 0.9726314317576742,
+          "support": 4050.0
+        },
+        "weighted avg": {
+          "precision": 0.9737673623131372,
+          "recall": 0.9725925925925926,
+          "f1-score": 0.9726314317576742,
+          "support": 4050.0
+        }
+      },
+      "log_loss": 0.3328570212802669
+    }
+  },
+  "carla_strict": {
+    "binary": {
+      "accuracy": 0.5838271604938272,
+      "macro_f1": 0.5050791418239691,
+      "weighted_f1": 0.5050791418239691,
+      "classification_report": {
+        "0": {
+          "precision": 0.9145299145299145,
+          "recall": 0.18493827160493828,
+          "f1-score": 0.3076607106181968,
+          "support": 4050.0
+        },
+        "1": {
+          "precision": 0.5466282104106579,
+          "recall": 0.9827160493827161,
+          "f1-score": 0.7024975730297414,
+          "support": 4050.0
+        },
+        "accuracy": 0.5838271604938272,
+        "macro avg": {
+          "precision": 0.7305790624702861,
+          "recall": 0.5838271604938272,
+          "f1-score": 0.5050791418239691,
+          "support": 8100.0
+        },
+        "weighted avg": {
+          "precision": 0.7305790624702863,
+          "recall": 0.5838271604938272,
+          "f1-score": 0.5050791418239691,
+          "support": 8100.0
+        }
+      },
+      "log_loss": 0.7081917585066078
+    },
+    "attack_type": {
+      "accuracy": 0.731358024691358,
+      "macro_f1": 0.7326668931523191,
+      "weighted_f1": 0.7326668931523191,
+      "classification_report": {
+        "delayed_sensor_attack": {
+          "precision": 0.46113074204946997,
+          "recall": 0.58,
+          "f1-score": 0.5137795275590551,
+          "support": 450.0
+        },
+        "dos": {
+          "precision": 0.6037296037296037,
+          "recall": 0.5755555555555556,
+          "f1-score": 0.5893060295790671,
+          "support": 450.0
+        },
+        "gps_spoofing": {
+          "precision": 0.910941475826972,
+          "recall": 0.7955555555555556,
+          "f1-score": 0.8493475682087782,
+          "support": 450.0
+        },
+        "heading_spoofing": {
+          "precision": 0.8221024258760108,
+          "recall": 0.6777777777777778,
+          "f1-score": 0.7429963459196103,
+          "support": 450.0
+        },
+        "lane_deviation": {
+          "precision": 0.8617710583153347,
+          "recall": 0.8866666666666667,
+          "f1-score": 0.8740416210295728,
+          "support": 450.0
+        },
+        "position_spoofing": {
+          "precision": 0.8104956268221575,
+          "recall": 0.6177777777777778,
+          "f1-score": 0.7011349306431274,
+          "support": 450.0
+        },
+        "sensor_noise": {
+          "precision": 0.7197986577181208,
+          "recall": 0.9533333333333334,
+          "f1-score": 0.8202676864244742,
+          "support": 450.0
+        },
+        "speed_spoofing": {
+          "precision": 0.7796976241900648,
+          "recall": 0.8022222222222222,
+          "f1-score": 0.7907995618838992,
+          "support": 450.0
+        },
+        "sudden_brake": {
+          "precision": 0.7323943661971831,
+          "recall": 0.6933333333333334,
+          "f1-score": 0.7123287671232876,
+          "support": 450.0
+        },
+        "accuracy": 0.731358024691358,
+        "macro avg": {
+          "precision": 0.7446735089694352,
+          "recall": 0.731358024691358,
+          "f1-score": 0.7326668931523191,
+          "support": 4050.0
+        },
+        "weighted avg": {
+          "precision": 0.7446735089694353,
+          "recall": 0.731358024691358,
+          "f1-score": 0.7326668931523191,
+          "support": 4050.0
+        }
+      },
+      "log_loss": 0.9836005132611594
+    }
+  },
+  "fusion_ablation": {
+    "all": {
+      "risk": {
+        "accuracy": 0.9958333333333333,
+        "macro_f1": 0.9882069677165741,
+        "weighted_f1": 0.9957938184855782,
+        "classification_report": {
+          "attack": {
+            "precision": 0.9953917050691244,
+            "recall": 1.0,
+            "f1-score": 0.9976905311778291,
+            "support": 216.0
+          },
+          "normal": {
+            "precision": 1.0,
+            "recall": 0.9583333333333334,
+            "f1-score": 0.9787234042553191,
+            "support": 24.0
+          },
+          "accuracy": 0.9958333333333333,
+          "macro avg": {
+            "precision": 0.9976958525345623,
+            "recall": 0.9791666666666667,
+            "f1-score": 0.9882069677165741,
+            "support": 240.0
+          },
+          "weighted avg": {
+            "precision": 0.995852534562212,
+            "recall": 0.9958333333333333,
+            "f1-score": 0.9957938184855782,
+            "support": 240.0
+          }
+        },
+        "log_loss": 0.0058879828076182795
+      },
+      "attack_type": {
+        "accuracy": 0.9958333333333333,
+        "macro_f1": 0.9958315240990012,
+        "weighted_f1": 0.9958315240990013,
+        "classification_report": {
+          "delayed_sensor_attack": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "dos": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "gps_spoofing": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "heading_spoofing": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "lane_deviation": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "normal": {
+            "precision": 1.0,
+            "recall": 0.9583333333333334,
+            "f1-score": 0.9787234042553191,
+            "support": 24.0
+          },
+          "position_spoofing": {
+            "precision": 0.96,
+            "recall": 1.0,
+            "f1-score": 0.9795918367346939,
+            "support": 24.0
+          },
+          "sensor_noise": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "speed_spoofing": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "sudden_brake": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "accuracy": 0.9958333333333333,
+          "macro avg": {
+            "precision": 0.9960000000000001,
+            "recall": 0.9958333333333333,
+            "f1-score": 0.9958315240990012,
+            "support": 240.0
+          },
+          "weighted avg": {
+            "precision": 0.996,
+            "recall": 0.9958333333333333,
+            "f1-score": 0.9958315240990013,
+            "support": 240.0
+          }
+        },
+        "log_loss": 0.04814980700649547
+      }
+    },
+    "no_attack_type": {
+      "risk": {
+        "accuracy": 0.9958333333333333,
+        "macro_f1": 0.9882069677165741,
+        "weighted_f1": 0.9957938184855782,
+        "classification_report": {
+          "attack": {
+            "precision": 0.9953917050691244,
+            "recall": 1.0,
+            "f1-score": 0.9976905311778291,
+            "support": 216.0
+          },
+          "normal": {
+            "precision": 1.0,
+            "recall": 0.9583333333333334,
+            "f1-score": 0.9787234042553191,
+            "support": 24.0
+          },
+          "accuracy": 0.9958333333333333,
+          "macro avg": {
+            "precision": 0.9976958525345623,
+            "recall": 0.9791666666666667,
+            "f1-score": 0.9882069677165741,
+            "support": 240.0
+          },
+          "weighted avg": {
+            "precision": 0.995852534562212,
+            "recall": 0.9958333333333333,
+            "f1-score": 0.9957938184855782,
+            "support": 240.0
+          }
+        },
+        "log_loss": 0.007911969636183146
+      },
+      "attack_type": {
+        "accuracy": 0.5041666666666667,
+        "macro_f1": 0.4997219394116773,
+        "weighted_f1": 0.49972193941167736,
+        "classification_report": {
+          "delayed_sensor_attack": {
+            "precision": 0.4,
+            "recall": 0.5,
+            "f1-score": 0.4444444444444444,
+            "support": 24.0
+          },
+          "dos": {
+            "precision": 0.4,
+            "recall": 0.25,
+            "f1-score": 0.3076923076923077,
+            "support": 24.0
+          },
+          "gps_spoofing": {
+            "precision": 0.45454545454545453,
+            "recall": 0.4166666666666667,
+            "f1-score": 0.43478260869565216,
+            "support": 24.0
+          },
+          "heading_spoofing": {
+            "precision": 0.25925925925925924,
+            "recall": 0.2916666666666667,
+            "f1-score": 0.27450980392156865,
+            "support": 24.0
+          },
+          "lane_deviation": {
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666,
+            "f1-score": 0.6666666666666666,
+            "support": 24.0
+          },
+          "normal": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "position_spoofing": {
+            "precision": 0.45,
+            "recall": 0.375,
+            "f1-score": 0.4090909090909091,
+            "support": 24.0
+          },
+          "sensor_noise": {
+            "precision": 0.3783783783783784,
+            "recall": 0.5833333333333334,
+            "f1-score": 0.45901639344262296,
+            "support": 24.0
+          },
+          "speed_spoofing": {
+            "precision": 0.35294117647058826,
+            "recall": 0.25,
+            "f1-score": 0.2926829268292683,
+            "support": 24.0
+          },
+          "sudden_brake": {
+            "precision": 0.7083333333333334,
+            "recall": 0.7083333333333334,
+            "f1-score": 0.7083333333333334,
+            "support": 24.0
+          },
+          "accuracy": 0.5041666666666667,
+          "macro avg": {
+            "precision": 0.5070124268653681,
+            "recall": 0.5041666666666667,
+            "f1-score": 0.4997219394116773,
+            "support": 240.0
+          },
+          "weighted avg": {
+            "precision": 0.507012426865368,
+            "recall": 0.5041666666666667,
+            "f1-score": 0.49972193941167736,
+            "support": 240.0
+          }
+        },
+        "log_loss": 1.2325953097797246
+      }
+    },
+    "visual_only": {
+      "risk": {
+        "accuracy": 0.9875,
+        "macro_f1": 0.9632183908045977,
+        "weighted_f1": 0.9871264367816093,
+        "classification_report": {
+          "attack": {
+            "precision": 0.9863013698630136,
+            "recall": 1.0,
+            "f1-score": 0.993103448275862,
+            "support": 216.0
+          },
+          "normal": {
+            "precision": 1.0,
+            "recall": 0.875,
+            "f1-score": 0.9333333333333333,
+            "support": 24.0
+          },
+          "accuracy": 0.9875,
+          "macro avg": {
+            "precision": 0.9931506849315068,
+            "recall": 0.9375,
+            "f1-score": 0.9632183908045977,
+            "support": 240.0
+          },
+          "weighted avg": {
+            "precision": 0.9876712328767123,
+            "recall": 0.9875,
+            "f1-score": 0.9871264367816093,
+            "support": 240.0
+          }
+        },
+        "log_loss": 0.2080400290797423
+      },
+      "attack_type": {
+        "accuracy": 0.3458333333333333,
+        "macro_f1": 0.34122201483835213,
+        "weighted_f1": 0.3412220148383521,
+        "classification_report": {
+          "delayed_sensor_attack": {
+            "precision": 0.21739130434782608,
+            "recall": 0.20833333333333334,
+            "f1-score": 0.2127659574468085,
+            "support": 24.0
+          },
+          "dos": {
+            "precision": 0.1111111111111111,
+            "recall": 0.125,
+            "f1-score": 0.11764705882352941,
+            "support": 24.0
+          },
+          "gps_spoofing": {
+            "precision": 0.375,
+            "recall": 0.375,
+            "f1-score": 0.375,
+            "support": 24.0
+          },
+          "heading_spoofing": {
+            "precision": 0.3,
+            "recall": 0.25,
+            "f1-score": 0.2727272727272727,
+            "support": 24.0
+          },
+          "lane_deviation": {
+            "precision": 0.18181818181818182,
+            "recall": 0.16666666666666666,
+            "f1-score": 0.17391304347826086,
+            "support": 24.0
+          },
+          "normal": {
+            "precision": 0.9130434782608695,
+            "recall": 0.875,
+            "f1-score": 0.8936170212765957,
+            "support": 24.0
+          },
+          "position_spoofing": {
+            "precision": 0.36,
+            "recall": 0.375,
+            "f1-score": 0.3673469387755102,
+            "support": 24.0
+          },
+          "sensor_noise": {
+            "precision": 0.3684210526315789,
+            "recall": 0.2916666666666667,
+            "f1-score": 0.32558139534883723,
+            "support": 24.0
+          },
+          "speed_spoofing": {
+            "precision": 0.2,
+            "recall": 0.16666666666666666,
+            "f1-score": 0.18181818181818182,
+            "support": 24.0
+          },
+          "sudden_brake": {
+            "precision": 0.40540540540540543,
+            "recall": 0.625,
+            "f1-score": 0.4918032786885246,
+            "support": 24.0
+          },
+          "accuracy": 0.3458333333333333,
+          "macro avg": {
+            "precision": 0.3432190533574973,
+            "recall": 0.3458333333333333,
+            "f1-score": 0.34122201483835213,
+            "support": 240.0
+          },
+          "weighted avg": {
+            "precision": 0.34321905335749725,
+            "recall": 0.3458333333333333,
+            "f1-score": 0.3412220148383521,
+            "support": 240.0
+          }
+        },
+        "log_loss": 1.6981712973849008
+      }
+    },
+    "prediction_only": {
+      "risk": {
+        "accuracy": 0.9958333333333333,
+        "macro_f1": 0.9882069677165741,
+        "weighted_f1": 0.9957938184855782,
+        "classification_report": {
+          "attack": {
+            "precision": 0.9953917050691244,
+            "recall": 1.0,
+            "f1-score": 0.9976905311778291,
+            "support": 216.0
+          },
+          "normal": {
+            "precision": 1.0,
+            "recall": 0.9583333333333334,
+            "f1-score": 0.9787234042553191,
+            "support": 24.0
+          },
+          "accuracy": 0.9958333333333333,
+          "macro avg": {
+            "precision": 0.9976958525345623,
+            "recall": 0.9791666666666667,
+            "f1-score": 0.9882069677165741,
+            "support": 240.0
+          },
+          "weighted avg": {
+            "precision": 0.995852534562212,
+            "recall": 0.9958333333333333,
+            "f1-score": 0.9957938184855782,
+            "support": 240.0
+          }
+        },
+        "log_loss": 0.005957538767588039
+      },
+      "attack_type": {
+        "accuracy": 0.9958333333333333,
+        "macro_f1": 0.9958315240990012,
+        "weighted_f1": 0.9958315240990013,
+        "classification_report": {
+          "delayed_sensor_attack": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "dos": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "gps_spoofing": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "heading_spoofing": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "lane_deviation": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "normal": {
+            "precision": 1.0,
+            "recall": 0.9583333333333334,
+            "f1-score": 0.9787234042553191,
+            "support": 24.0
+          },
+          "position_spoofing": {
+            "precision": 0.96,
+            "recall": 1.0,
+            "f1-score": 0.9795918367346939,
+            "support": 24.0
+          },
+          "sensor_noise": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "speed_spoofing": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "sudden_brake": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 24.0
+          },
+          "accuracy": 0.9958333333333333,
+          "macro avg": {
+            "precision": 0.9960000000000001,
+            "recall": 0.9958333333333333,
+            "f1-score": 0.9958315240990012,
+            "support": 240.0
+          },
+          "weighted avg": {
+            "precision": 0.996,
+            "recall": 0.9958333333333333,
+            "f1-score": 0.9958315240990013,
+            "support": 240.0
+          }
+        },
+        "log_loss": 0.024175713944410492
+      }
+    }
+  }
+}

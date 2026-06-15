@@ -1,0 +1,71 @@
+{
+  "host": "127.0.0.1",
+  "port": 2000,
+  "traffic_manager_port": 8000,
+  "map_name": "Carla/Maps/Town10HD_Opt",
+  "seed": 43,
+  "npc_count": 15,
+  "eval_stride": 5,
+  "camera_width": 1280,
+  "camera_height": 720,
+  "camera_fov": 90.0,
+  "phase_scale": 1.0,
+  "model_root": "C:\\Users\\Beyza\\Desktop\\CARLA_0.9.16\\PythonAPI\\Final_Pipeline\\final_retrain_20260526",
+  "cic_parquet": "C:\\Users\\Beyza\\Desktop\\CARLA_0.9.16\\PythonAPI\\Guvenlik Proje\\CIC-ToN-IoT-V2.parquet",
+  "phases": [
+    {
+      "name": "npc_baseline_normal",
+      "duration_ticks": 28,
+      "carla_attack_type": "normal",
+      "cic_attack_name": "Benign",
+      "expected_safe_mode": "normal_mode",
+      "objective": "Establish clean baseline with NPC traffic present.",
+      "visual_expectation": "camera_clear_npcs_visible"
+    },
+    {
+      "name": "npc_mitm_smooth_drive",
+      "duration_ticks": 26,
+      "carla_attack_type": "normal",
+      "cic_attack_name": "mitm",
+      "expected_safe_mode": "monitoring_mode",
+      "objective": "MITM network attack while vehicle drives smoothly (CIC anomaly, CARLA normal).",
+      "visual_expectation": "camera_clear_npcs_normal_driving"
+    },
+    {
+      "name": "npc_dos_sudden_brake",
+      "duration_ticks": 30,
+      "carla_attack_type": "sudden_brake",
+      "cic_attack_name": "dos",
+      "expected_safe_mode": "degraded_safe_mode",
+      "objective": "DDoS attack coupled with hard emergency braking.",
+      "visual_expectation": "camera_clear_vehicle_brakes_npcs_react"
+    },
+    {
+      "name": "npc_scanning_lane_deviation",
+      "duration_ticks": 32,
+      "carla_attack_type": "lane_deviation",
+      "cic_attack_name": "scanning",
+      "expected_safe_mode": "emergency_safe_mode",
+      "objective": "Port scanning reconnaissance with lane control hijacking.",
+      "visual_expectation": "camera_clear_vehicle_drifts_npcs_nearby"
+    },
+    {
+      "name": "npc_dos_speed_spoof",
+      "duration_ticks": 28,
+      "carla_attack_type": "speed_spoofing",
+      "cic_attack_name": "dos",
+      "expected_safe_mode": "emergency_safe_mode",
+      "objective": "DDoS attack with speed sensor spoofing causing false velocity readings.",
+      "visual_expectation": "camera_clear_vehicle_changes_speed_npcs_nearby"
+    },
+    {
+      "name": "npc_scanning_delayed_sensor",
+      "duration_ticks": 24,
+      "carla_attack_type": "delayed_sensor_attack",
+      "cic_attack_name": "scanning",
+      "expected_safe_mode": "emergency_safe_mode",
+      "objective": "Coordinated port scanning + sensor delay attack in congested NPC scenario.",
+      "visual_expectation": "camera_clear_sensor_delayed_npcs_dense"
+    }
+  ]
+}

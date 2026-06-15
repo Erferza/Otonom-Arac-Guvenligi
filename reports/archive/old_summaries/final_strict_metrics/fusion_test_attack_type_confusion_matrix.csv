@@ -1,0 +1,11 @@
+,delayed_sensor_attack,dos,gps_spoofing,heading_spoofing,lane_deviation,normal,position_spoofing,sensor_noise,speed_spoofing,sudden_brake
+delayed_sensor_attack,6,7,1,5,42,266,0,12,2,109
+dos,85,137,11,9,21,14,5,67,84,17
+gps_spoofing,3,1,237,71,26,0,108,4,0,0
+heading_spoofing,9,12,61,51,67,80,34,0,10,126
+lane_deviation,0,0,1,17,141,233,11,0,0,47
+normal,0,18,6,8,56,822,6,0,0,34
+position_spoofing,0,0,91,35,88,69,31,0,0,136
+sensor_noise,133,32,2,1,0,0,2,228,10,42
+speed_spoofing,80,61,29,13,30,47,14,40,84,52
+sudden_brake,0,8,1,4,33,155,1,0,0,248

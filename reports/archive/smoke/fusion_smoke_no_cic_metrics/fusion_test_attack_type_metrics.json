@@ -1,0 +1,81 @@
+{
+  "accuracy": 0.35,
+  "macro_f1": 0.2677777777777778,
+  "weighted_f1": 0.2677777777777778,
+  "classification_report": {
+    "delayed_sensor_attack": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "dos": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "gps_spoofing": {
+      "precision": 0.2857142857142857,
+      "recall": 1.0,
+      "f1-score": 0.4444444444444444,
+      "support": 2.0
+    },
+    "heading_spoofing": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "lane_deviation": {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1-score": 0.6666666666666666,
+      "support": 2.0
+    },
+    "normal": {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1-score": 0.6666666666666666,
+      "support": 2.0
+    },
+    "position_spoofing": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "sensor_noise": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "speed_spoofing": {
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1-score": 0.5,
+      "support": 2.0
+    },
+    "sudden_brake": {
+      "precision": 0.3333333333333333,
+      "recall": 0.5,
+      "f1-score": 0.4,
+      "support": 2.0
+    },
+    "accuracy": 0.35,
+    "macro avg": {
+      "precision": 0.2619047619047619,
+      "recall": 0.35,
+      "f1-score": 0.2677777777777778,
+      "support": 20.0
+    },
+    "weighted avg": {
+      "precision": 0.2619047619047619,
+      "recall": 0.35,
+      "f1-score": 0.2677777777777778,
+      "support": 20.0
+    }
+  },
+  "log_loss": 1.9154638909435238
+}

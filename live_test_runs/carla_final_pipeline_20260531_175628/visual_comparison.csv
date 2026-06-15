@@ -1,0 +1,27 @@
+index,phase,frame,timestamp,image_path,front_visible_actor_count,nearest_front_visible_m,close_object_count,close_vehicle_count,close_vulnerable_count,sensor_front_vehicle_distance,sensor_nearest_vehicle_distance,brake,hard_brake_flag,visual_hallucination_probability,visual_explanation
+0,baseline_normal,55775,389.3561663106084,images/055775_baseline_normal.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.12,Normal karar gorsel baglamla celismiyor.
+1,baseline_normal,55780,389.6061663143337,images/055780_baseline_normal.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.12,Normal karar gorsel baglamla celismiyor.
+2,baseline_normal,55785,389.85616631805897,images/055785_baseline_normal.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.12,Normal karar gorsel baglamla celismiyor.
+3,baseline_normal,55790,390.10616632178426,images/055790_baseline_normal.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.12,Normal karar gorsel baglamla celismiyor.
+4,baseline_normal,55795,390.35616632550955,images/055795_baseline_normal.png,0,,0,0,0,9999.0,9999.0,0.11940076947212219,0,0.12,Normal karar gorsel baglamla celismiyor.
+5,network_intrusion_probe,55800,390.60616632923484,images/055800_network_intrusion_probe.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.12,Normal karar gorsel baglamla celismiyor.
+6,network_intrusion_probe,55805,390.85616633296013,images/055805_network_intrusion_probe.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.12,Normal karar gorsel baglamla celismiyor.
+7,network_intrusion_probe,55810,391.1061663366854,images/055810_network_intrusion_probe.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.12,Normal karar gorsel baglamla celismiyor.
+8,network_intrusion_probe,55815,391.3561663404107,images/055815_network_intrusion_probe.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.12,Normal karar gorsel baglamla celismiyor.
+9,network_intrusion_probe,55820,391.606166344136,images/055820_network_intrusion_probe.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.12,Normal karar gorsel baglamla celismiyor.
+10,dos_sensor_corruption,55825,391.8561663478613,images/055825_dos_sensor_corruption.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.5,Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.
+11,dos_sensor_corruption,55830,392.1061663515866,images/055830_dos_sensor_corruption.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.5,Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.
+12,dos_sensor_corruption,55835,392.35616635531187,images/055835_dos_sensor_corruption.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.5,Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.
+13,dos_sensor_corruption,55840,392.60616635903716,images/055840_dos_sensor_corruption.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.5,Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.
+14,dos_sensor_corruption,55845,392.85616636276245,images/055845_dos_sensor_corruption.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.5,Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.
+15,dos_sensor_corruption,55850,393.10616636648774,images/055850_dos_sensor_corruption.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.5,Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.
+16,hallucinated_sudden_brake,55855,393.35616637021303,images/055855_hallucinated_sudden_brake.png,0,,0,0,0,9999.0,9999.0,1.0,1,0.82,Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek.
+17,hallucinated_sudden_brake,55860,393.6061663739383,images/055860_hallucinated_sudden_brake.png,0,,0,0,0,9999.0,9999.0,1.0,1,0.82,Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek.
+18,hallucinated_sudden_brake,55865,393.8561663776636,images/055865_hallucinated_sudden_brake.png,0,,0,0,0,9999.0,9999.0,1.0,1,0.82,Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek.
+19,hallucinated_sudden_brake,55870,394.1061663813889,images/055870_hallucinated_sudden_brake.png,0,,0,0,0,9999.0,9999.0,1.0,1,0.82,Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek.
+20,coordinated_control_takeover,55875,394.3561663851142,images/055875_coordinated_control_takeover.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.6,Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi.
+21,coordinated_control_takeover,55880,394.6061663888395,images/055880_coordinated_control_takeover.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.6,Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi.
+22,coordinated_control_takeover,55885,394.8561663925648,images/055885_coordinated_control_takeover.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.6,Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi.
+23,coordinated_control_takeover,55890,395.10616639629006,images/055890_coordinated_control_takeover.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.6,Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi.
+24,coordinated_control_takeover,55895,395.35616640001535,images/055895_coordinated_control_takeover.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.6,Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi.
+25,coordinated_control_takeover,55900,395.60616640374064,images/055900_coordinated_control_takeover.png,0,,0,0,0,9999.0,9999.0,0.0,0,0.6,Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi.

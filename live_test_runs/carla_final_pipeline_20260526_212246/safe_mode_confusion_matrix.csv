@@ -1,0 +1,5 @@
+,degraded_safe_mode,emergency_safe_mode,monitoring_mode,normal_mode
+degraded_safe_mode,0,6,0,0
+emergency_safe_mode,0,6,0,0
+monitoring_mode,2,7,0,0
+normal_mode,3,0,0,2

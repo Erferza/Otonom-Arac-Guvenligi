@@ -1,0 +1,5093 @@
+{
+  "summary": {
+    "event_count": 26,
+    "risk_distribution": {
+      "normal": 7,
+      "attack": 19
+    },
+    "review_required_count": 19,
+    "safe_mode_required_count": 24,
+    "top_threats": [
+      {
+        "attack_type": "lane_deviation",
+        "count": 9
+      },
+      {
+        "attack_type": "dos",
+        "count": 5
+      },
+      {
+        "attack_type": "sudden_brake",
+        "count": 4
+      },
+      {
+        "attack_type": "position_spoofing",
+        "count": 1
+      }
+    ],
+    "recommended_safe_mode": "emergency_safe_mode"
+  },
+  "threshold_summary": {
+    "final_level_distribution": {
+      "low": 2,
+      "high": 5,
+      "critical": 19
+    },
+    "safe_mode_distribution": {
+      "normal_mode": 2,
+      "degraded_safe_mode": 5,
+      "emergency_safe_mode": 19
+    },
+    "recommended_safe_mode": "emergency_safe_mode",
+    "triggered_layers": {
+      "carla": 19,
+      "fusion": 19,
+      "cic": 17,
+      "visual": 10
+    },
+    "layer_level_distribution": {
+      "cic": {
+        "low": 9,
+        "medium": 2,
+        "critical": 15
+      },
+      "carla": {
+        "low": 7,
+        "medium": 3,
+        "high": 16
+      },
+      "visual": {
+        "low": 10,
+        "medium": 12,
+        "high": 4
+      },
+      "fusion": {
+        "low": 7,
+        "high": 8,
+        "critical": 11
+      }
+    }
+  },
+  "durations": {
+    "normal": {
+      "seconds": 6.25,
+      "samples": 7.0
+    },
+    "lane_deviation": {
+      "seconds": 5.0,
+      "samples": 9.0
+    },
+    "position_spoofing": {
+      "seconds": 0.0,
+      "samples": 1.0
+    },
+    "dos": {
+      "seconds": 1.0,
+      "samples": 5.0
+    },
+    "sudden_brake": {
+      "seconds": 0.75,
+      "samples": 4.0
+    }
+  },
+  "critical_findings": [
+    {
+      "index": 1,
+      "frame": 133548,
+      "timestamp": 985.5045231245458,
+      "phase": "baseline_normal",
+      "ground_truth": {
+        "binary_label": 0,
+        "dominant_attack_type": "normal",
+        "expected_safe_mode": "normal_mode",
+        "phase_name": "baseline_normal",
+        "phase_index": 0,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "normal",
+        "visual_expectation": "camera_clear_and_sensor_consistent",
+        "objective": "Establish a clean baseline before the attack chain starts."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.5134707702889216,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.43062814421260565
+      },
+      "cic_prediction": {
+        "attack_probability": 0.0003600027725778057,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9996399972274221
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133548",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 985505,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133548_baseline_normal.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.8933333333333333,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9305139256117353,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.893, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.931, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.0003600027725778057,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.5134707702889216,
+          "level": "medium",
+          "triggered": true,
+          "reason": "attack_probability=0.513; attack_type=lane_deviation; type_confidence=0.431; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.8933333333333333,
+          "level": "high",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.893, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.931, policy=model_safe_mode_accepted"
+        },
+        "final_level": "high",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_required": true,
+        "reason": "high_risk_consensus"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 99.65163005580362,
+        "nearest_vehicle_distance": 70.99160017637301,
+        "brake": 0.0,
+        "throttle": 0.8500000238418579,
+        "steer": 0.0,
+        "obs_speed": 5.529777276166751,
+        "real_speed": 5.477208828260745,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "Benign"
+    },
+    {
+      "index": 3,
+      "frame": 133558,
+      "timestamp": 986.0045231319964,
+      "phase": "baseline_normal",
+      "ground_truth": {
+        "binary_label": 0,
+        "dominant_attack_type": "normal",
+        "expected_safe_mode": "normal_mode",
+        "phase_name": "baseline_normal",
+        "phase_index": 0,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "normal",
+        "visual_expectation": "camera_clear_and_sensor_consistent",
+        "objective": "Establish a clean baseline before the attack chain starts."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.7559883946151725,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.41784795424018345
+      },
+      "cic_prediction": {
+        "attack_probability": 1.3324738068477108e-06,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9999986675261932
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133558",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 986005,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133558_baseline_normal.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.8966666666666666,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9567254339580525,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.897, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.957, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.3324738068477108e-06,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.7559883946151725,
+          "level": "medium",
+          "triggered": true,
+          "reason": "attack_probability=0.756; attack_type=lane_deviation; type_confidence=0.418; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.8966666666666666,
+          "level": "high",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.897, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.957, policy=model_safe_mode_accepted"
+        },
+        "final_level": "high",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_required": true,
+        "reason": "high_risk_consensus"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 96.184161309584,
+        "nearest_vehicle_distance": 71.18032465582344,
+        "brake": 0.0,
+        "throttle": 0.8500000238418579,
+        "steer": 0.0,
+        "obs_speed": 7.94998734776034,
+        "real_speed": 7.932352521257932,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "Benign"
+    },
+    {
+      "index": 4,
+      "frame": 133563,
+      "timestamp": 986.2545231357217,
+      "phase": "baseline_normal",
+      "ground_truth": {
+        "binary_label": 0,
+        "dominant_attack_type": "normal",
+        "expected_safe_mode": "normal_mode",
+        "phase_name": "baseline_normal",
+        "phase_index": 0,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "normal",
+        "visual_expectation": "camera_clear_and_sensor_consistent",
+        "objective": "Establish a clean baseline before the attack chain starts."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8547091151586462,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.3034962509497388
+      },
+      "cic_prediction": {
+        "attack_probability": 0.0,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 1.0
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133563",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 986255,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133563_baseline_normal.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.8766666666666667,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9561066182841849,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.877, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.956, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.0,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8547091151586462,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.855; attack_type=lane_deviation; type_confidence=0.303; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.8766666666666667,
+          "level": "high",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.877, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.956, policy=model_safe_mode_accepted"
+        },
+        "final_level": "high",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_required": true,
+        "reason": "high_risk_consensus"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 94.00592193824656,
+        "nearest_vehicle_distance": 71.31365128728821,
+        "brake": 0.11940076947212219,
+        "throttle": 0.0,
+        "steer": 0.0,
+        "obs_speed": 8.35354377768101,
+        "real_speed": 8.362392050475638,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 1.1025854150837233
+      },
+      "cic_source_attack": "Benign"
+    },
+    {
+      "index": 5,
+      "frame": 133568,
+      "timestamp": 986.504523139447,
+      "phase": "network_intrusion_probe",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "mitm",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "network_intrusion_probe",
+        "phase_index": 1,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "mitm",
+        "visual_expectation": "camera_clear_network_only_anomaly",
+        "objective": "Trigger the CIC branch while the vehicle dynamics remain nominal."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8473019623858218,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.2827335023003311
+      },
+      "cic_prediction": {
+        "attack_probability": 0.7961283321976921,
+        "is_attack": true,
+        "attack_type": "mitm",
+        "attack_type_confidence": 0.965801127523584
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133568",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 986505,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133568_network_intrusion_probe.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.8666666666666667,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9532714296135778,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.953, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.7961283321976921,
+          "level": "medium",
+          "triggered": true,
+          "reason": "attack_probability=0.796; attack_type=mitm; type_confidence=0.966; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8473019623858218,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.847; attack_type=lane_deviation; type_confidence=0.283; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.8666666666666667,
+          "level": "high",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.953, policy=model_safe_mode_accepted"
+        },
+        "final_level": "high",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_required": true,
+        "reason": "high_risk_consensus"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 91.82334107178464,
+        "nearest_vehicle_distance": 71.32751602964832,
+        "brake": 0.0,
+        "throttle": 0.548104465007782,
+        "steer": 0.0006155604496598244,
+        "obs_speed": 7.823041689425052,
+        "real_speed": 7.884719014454282,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 1.4082487987694847
+      },
+      "cic_source_attack": "mitm"
+    },
+    {
+      "index": 6,
+      "frame": 133573,
+      "timestamp": 986.7545231431723,
+      "phase": "network_intrusion_probe",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "mitm",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "network_intrusion_probe",
+        "phase_index": 1,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "mitm",
+        "visual_expectation": "camera_clear_network_only_anomaly",
+        "objective": "Trigger the CIC branch while the vehicle dynamics remain nominal."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8755409449578166,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.3167378819598241
+      },
+      "cic_prediction": {
+        "attack_probability": 0.957881773571677,
+        "is_attack": true,
+        "attack_type": "mitm",
+        "attack_type_confidence": 0.9687784062834267
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133573",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 986755,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133573_network_intrusion_probe.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.8666666666666667,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9440504864957522,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.944, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.957881773571677,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.958; attack_type=mitm; type_confidence=0.969; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8755409449578166,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.876; attack_type=lane_deviation; type_confidence=0.317; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.8666666666666667,
+          "level": "high",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.944, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 89.61327085586385,
+        "nearest_vehicle_distance": 71.33946337295662,
+        "brake": 0.0,
+        "throttle": 0.43860843777656555,
+        "steer": 0.0,
+        "obs_speed": 8.068238656507518,
+        "real_speed": 8.108132559085833,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "mitm"
+    },
+    {
+      "index": 7,
+      "frame": 133578,
+      "timestamp": 987.0045231468976,
+      "phase": "network_intrusion_probe",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "mitm",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "network_intrusion_probe",
+        "phase_index": 1,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "mitm",
+        "visual_expectation": "camera_clear_network_only_anomaly",
+        "objective": "Trigger the CIC branch while the vehicle dynamics remain nominal."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8514786358434082,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.29317609205367967
+      },
+      "cic_prediction": {
+        "attack_probability": 0.7860069999245247,
+        "is_attack": true,
+        "attack_type": "mitm",
+        "attack_type_confidence": 0.9854756805833298
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133578",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 987005,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133578_network_intrusion_probe.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.8666666666666667,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9532714296135778,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.953, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.7860069999245247,
+          "level": "medium",
+          "triggered": true,
+          "reason": "attack_probability=0.786; attack_type=mitm; type_confidence=0.985; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8514786358434082,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.851; attack_type=lane_deviation; type_confidence=0.293; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.8666666666666667,
+          "level": "high",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.953, policy=model_safe_mode_accepted"
+        },
+        "final_level": "high",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_required": true,
+        "reason": "high_risk_consensus"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 87.31406700079516,
+        "nearest_vehicle_distance": 71.33331453413406,
+        "brake": 0.0,
+        "throttle": 0.2672392427921295,
+        "steer": 0.0,
+        "obs_speed": 8.027996704298102,
+        "real_speed": 8.097500953619422,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 1.0102310231045664
+      },
+      "cic_source_attack": "mitm"
+    },
+    {
+      "index": 8,
+      "frame": 133583,
+      "timestamp": 987.2545231506228,
+      "phase": "network_intrusion_probe",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "mitm",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "network_intrusion_probe",
+        "phase_index": 1,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "mitm",
+        "visual_expectation": "camera_clear_network_only_anomaly",
+        "objective": "Trigger the CIC branch while the vehicle dynamics remain nominal."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8792387699355,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.28138831736683473
+      },
+      "cic_prediction": {
+        "attack_probability": 0.9442094316546826,
+        "is_attack": true,
+        "attack_type": "mitm",
+        "attack_type_confidence": 0.9942573578842435
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133583",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 987255,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133583_network_intrusion_probe.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.8666666666666667,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.943288068320935,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.943, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.9442094316546826,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.944; attack_type=mitm; type_confidence=0.994; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8792387699355,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.879; attack_type=lane_deviation; type_confidence=0.281; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.8666666666666667,
+          "level": "high",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.943, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 84.98835018913631,
+        "nearest_vehicle_distance": 71.27699544743022,
+        "brake": 0.0,
+        "throttle": 0.47876790165901184,
+        "steer": 0.0,
+        "obs_speed": 8.012419179197254,
+        "real_speed": 8.023360124081757,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "mitm"
+    },
+    {
+      "index": 9,
+      "frame": 133588,
+      "timestamp": 987.5045231543481,
+      "phase": "network_intrusion_probe",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "mitm",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "network_intrusion_probe",
+        "phase_index": 1,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "mitm",
+        "visual_expectation": "camera_clear_network_only_anomaly",
+        "objective": "Trigger the CIC branch while the vehicle dynamics remain nominal."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8652214003172102,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.2706313547587932
+      },
+      "cic_prediction": {
+        "attack_probability": 0.9200892857332527,
+        "is_attack": true,
+        "attack_type": "mitm",
+        "attack_type_confidence": 0.9960502520613624
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133588",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 987505,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133588_network_intrusion_probe.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.8666666666666667,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9491756781054274,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.949, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.9200892857332527,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.920; attack_type=mitm; type_confidence=0.996; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8652214003172102,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.865; attack_type=lane_deviation; type_confidence=0.271; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.8666666666666667,
+          "level": "high",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.949, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 82.6126031229176,
+        "nearest_vehicle_distance": 71.20026655885114,
+        "brake": 0.0,
+        "throttle": 0.3466379642486572,
+        "steer": -0.00043982735951431096,
+        "obs_speed": 8.125095390652172,
+        "real_speed": 8.083947032976042,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.15366616339477446
+      },
+      "cic_source_attack": "mitm"
+    },
+    {
+      "index": 10,
+      "frame": 133593,
+      "timestamp": 987.7545231580734,
+      "phase": "dos_sensor_corruption",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "dos",
+        "expected_safe_mode": "degraded_safe_mode",
+        "phase_name": "dos_sensor_corruption",
+        "phase_index": 2,
+        "carla_attack_type": "dos",
+        "cic_attack_name": "dos",
+        "visual_expectation": "camera_clear_sensor_stream_unreliable",
+        "objective": "Mix network pressure with packet loss/stale sensor observations in the V6 branch."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8787131666256168,
+        "is_attack": true,
+        "attack_type": "position_spoofing",
+        "attack_type_confidence": 0.20580751819285398
+      },
+      "cic_prediction": {
+        "attack_probability": 1.0,
+        "is_attack": true,
+        "attack_type": "ddos",
+        "attack_type_confidence": 0.5790974439220858
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "frame_133593",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 987755,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133593_dos_sensor_corruption.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.9968384157027689,
+        "risk_level": "attack",
+        "final_attack_type": "position_spoofing",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9199971324018346,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.997, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.920, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=1.000; attack_type=ddos; type_confidence=0.579; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8787131666256168,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.879; attack_type=position_spoofing; type_confidence=0.206; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.5,
+          "level": "medium",
+          "triggered": false,
+          "reason": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.9968384157027689,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.997, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.920, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic,fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 80.18848058614921,
+        "nearest_vehicle_distance": 71.13963581336459,
+        "brake": 0.0,
+        "throttle": 0.3911762833595276,
+        "steer": 0.0,
+        "obs_speed": 8.032105485726268,
+        "real_speed": 8.069962087955977,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "dos"
+    },
+    {
+      "index": 11,
+      "frame": 133598,
+      "timestamp": 988.0045231617987,
+      "phase": "dos_sensor_corruption",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "dos",
+        "expected_safe_mode": "degraded_safe_mode",
+        "phase_name": "dos_sensor_corruption",
+        "phase_index": 2,
+        "carla_attack_type": "dos",
+        "cic_attack_name": "dos",
+        "visual_expectation": "camera_clear_sensor_stream_unreliable",
+        "objective": "Mix network pressure with packet loss/stale sensor observations in the V6 branch."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8976056363434282,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.7733333333333333
+      },
+      "cic_prediction": {
+        "attack_probability": 1.0,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.42802904909464645
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "frame_133598",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 988005,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133598_dos_sensor_corruption.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 1.0,
+        "risk_level": "attack",
+        "final_attack_type": "dos",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_confidence": 0.9683364504181706,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=1.000, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.968, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=1.000; attack_type=dos; type_confidence=0.428; low_type_confidence"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8976056363434282,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.898; attack_type=dos; type_confidence=0.773; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.5,
+          "level": "medium",
+          "triggered": false,
+          "reason": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=1.000, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.968, policy=model_safe_mode_accepted"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic,fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 77.73537137546879,
+        "nearest_vehicle_distance": 71.17897760607852,
+        "brake": 0.0,
+        "throttle": 0.39090245962142944,
+        "steer": 0.0,
+        "obs_speed": null,
+        "real_speed": 8.049237724950007,
+        "is_missing": 1,
+        "missing_ratio": 0.3333333333333333,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.2416811688907572
+      },
+      "cic_source_attack": "dos"
+    },
+    {
+      "index": 12,
+      "frame": 133603,
+      "timestamp": 988.254523165524,
+      "phase": "dos_sensor_corruption",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "dos",
+        "expected_safe_mode": "degraded_safe_mode",
+        "phase_name": "dos_sensor_corruption",
+        "phase_index": 2,
+        "carla_attack_type": "dos",
+        "cic_attack_name": "dos",
+        "visual_expectation": "camera_clear_sensor_stream_unreliable",
+        "objective": "Mix network pressure with packet loss/stale sensor observations in the V6 branch."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8987462162252261,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.7666666666666667
+      },
+      "cic_prediction": {
+        "attack_probability": 1.0,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.6627644991295012
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "frame_133603",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 988255,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133603_dos_sensor_corruption.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 1.0,
+        "risk_level": "attack",
+        "final_attack_type": "dos",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_confidence": 0.9689225183513888,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=1.000, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.969, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=1.000; attack_type=dos; type_confidence=0.663; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8987462162252261,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.899; attack_type=dos; type_confidence=0.767; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.5,
+          "level": "medium",
+          "triggered": false,
+          "reason": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=1.000, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.969, policy=model_safe_mode_accepted"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic,fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 75.1431243105575,
+        "nearest_vehicle_distance": 71.37144452795418,
+        "brake": 0.0,
+        "throttle": 0.38731878995895386,
+        "steer": 0.0,
+        "obs_speed": null,
+        "real_speed": 8.081611293253644,
+        "is_missing": 1,
+        "missing_ratio": 0.3333333333333333,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "dos"
+    },
+    {
+      "index": 13,
+      "frame": 133608,
+      "timestamp": 988.5045231692493,
+      "phase": "dos_sensor_corruption",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "dos",
+        "expected_safe_mode": "degraded_safe_mode",
+        "phase_name": "dos_sensor_corruption",
+        "phase_index": 2,
+        "carla_attack_type": "dos",
+        "cic_attack_name": "dos",
+        "visual_expectation": "camera_clear_sensor_stream_unreliable",
+        "objective": "Mix network pressure with packet loss/stale sensor observations in the V6 branch."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8958106519321014,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.6433333333333333
+      },
+      "cic_prediction": {
+        "attack_probability": 1.0,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.7769080447419223
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "frame_133608",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 988505,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133608_dos_sensor_corruption.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 1.0,
+        "risk_level": "attack",
+        "final_attack_type": "dos",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_confidence": 0.9578428475694767,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=1.000, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.958, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=1.000; attack_type=dos; type_confidence=0.777; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8958106519321014,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.896; attack_type=dos; type_confidence=0.643; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.5,
+          "level": "medium",
+          "triggered": false,
+          "reason": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=1.000, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.958, policy=model_safe_mode_accepted"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic,fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 72.46657632024852,
+        "nearest_vehicle_distance": 71.7213515673906,
+        "brake": 0.0,
+        "throttle": 0.3767600655555725,
+        "steer": 0.0,
+        "obs_speed": 8.032105485726268,
+        "real_speed": 8.052625190346527,
+        "is_missing": 1,
+        "missing_ratio": 0.3333333333333333,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.37389917310665766
+      },
+      "cic_source_attack": "dos"
+    },
+    {
+      "index": 14,
+      "frame": 133613,
+      "timestamp": 988.7545231729746,
+      "phase": "dos_sensor_corruption",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "dos",
+        "expected_safe_mode": "degraded_safe_mode",
+        "phase_name": "dos_sensor_corruption",
+        "phase_index": 2,
+        "carla_attack_type": "dos",
+        "cic_attack_name": "dos",
+        "visual_expectation": "camera_clear_sensor_stream_unreliable",
+        "objective": "Mix network pressure with packet loss/stale sensor observations in the V6 branch."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8992765614848827,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.6466666666666666
+      },
+      "cic_prediction": {
+        "attack_probability": 1.0,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.4451304495277821
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "frame_133613",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 988755,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133613_dos_sensor_corruption.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 1.0,
+        "risk_level": "attack",
+        "final_attack_type": "dos",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_confidence": 0.9505901129695918,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=1.000, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.951, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=1.000; attack_type=dos; type_confidence=0.445; low_type_confidence"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8992765614848827,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.899; attack_type=dos; type_confidence=0.647; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.5,
+          "level": "medium",
+          "triggered": false,
+          "reason": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=1.000, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.951, policy=model_safe_mode_accepted"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic,fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 69.86462729461581,
+        "nearest_vehicle_distance": 69.86462729461581,
+        "brake": 0.0,
+        "throttle": 0.40110623836517334,
+        "steer": 0.0,
+        "obs_speed": null,
+        "real_speed": 8.074052437690328,
+        "is_missing": 1,
+        "missing_ratio": 0.3333333333333333,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "dos"
+    },
+    {
+      "index": 15,
+      "frame": 133618,
+      "timestamp": 989.0045231766999,
+      "phase": "dos_sensor_corruption",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "dos",
+        "expected_safe_mode": "degraded_safe_mode",
+        "phase_name": "dos_sensor_corruption",
+        "phase_index": 2,
+        "carla_attack_type": "dos",
+        "cic_attack_name": "dos",
+        "visual_expectation": "camera_clear_sensor_stream_unreliable",
+        "objective": "Mix network pressure with packet loss/stale sensor observations in the V6 branch."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8969450033412155,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.6542457514557513
+      },
+      "cic_prediction": {
+        "attack_probability": 0.976545092668808,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.5069655412688111
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "frame_133618",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 989005,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133618_dos_sensor_corruption.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.9968411821450495,
+        "risk_level": "attack",
+        "final_attack_type": "dos",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_confidence": 0.9571862913289645,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.997, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.957, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.976545092668808,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.977; attack_type=dos; type_confidence=0.507; low_type_confidence"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8969450033412155,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.897; attack_type=dos; type_confidence=0.654; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.5,
+          "level": "medium",
+          "triggered": false,
+          "reason": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.9968411821450495,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.997, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.957, policy=model_safe_mode_accepted"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic,fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 67.29619716897935,
+        "nearest_vehicle_distance": 67.29619716897935,
+        "brake": 0.0,
+        "throttle": 0.3703584671020508,
+        "steer": 0.0,
+        "obs_speed": null,
+        "real_speed": 8.057880912242295,
+        "is_missing": 1,
+        "missing_ratio": 0.3333333333333333,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.356275191725679
+      },
+      "cic_source_attack": "dos"
+    },
+    {
+      "index": 16,
+      "frame": 133623,
+      "timestamp": 989.2545231804252,
+      "phase": "hallucinated_sudden_brake",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "sudden_brake",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "hallucinated_sudden_brake",
+        "phase_index": 3,
+        "carla_attack_type": "sudden_brake",
+        "cic_attack_name": "normal",
+        "visual_expectation": "camera_clear_but_vehicle_brakes_hard",
+        "objective": "Force a hard brake while the front camera context stays clear to expose a visual hallucination risk."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8547359394123354,
+        "is_attack": true,
+        "attack_type": "sudden_brake",
+        "attack_type_confidence": 0.7875146786800241
+      },
+      "cic_prediction": {
+        "attack_probability": 1.3324738068477108e-06,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9999986675261932
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.82,
+        "explanation": "Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek.",
+        "context": {
+          "sample_token": "frame_133623",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 989255,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133623_hallucinated_sudden_brake.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 1.0,
+        "risk_level": "attack",
+        "final_attack_type": "sudden_brake",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9933333333333333,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=1.000, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.993, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.3324738068477108e-06,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8547359394123354,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.855; attack_type=sudden_brake; type_confidence=0.788; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.82,
+          "level": "high",
+          "triggered": true,
+          "reason": "Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=1.000, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.993, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 64.80647060107607,
+        "nearest_vehicle_distance": 64.80647060107607,
+        "brake": 1.0,
+        "throttle": 0.0,
+        "steer": 0.018234340474009514,
+        "obs_speed": 7.34907682564673,
+        "real_speed": 7.3210301908470425,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 1,
+        "deceleration_rate": 4.228313858151598
+      },
+      "cic_source_attack": "Benign"
+    },
+    {
+      "index": 17,
+      "frame": 133628,
+      "timestamp": 989.5045231841505,
+      "phase": "hallucinated_sudden_brake",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "sudden_brake",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "hallucinated_sudden_brake",
+        "phase_index": 3,
+        "carla_attack_type": "sudden_brake",
+        "cic_attack_name": "normal",
+        "visual_expectation": "camera_clear_but_vehicle_brakes_hard",
+        "objective": "Force a hard brake while the front camera context stays clear to expose a visual hallucination risk."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8222769253151513,
+        "is_attack": true,
+        "attack_type": "sudden_brake",
+        "attack_type_confidence": 0.6785409775279391
+      },
+      "cic_prediction": {
+        "attack_probability": 4.070566040085655e-06,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9999959294339599
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.82,
+        "explanation": "Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek.",
+        "context": {
+          "sample_token": "frame_133628",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 989505,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133628_hallucinated_sudden_brake.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.9939566666666667,
+        "risk_level": "attack",
+        "final_attack_type": "sudden_brake",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9840673549612673,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.994, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.984, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 4.070566040085655e-06,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8222769253151513,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.822; attack_type=sudden_brake; type_confidence=0.679; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.82,
+          "level": "high",
+          "triggered": true,
+          "reason": "Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.9939566666666667,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.994, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.984, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 62.63158967995446,
+        "nearest_vehicle_distance": 62.63158967995446,
+        "brake": 1.0,
+        "throttle": 0.0,
+        "steer": -0.0034662357065826654,
+        "obs_speed": 4.729916033008791,
+        "real_speed": 4.693949550952384,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 1,
+        "deceleration_rate": 26.817015950617193
+      },
+      "cic_source_attack": "Benign"
+    },
+    {
+      "index": 18,
+      "frame": 133633,
+      "timestamp": 989.7545231878757,
+      "phase": "hallucinated_sudden_brake",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "sudden_brake",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "hallucinated_sudden_brake",
+        "phase_index": 3,
+        "carla_attack_type": "sudden_brake",
+        "cic_attack_name": "normal",
+        "visual_expectation": "camera_clear_but_vehicle_brakes_hard",
+        "objective": "Force a hard brake while the front camera context stays clear to expose a visual hallucination risk."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8533288815096571,
+        "is_attack": true,
+        "attack_type": "sudden_brake",
+        "attack_type_confidence": 0.8555089849970521
+      },
+      "cic_prediction": {
+        "attack_probability": 4.070566040085655e-06,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9999959294339599
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.82,
+        "explanation": "Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek.",
+        "context": {
+          "sample_token": "frame_133633",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 989755,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133633_hallucinated_sudden_brake.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 1.0,
+        "risk_level": "attack",
+        "final_attack_type": "sudden_brake",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9933333333333333,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=1.000, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.993, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 4.070566040085655e-06,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8533288815096571,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.853; attack_type=sudden_brake; type_confidence=0.856; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.82,
+          "level": "high",
+          "triggered": true,
+          "reason": "Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=1.000, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.993, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 61.52578736418835,
+        "nearest_vehicle_distance": 61.52578736418835,
+        "brake": 1.0,
+        "throttle": 0.0,
+        "steer": 0.022850796580314636,
+        "obs_speed": 0.0,
+        "real_speed": 0.00077332890333054,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 1,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "Benign"
+    },
+    {
+      "index": 19,
+      "frame": 133638,
+      "timestamp": 990.004523191601,
+      "phase": "hallucinated_sudden_brake",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "sudden_brake",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "hallucinated_sudden_brake",
+        "phase_index": 3,
+        "carla_attack_type": "sudden_brake",
+        "cic_attack_name": "normal",
+        "visual_expectation": "camera_clear_but_vehicle_brakes_hard",
+        "objective": "Force a hard brake while the front camera context stays clear to expose a visual hallucination risk."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8350161830969588,
+        "is_attack": true,
+        "attack_type": "sudden_brake",
+        "attack_type_confidence": 0.8655156267015136
+      },
+      "cic_prediction": {
+        "attack_probability": 1.3324738068477108e-06,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9999986675261932
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.82,
+        "explanation": "Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek.",
+        "context": {
+          "sample_token": "frame_133638",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 990005,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133638_hallucinated_sudden_brake.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 1.0,
+        "risk_level": "attack",
+        "final_attack_type": "sudden_brake",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9933333333333333,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=1.000, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.993, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.3324738068477108e-06,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8350161830969588,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.835; attack_type=sudden_brake; type_confidence=0.866; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.82,
+          "level": "high",
+          "triggered": true,
+          "reason": "Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=1.000, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.993, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 60.79449517999218,
+        "nearest_vehicle_distance": 60.79449517999218,
+        "brake": 1.0,
+        "throttle": 0.0,
+        "steer": 0.02024855464696884,
+        "obs_speed": 0.0,
+        "real_speed": 0.00027889504508340205,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 1,
+        "deceleration_rate": 0.001962722157768125
+      },
+      "cic_source_attack": "Benign"
+    },
+    {
+      "index": 21,
+      "frame": 133648,
+      "timestamp": 990.5045231990516,
+      "phase": "coordinated_control_takeover",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "lane_deviation",
+        "expected_safe_mode": "emergency_safe_mode",
+        "phase_name": "coordinated_control_takeover",
+        "phase_index": 4,
+        "carla_attack_type": "lane_deviation",
+        "cic_attack_name": "scanning",
+        "visual_expectation": "camera_clear_control_plane_anomaly",
+        "objective": "Escalate into a coordinated multi-layer anomaly with steering deviation plus a live CIC alert."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.650814588645985,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.5964491349064758
+      },
+      "cic_prediction": {
+        "attack_probability": 1.0,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.608603191302595
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.6,
+        "explanation": "Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi.",
+        "context": {
+          "sample_token": "frame_133648",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 990505,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133648_coordinated_control_takeover.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.9878200823694356,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9441176665679757,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.988, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.944, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=1.000; attack_type=dos; type_confidence=0.609; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.650814588645985,
+          "level": "medium",
+          "triggered": true,
+          "reason": "attack_probability=0.651; attack_type=lane_deviation; type_confidence=0.596; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.6,
+          "level": "medium",
+          "triggered": true,
+          "reason": "Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.9878200823694356,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.988, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.944, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic,fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 59.71898817106369,
+        "nearest_vehicle_distance": 59.71898817106369,
+        "brake": 0.0,
+        "throttle": 0.3499999940395355,
+        "steer": -0.3696804344654083,
+        "obs_speed": 0.14238989183356945,
+        "real_speed": 0.19379289723430743,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "scanning"
+    }
+  ],
+  "llm_interpretation": {
+    "enabled": false,
+    "status": "not_requested"
+  },
+  "events": [
+    {
+      "index": 0,
+      "frame": 133543,
+      "timestamp": 985.2545231208205,
+      "phase": "baseline_normal",
+      "ground_truth": {
+        "binary_label": 0,
+        "dominant_attack_type": "normal",
+        "expected_safe_mode": "normal_mode",
+        "phase_name": "baseline_normal",
+        "phase_index": 0,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "normal",
+        "visual_expectation": "camera_clear_and_sensor_consistent",
+        "objective": "Establish a clean baseline before the attack chain starts."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.4652318638606562,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.5347681361393438
+      },
+      "cic_prediction": {
+        "attack_probability": 0.00013526358380808886,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9998647364161919
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133543",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 985255,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133543_baseline_normal.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.26666666666666666,
+        "risk_level": "normal",
+        "final_attack_type": "normal",
+        "safe_mode": "normal_mode",
+        "safe_mode_confidence": 0.7167704573140297,
+        "needs_human_review": false,
+        "reason": "ml_decision attack_probability=0.267, raw_safe_mode=normal_mode, safe_mode_confidence=0.717, policy=all_layers_below_threshold"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.00013526358380808886,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.4652318638606562,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.465; attack_type=normal; type_confidence=0.535; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.26666666666666666,
+          "level": "low",
+          "triggered": false,
+          "reason": "ml_decision attack_probability=0.267, raw_safe_mode=normal_mode, safe_mode_confidence=0.717, policy=all_layers_below_threshold"
+        },
+        "final_level": "low",
+        "safe_mode": "normal_mode",
+        "safe_mode_required": false,
+        "reason": "below_thresholds"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 100.98295951678747,
+        "nearest_vehicle_distance": 70.86619727361648,
+        "brake": 0.0,
+        "throttle": 0.8500000238418579,
+        "steer": -0.00017573311924934387,
+        "obs_speed": 4.490588729535108,
+        "real_speed": 4.581998865641821,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "Benign"
+    },
+    {
+      "index": 1,
+      "frame": 133548,
+      "timestamp": 985.5045231245458,
+      "phase": "baseline_normal",
+      "ground_truth": {
+        "binary_label": 0,
+        "dominant_attack_type": "normal",
+        "expected_safe_mode": "normal_mode",
+        "phase_name": "baseline_normal",
+        "phase_index": 0,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "normal",
+        "visual_expectation": "camera_clear_and_sensor_consistent",
+        "objective": "Establish a clean baseline before the attack chain starts."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.5134707702889216,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.43062814421260565
+      },
+      "cic_prediction": {
+        "attack_probability": 0.0003600027725778057,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9996399972274221
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133548",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 985505,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133548_baseline_normal.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.8933333333333333,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9305139256117353,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.893, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.931, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.0003600027725778057,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.5134707702889216,
+          "level": "medium",
+          "triggered": true,
+          "reason": "attack_probability=0.513; attack_type=lane_deviation; type_confidence=0.431; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.8933333333333333,
+          "level": "high",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.893, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.931, policy=model_safe_mode_accepted"
+        },
+        "final_level": "high",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_required": true,
+        "reason": "high_risk_consensus"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 99.65163005580362,
+        "nearest_vehicle_distance": 70.99160017637301,
+        "brake": 0.0,
+        "throttle": 0.8500000238418579,
+        "steer": 0.0,
+        "obs_speed": 5.529777276166751,
+        "real_speed": 5.477208828260745,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "Benign"
+    },
+    {
+      "index": 2,
+      "frame": 133553,
+      "timestamp": 985.7545231282711,
+      "phase": "baseline_normal",
+      "ground_truth": {
+        "binary_label": 0,
+        "dominant_attack_type": "normal",
+        "expected_safe_mode": "normal_mode",
+        "phase_name": "baseline_normal",
+        "phase_index": 0,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "normal",
+        "visual_expectation": "camera_clear_and_sensor_consistent",
+        "objective": "Establish a clean baseline before the attack chain starts."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.48061747831214663,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.5193825216878534
+      },
+      "cic_prediction": {
+        "attack_probability": 1.3324738068477108e-06,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9999986675261932
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133553",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 985755,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133553_baseline_normal.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.26666666666666666,
+        "risk_level": "normal",
+        "final_attack_type": "normal",
+        "safe_mode": "normal_mode",
+        "safe_mode_confidence": 0.7101037906473628,
+        "needs_human_review": false,
+        "reason": "ml_decision attack_probability=0.267, raw_safe_mode=normal_mode, safe_mode_confidence=0.710, policy=all_layers_below_threshold"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.3324738068477108e-06,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.48061747831214663,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.481; attack_type=normal; type_confidence=0.519; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.26666666666666666,
+          "level": "low",
+          "triggered": false,
+          "reason": "ml_decision attack_probability=0.267, raw_safe_mode=normal_mode, safe_mode_confidence=0.710, policy=all_layers_below_threshold"
+        },
+        "final_level": "low",
+        "safe_mode": "normal_mode",
+        "safe_mode_required": false,
+        "reason": "below_thresholds"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 98.08241042676913,
+        "nearest_vehicle_distance": 71.07706395814954,
+        "brake": 0.0,
+        "throttle": 0.8500000238418579,
+        "steer": -0.00017573311924934387,
+        "obs_speed": 6.484076918444032,
+        "real_speed": 6.576038465599368,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "Benign"
+    },
+    {
+      "index": 3,
+      "frame": 133558,
+      "timestamp": 986.0045231319964,
+      "phase": "baseline_normal",
+      "ground_truth": {
+        "binary_label": 0,
+        "dominant_attack_type": "normal",
+        "expected_safe_mode": "normal_mode",
+        "phase_name": "baseline_normal",
+        "phase_index": 0,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "normal",
+        "visual_expectation": "camera_clear_and_sensor_consistent",
+        "objective": "Establish a clean baseline before the attack chain starts."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.7559883946151725,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.41784795424018345
+      },
+      "cic_prediction": {
+        "attack_probability": 1.3324738068477108e-06,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9999986675261932
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133558",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 986005,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133558_baseline_normal.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.8966666666666666,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9567254339580525,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.897, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.957, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.3324738068477108e-06,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.7559883946151725,
+          "level": "medium",
+          "triggered": true,
+          "reason": "attack_probability=0.756; attack_type=lane_deviation; type_confidence=0.418; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.8966666666666666,
+          "level": "high",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.897, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.957, policy=model_safe_mode_accepted"
+        },
+        "final_level": "high",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_required": true,
+        "reason": "high_risk_consensus"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 96.184161309584,
+        "nearest_vehicle_distance": 71.18032465582344,
+        "brake": 0.0,
+        "throttle": 0.8500000238418579,
+        "steer": 0.0,
+        "obs_speed": 7.94998734776034,
+        "real_speed": 7.932352521257932,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "Benign"
+    },
+    {
+      "index": 4,
+      "frame": 133563,
+      "timestamp": 986.2545231357217,
+      "phase": "baseline_normal",
+      "ground_truth": {
+        "binary_label": 0,
+        "dominant_attack_type": "normal",
+        "expected_safe_mode": "normal_mode",
+        "phase_name": "baseline_normal",
+        "phase_index": 0,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "normal",
+        "visual_expectation": "camera_clear_and_sensor_consistent",
+        "objective": "Establish a clean baseline before the attack chain starts."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8547091151586462,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.3034962509497388
+      },
+      "cic_prediction": {
+        "attack_probability": 0.0,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 1.0
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133563",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 986255,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133563_baseline_normal.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.8766666666666667,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9561066182841849,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.877, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.956, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.0,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8547091151586462,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.855; attack_type=lane_deviation; type_confidence=0.303; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.8766666666666667,
+          "level": "high",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.877, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.956, policy=model_safe_mode_accepted"
+        },
+        "final_level": "high",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_required": true,
+        "reason": "high_risk_consensus"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 94.00592193824656,
+        "nearest_vehicle_distance": 71.31365128728821,
+        "brake": 0.11940076947212219,
+        "throttle": 0.0,
+        "steer": 0.0,
+        "obs_speed": 8.35354377768101,
+        "real_speed": 8.362392050475638,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 1.1025854150837233
+      },
+      "cic_source_attack": "Benign"
+    },
+    {
+      "index": 5,
+      "frame": 133568,
+      "timestamp": 986.504523139447,
+      "phase": "network_intrusion_probe",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "mitm",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "network_intrusion_probe",
+        "phase_index": 1,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "mitm",
+        "visual_expectation": "camera_clear_network_only_anomaly",
+        "objective": "Trigger the CIC branch while the vehicle dynamics remain nominal."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8473019623858218,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.2827335023003311
+      },
+      "cic_prediction": {
+        "attack_probability": 0.7961283321976921,
+        "is_attack": true,
+        "attack_type": "mitm",
+        "attack_type_confidence": 0.965801127523584
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133568",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 986505,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133568_network_intrusion_probe.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.8666666666666667,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9532714296135778,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.953, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.7961283321976921,
+          "level": "medium",
+          "triggered": true,
+          "reason": "attack_probability=0.796; attack_type=mitm; type_confidence=0.966; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8473019623858218,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.847; attack_type=lane_deviation; type_confidence=0.283; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.8666666666666667,
+          "level": "high",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.953, policy=model_safe_mode_accepted"
+        },
+        "final_level": "high",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_required": true,
+        "reason": "high_risk_consensus"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 91.82334107178464,
+        "nearest_vehicle_distance": 71.32751602964832,
+        "brake": 0.0,
+        "throttle": 0.548104465007782,
+        "steer": 0.0006155604496598244,
+        "obs_speed": 7.823041689425052,
+        "real_speed": 7.884719014454282,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 1.4082487987694847
+      },
+      "cic_source_attack": "mitm"
+    },
+    {
+      "index": 6,
+      "frame": 133573,
+      "timestamp": 986.7545231431723,
+      "phase": "network_intrusion_probe",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "mitm",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "network_intrusion_probe",
+        "phase_index": 1,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "mitm",
+        "visual_expectation": "camera_clear_network_only_anomaly",
+        "objective": "Trigger the CIC branch while the vehicle dynamics remain nominal."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8755409449578166,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.3167378819598241
+      },
+      "cic_prediction": {
+        "attack_probability": 0.957881773571677,
+        "is_attack": true,
+        "attack_type": "mitm",
+        "attack_type_confidence": 0.9687784062834267
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133573",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 986755,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133573_network_intrusion_probe.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.8666666666666667,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9440504864957522,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.944, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.957881773571677,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.958; attack_type=mitm; type_confidence=0.969; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8755409449578166,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.876; attack_type=lane_deviation; type_confidence=0.317; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.8666666666666667,
+          "level": "high",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.944, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 89.61327085586385,
+        "nearest_vehicle_distance": 71.33946337295662,
+        "brake": 0.0,
+        "throttle": 0.43860843777656555,
+        "steer": 0.0,
+        "obs_speed": 8.068238656507518,
+        "real_speed": 8.108132559085833,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "mitm"
+    },
+    {
+      "index": 7,
+      "frame": 133578,
+      "timestamp": 987.0045231468976,
+      "phase": "network_intrusion_probe",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "mitm",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "network_intrusion_probe",
+        "phase_index": 1,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "mitm",
+        "visual_expectation": "camera_clear_network_only_anomaly",
+        "objective": "Trigger the CIC branch while the vehicle dynamics remain nominal."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8514786358434082,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.29317609205367967
+      },
+      "cic_prediction": {
+        "attack_probability": 0.7860069999245247,
+        "is_attack": true,
+        "attack_type": "mitm",
+        "attack_type_confidence": 0.9854756805833298
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133578",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 987005,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133578_network_intrusion_probe.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.8666666666666667,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9532714296135778,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.953, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.7860069999245247,
+          "level": "medium",
+          "triggered": true,
+          "reason": "attack_probability=0.786; attack_type=mitm; type_confidence=0.985; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8514786358434082,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.851; attack_type=lane_deviation; type_confidence=0.293; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.8666666666666667,
+          "level": "high",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.953, policy=model_safe_mode_accepted"
+        },
+        "final_level": "high",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_required": true,
+        "reason": "high_risk_consensus"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 87.31406700079516,
+        "nearest_vehicle_distance": 71.33331453413406,
+        "brake": 0.0,
+        "throttle": 0.2672392427921295,
+        "steer": 0.0,
+        "obs_speed": 8.027996704298102,
+        "real_speed": 8.097500953619422,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 1.0102310231045664
+      },
+      "cic_source_attack": "mitm"
+    },
+    {
+      "index": 8,
+      "frame": 133583,
+      "timestamp": 987.2545231506228,
+      "phase": "network_intrusion_probe",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "mitm",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "network_intrusion_probe",
+        "phase_index": 1,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "mitm",
+        "visual_expectation": "camera_clear_network_only_anomaly",
+        "objective": "Trigger the CIC branch while the vehicle dynamics remain nominal."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8792387699355,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.28138831736683473
+      },
+      "cic_prediction": {
+        "attack_probability": 0.9442094316546826,
+        "is_attack": true,
+        "attack_type": "mitm",
+        "attack_type_confidence": 0.9942573578842435
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133583",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 987255,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133583_network_intrusion_probe.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.8666666666666667,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.943288068320935,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.943, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.9442094316546826,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.944; attack_type=mitm; type_confidence=0.994; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8792387699355,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.879; attack_type=lane_deviation; type_confidence=0.281; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.8666666666666667,
+          "level": "high",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.943, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 84.98835018913631,
+        "nearest_vehicle_distance": 71.27699544743022,
+        "brake": 0.0,
+        "throttle": 0.47876790165901184,
+        "steer": 0.0,
+        "obs_speed": 8.012419179197254,
+        "real_speed": 8.023360124081757,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "mitm"
+    },
+    {
+      "index": 9,
+      "frame": 133588,
+      "timestamp": 987.5045231543481,
+      "phase": "network_intrusion_probe",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "mitm",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "network_intrusion_probe",
+        "phase_index": 1,
+        "carla_attack_type": "normal",
+        "cic_attack_name": "mitm",
+        "visual_expectation": "camera_clear_network_only_anomaly",
+        "objective": "Trigger the CIC branch while the vehicle dynamics remain nominal."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8652214003172102,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.2706313547587932
+      },
+      "cic_prediction": {
+        "attack_probability": 0.9200892857332527,
+        "is_attack": true,
+        "attack_type": "mitm",
+        "attack_type_confidence": 0.9960502520613624
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.12,
+        "explanation": "Normal karar gorsel baglamla celismiyor.",
+        "context": {
+          "sample_token": "frame_133588",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 987505,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133588_network_intrusion_probe.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.8666666666666667,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9491756781054274,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.949, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.9200892857332527,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.920; attack_type=mitm; type_confidence=0.996; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8652214003172102,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.865; attack_type=lane_deviation; type_confidence=0.271; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.12,
+          "level": "low",
+          "triggered": false,
+          "reason": "Normal karar gorsel baglamla celismiyor."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.8666666666666667,
+          "level": "high",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.867, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.949, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 82.6126031229176,
+        "nearest_vehicle_distance": 71.20026655885114,
+        "brake": 0.0,
+        "throttle": 0.3466379642486572,
+        "steer": -0.00043982735951431096,
+        "obs_speed": 8.125095390652172,
+        "real_speed": 8.083947032976042,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.15366616339477446
+      },
+      "cic_source_attack": "mitm"
+    },
+    {
+      "index": 10,
+      "frame": 133593,
+      "timestamp": 987.7545231580734,
+      "phase": "dos_sensor_corruption",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "dos",
+        "expected_safe_mode": "degraded_safe_mode",
+        "phase_name": "dos_sensor_corruption",
+        "phase_index": 2,
+        "carla_attack_type": "dos",
+        "cic_attack_name": "dos",
+        "visual_expectation": "camera_clear_sensor_stream_unreliable",
+        "objective": "Mix network pressure with packet loss/stale sensor observations in the V6 branch."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8787131666256168,
+        "is_attack": true,
+        "attack_type": "position_spoofing",
+        "attack_type_confidence": 0.20580751819285398
+      },
+      "cic_prediction": {
+        "attack_probability": 1.0,
+        "is_attack": true,
+        "attack_type": "ddos",
+        "attack_type_confidence": 0.5790974439220858
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "frame_133593",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 987755,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133593_dos_sensor_corruption.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.9968384157027689,
+        "risk_level": "attack",
+        "final_attack_type": "position_spoofing",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9199971324018346,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.997, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.920, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=1.000; attack_type=ddos; type_confidence=0.579; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8787131666256168,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.879; attack_type=position_spoofing; type_confidence=0.206; low_type_confidence"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.5,
+          "level": "medium",
+          "triggered": false,
+          "reason": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.9968384157027689,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.997, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.920, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic,fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 80.18848058614921,
+        "nearest_vehicle_distance": 71.13963581336459,
+        "brake": 0.0,
+        "throttle": 0.3911762833595276,
+        "steer": 0.0,
+        "obs_speed": 8.032105485726268,
+        "real_speed": 8.069962087955977,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "dos"
+    },
+    {
+      "index": 11,
+      "frame": 133598,
+      "timestamp": 988.0045231617987,
+      "phase": "dos_sensor_corruption",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "dos",
+        "expected_safe_mode": "degraded_safe_mode",
+        "phase_name": "dos_sensor_corruption",
+        "phase_index": 2,
+        "carla_attack_type": "dos",
+        "cic_attack_name": "dos",
+        "visual_expectation": "camera_clear_sensor_stream_unreliable",
+        "objective": "Mix network pressure with packet loss/stale sensor observations in the V6 branch."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8976056363434282,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.7733333333333333
+      },
+      "cic_prediction": {
+        "attack_probability": 1.0,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.42802904909464645
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "frame_133598",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 988005,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133598_dos_sensor_corruption.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 1.0,
+        "risk_level": "attack",
+        "final_attack_type": "dos",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_confidence": 0.9683364504181706,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=1.000, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.968, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=1.000; attack_type=dos; type_confidence=0.428; low_type_confidence"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8976056363434282,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.898; attack_type=dos; type_confidence=0.773; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.5,
+          "level": "medium",
+          "triggered": false,
+          "reason": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=1.000, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.968, policy=model_safe_mode_accepted"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic,fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 77.73537137546879,
+        "nearest_vehicle_distance": 71.17897760607852,
+        "brake": 0.0,
+        "throttle": 0.39090245962142944,
+        "steer": 0.0,
+        "obs_speed": null,
+        "real_speed": 8.049237724950007,
+        "is_missing": 1,
+        "missing_ratio": 0.3333333333333333,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.2416811688907572
+      },
+      "cic_source_attack": "dos"
+    },
+    {
+      "index": 12,
+      "frame": 133603,
+      "timestamp": 988.254523165524,
+      "phase": "dos_sensor_corruption",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "dos",
+        "expected_safe_mode": "degraded_safe_mode",
+        "phase_name": "dos_sensor_corruption",
+        "phase_index": 2,
+        "carla_attack_type": "dos",
+        "cic_attack_name": "dos",
+        "visual_expectation": "camera_clear_sensor_stream_unreliable",
+        "objective": "Mix network pressure with packet loss/stale sensor observations in the V6 branch."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8987462162252261,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.7666666666666667
+      },
+      "cic_prediction": {
+        "attack_probability": 1.0,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.6627644991295012
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "frame_133603",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 988255,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133603_dos_sensor_corruption.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 1.0,
+        "risk_level": "attack",
+        "final_attack_type": "dos",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_confidence": 0.9689225183513888,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=1.000, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.969, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=1.000; attack_type=dos; type_confidence=0.663; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8987462162252261,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.899; attack_type=dos; type_confidence=0.767; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.5,
+          "level": "medium",
+          "triggered": false,
+          "reason": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=1.000, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.969, policy=model_safe_mode_accepted"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic,fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 75.1431243105575,
+        "nearest_vehicle_distance": 71.37144452795418,
+        "brake": 0.0,
+        "throttle": 0.38731878995895386,
+        "steer": 0.0,
+        "obs_speed": null,
+        "real_speed": 8.081611293253644,
+        "is_missing": 1,
+        "missing_ratio": 0.3333333333333333,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "dos"
+    },
+    {
+      "index": 13,
+      "frame": 133608,
+      "timestamp": 988.5045231692493,
+      "phase": "dos_sensor_corruption",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "dos",
+        "expected_safe_mode": "degraded_safe_mode",
+        "phase_name": "dos_sensor_corruption",
+        "phase_index": 2,
+        "carla_attack_type": "dos",
+        "cic_attack_name": "dos",
+        "visual_expectation": "camera_clear_sensor_stream_unreliable",
+        "objective": "Mix network pressure with packet loss/stale sensor observations in the V6 branch."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8958106519321014,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.6433333333333333
+      },
+      "cic_prediction": {
+        "attack_probability": 1.0,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.7769080447419223
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "frame_133608",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 988505,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133608_dos_sensor_corruption.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 1.0,
+        "risk_level": "attack",
+        "final_attack_type": "dos",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_confidence": 0.9578428475694767,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=1.000, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.958, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=1.000; attack_type=dos; type_confidence=0.777; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8958106519321014,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.896; attack_type=dos; type_confidence=0.643; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.5,
+          "level": "medium",
+          "triggered": false,
+          "reason": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=1.000, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.958, policy=model_safe_mode_accepted"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic,fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 72.46657632024852,
+        "nearest_vehicle_distance": 71.7213515673906,
+        "brake": 0.0,
+        "throttle": 0.3767600655555725,
+        "steer": 0.0,
+        "obs_speed": 8.032105485726268,
+        "real_speed": 8.052625190346527,
+        "is_missing": 1,
+        "missing_ratio": 0.3333333333333333,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.37389917310665766
+      },
+      "cic_source_attack": "dos"
+    },
+    {
+      "index": 14,
+      "frame": 133613,
+      "timestamp": 988.7545231729746,
+      "phase": "dos_sensor_corruption",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "dos",
+        "expected_safe_mode": "degraded_safe_mode",
+        "phase_name": "dos_sensor_corruption",
+        "phase_index": 2,
+        "carla_attack_type": "dos",
+        "cic_attack_name": "dos",
+        "visual_expectation": "camera_clear_sensor_stream_unreliable",
+        "objective": "Mix network pressure with packet loss/stale sensor observations in the V6 branch."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8992765614848827,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.6466666666666666
+      },
+      "cic_prediction": {
+        "attack_probability": 1.0,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.4451304495277821
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "frame_133613",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 988755,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133613_dos_sensor_corruption.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 1.0,
+        "risk_level": "attack",
+        "final_attack_type": "dos",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_confidence": 0.9505901129695918,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=1.000, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.951, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=1.000; attack_type=dos; type_confidence=0.445; low_type_confidence"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8992765614848827,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.899; attack_type=dos; type_confidence=0.647; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.5,
+          "level": "medium",
+          "triggered": false,
+          "reason": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=1.000, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.951, policy=model_safe_mode_accepted"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic,fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 69.86462729461581,
+        "nearest_vehicle_distance": 69.86462729461581,
+        "brake": 0.0,
+        "throttle": 0.40110623836517334,
+        "steer": 0.0,
+        "obs_speed": null,
+        "real_speed": 8.074052437690328,
+        "is_missing": 1,
+        "missing_ratio": 0.3333333333333333,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "dos"
+    },
+    {
+      "index": 15,
+      "frame": 133618,
+      "timestamp": 989.0045231766999,
+      "phase": "dos_sensor_corruption",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "dos",
+        "expected_safe_mode": "degraded_safe_mode",
+        "phase_name": "dos_sensor_corruption",
+        "phase_index": 2,
+        "carla_attack_type": "dos",
+        "cic_attack_name": "dos",
+        "visual_expectation": "camera_clear_sensor_stream_unreliable",
+        "objective": "Mix network pressure with packet loss/stale sensor observations in the V6 branch."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8969450033412155,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.6542457514557513
+      },
+      "cic_prediction": {
+        "attack_probability": 0.976545092668808,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.5069655412688111
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.5,
+        "explanation": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi.",
+        "context": {
+          "sample_token": "frame_133618",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 989005,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133618_dos_sensor_corruption.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.9968411821450495,
+        "risk_level": "attack",
+        "final_attack_type": "dos",
+        "safe_mode": "degraded_safe_mode",
+        "safe_mode_confidence": 0.9571862913289645,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.997, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.957, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.976545092668808,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.977; attack_type=dos; type_confidence=0.507; low_type_confidence"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8969450033412155,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.897; attack_type=dos; type_confidence=0.654; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.5,
+          "level": "medium",
+          "triggered": false,
+          "reason": "Gorsel katman bu saldiri turu icin destekleyici sinyal olarak kullanildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.9968411821450495,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.997, raw_safe_mode=degraded_safe_mode, safe_mode_confidence=0.957, policy=model_safe_mode_accepted"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic,fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 67.29619716897935,
+        "nearest_vehicle_distance": 67.29619716897935,
+        "brake": 0.0,
+        "throttle": 0.3703584671020508,
+        "steer": 0.0,
+        "obs_speed": null,
+        "real_speed": 8.057880912242295,
+        "is_missing": 1,
+        "missing_ratio": 0.3333333333333333,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.356275191725679
+      },
+      "cic_source_attack": "dos"
+    },
+    {
+      "index": 16,
+      "frame": 133623,
+      "timestamp": 989.2545231804252,
+      "phase": "hallucinated_sudden_brake",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "sudden_brake",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "hallucinated_sudden_brake",
+        "phase_index": 3,
+        "carla_attack_type": "sudden_brake",
+        "cic_attack_name": "normal",
+        "visual_expectation": "camera_clear_but_vehicle_brakes_hard",
+        "objective": "Force a hard brake while the front camera context stays clear to expose a visual hallucination risk."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8547359394123354,
+        "is_attack": true,
+        "attack_type": "sudden_brake",
+        "attack_type_confidence": 0.7875146786800241
+      },
+      "cic_prediction": {
+        "attack_probability": 1.3324738068477108e-06,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9999986675261932
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.82,
+        "explanation": "Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek.",
+        "context": {
+          "sample_token": "frame_133623",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 989255,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133623_hallucinated_sudden_brake.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 1.0,
+        "risk_level": "attack",
+        "final_attack_type": "sudden_brake",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9933333333333333,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=1.000, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.993, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.3324738068477108e-06,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8547359394123354,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.855; attack_type=sudden_brake; type_confidence=0.788; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.82,
+          "level": "high",
+          "triggered": true,
+          "reason": "Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=1.000, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.993, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 64.80647060107607,
+        "nearest_vehicle_distance": 64.80647060107607,
+        "brake": 1.0,
+        "throttle": 0.0,
+        "steer": 0.018234340474009514,
+        "obs_speed": 7.34907682564673,
+        "real_speed": 7.3210301908470425,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 1,
+        "deceleration_rate": 4.228313858151598
+      },
+      "cic_source_attack": "Benign"
+    },
+    {
+      "index": 17,
+      "frame": 133628,
+      "timestamp": 989.5045231841505,
+      "phase": "hallucinated_sudden_brake",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "sudden_brake",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "hallucinated_sudden_brake",
+        "phase_index": 3,
+        "carla_attack_type": "sudden_brake",
+        "cic_attack_name": "normal",
+        "visual_expectation": "camera_clear_but_vehicle_brakes_hard",
+        "objective": "Force a hard brake while the front camera context stays clear to expose a visual hallucination risk."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8222769253151513,
+        "is_attack": true,
+        "attack_type": "sudden_brake",
+        "attack_type_confidence": 0.6785409775279391
+      },
+      "cic_prediction": {
+        "attack_probability": 4.070566040085655e-06,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9999959294339599
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.82,
+        "explanation": "Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek.",
+        "context": {
+          "sample_token": "frame_133628",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 989505,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133628_hallucinated_sudden_brake.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.9939566666666667,
+        "risk_level": "attack",
+        "final_attack_type": "sudden_brake",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9840673549612673,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.994, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.984, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 4.070566040085655e-06,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8222769253151513,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.822; attack_type=sudden_brake; type_confidence=0.679; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.82,
+          "level": "high",
+          "triggered": true,
+          "reason": "Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.9939566666666667,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.994, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.984, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 62.63158967995446,
+        "nearest_vehicle_distance": 62.63158967995446,
+        "brake": 1.0,
+        "throttle": 0.0,
+        "steer": -0.0034662357065826654,
+        "obs_speed": 4.729916033008791,
+        "real_speed": 4.693949550952384,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 1,
+        "deceleration_rate": 26.817015950617193
+      },
+      "cic_source_attack": "Benign"
+    },
+    {
+      "index": 18,
+      "frame": 133633,
+      "timestamp": 989.7545231878757,
+      "phase": "hallucinated_sudden_brake",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "sudden_brake",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "hallucinated_sudden_brake",
+        "phase_index": 3,
+        "carla_attack_type": "sudden_brake",
+        "cic_attack_name": "normal",
+        "visual_expectation": "camera_clear_but_vehicle_brakes_hard",
+        "objective": "Force a hard brake while the front camera context stays clear to expose a visual hallucination risk."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8533288815096571,
+        "is_attack": true,
+        "attack_type": "sudden_brake",
+        "attack_type_confidence": 0.8555089849970521
+      },
+      "cic_prediction": {
+        "attack_probability": 4.070566040085655e-06,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9999959294339599
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.82,
+        "explanation": "Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek.",
+        "context": {
+          "sample_token": "frame_133633",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 989755,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133633_hallucinated_sudden_brake.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 1.0,
+        "risk_level": "attack",
+        "final_attack_type": "sudden_brake",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9933333333333333,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=1.000, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.993, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 4.070566040085655e-06,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8533288815096571,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.853; attack_type=sudden_brake; type_confidence=0.856; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.82,
+          "level": "high",
+          "triggered": true,
+          "reason": "Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=1.000, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.993, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 61.52578736418835,
+        "nearest_vehicle_distance": 61.52578736418835,
+        "brake": 1.0,
+        "throttle": 0.0,
+        "steer": 0.022850796580314636,
+        "obs_speed": 0.0,
+        "real_speed": 0.00077332890333054,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 1,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "Benign"
+    },
+    {
+      "index": 19,
+      "frame": 133638,
+      "timestamp": 990.004523191601,
+      "phase": "hallucinated_sudden_brake",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "sudden_brake",
+        "expected_safe_mode": "monitoring_mode",
+        "phase_name": "hallucinated_sudden_brake",
+        "phase_index": 3,
+        "carla_attack_type": "sudden_brake",
+        "cic_attack_name": "normal",
+        "visual_expectation": "camera_clear_but_vehicle_brakes_hard",
+        "objective": "Force a hard brake while the front camera context stays clear to expose a visual hallucination risk."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.8350161830969588,
+        "is_attack": true,
+        "attack_type": "sudden_brake",
+        "attack_type_confidence": 0.8655156267015136
+      },
+      "cic_prediction": {
+        "attack_probability": 1.3324738068477108e-06,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.9999986675261932
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.82,
+        "explanation": "Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek.",
+        "context": {
+          "sample_token": "frame_133638",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 990005,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133638_hallucinated_sudden_brake.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 1.0,
+        "risk_level": "attack",
+        "final_attack_type": "sudden_brake",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9933333333333333,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=1.000, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.993, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.3324738068477108e-06,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.000; attack_type=normal; type_confidence=1.000; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.8350161830969588,
+          "level": "high",
+          "triggered": true,
+          "reason": "attack_probability=0.835; attack_type=sudden_brake; type_confidence=0.866; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.82,
+          "level": "high",
+          "triggered": true,
+          "reason": "Ani fren icin gorselde yakin tehlike yok; anomalilik olasiligi yuksek."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=1.000, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.993, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 60.79449517999218,
+        "nearest_vehicle_distance": 60.79449517999218,
+        "brake": 1.0,
+        "throttle": 0.0,
+        "steer": 0.02024855464696884,
+        "obs_speed": 0.0,
+        "real_speed": 0.00027889504508340205,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 1,
+        "deceleration_rate": 0.001962722157768125
+      },
+      "cic_source_attack": "Benign"
+    },
+    {
+      "index": 20,
+      "frame": 133643,
+      "timestamp": 990.2545231953263,
+      "phase": "coordinated_control_takeover",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "lane_deviation",
+        "expected_safe_mode": "emergency_safe_mode",
+        "phase_name": "coordinated_control_takeover",
+        "phase_index": 4,
+        "carla_attack_type": "lane_deviation",
+        "cic_attack_name": "scanning",
+        "visual_expectation": "camera_clear_control_plane_anomaly",
+        "objective": "Escalate into a coordinated multi-layer anomaly with steering deviation plus a live CIC alert."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.42829302150657755,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.5717069784934224
+      },
+      "cic_prediction": {
+        "attack_probability": 0.9774423008410257,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.45331138861683673
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.6,
+        "explanation": "Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi.",
+        "context": {
+          "sample_token": "frame_133643",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 990255,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133643_coordinated_control_takeover.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.32448674903610236,
+        "risk_level": "normal",
+        "final_attack_type": "normal",
+        "safe_mode": "normal_mode",
+        "safe_mode_confidence": 0.6229757371225978,
+        "needs_human_review": false,
+        "reason": "ml_decision attack_probability=0.324, raw_safe_mode=normal_mode, safe_mode_confidence=0.623, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.9774423008410257,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.977; attack_type=dos; type_confidence=0.453; low_type_confidence"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.42829302150657755,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.428; attack_type=normal; type_confidence=0.572; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.6,
+          "level": "medium",
+          "triggered": true,
+          "reason": "Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.32448674903610236,
+          "level": "low",
+          "triggered": false,
+          "reason": "ml_decision attack_probability=0.324, raw_safe_mode=normal_mode, safe_mode_confidence=0.623, policy=model_safe_mode_accepted"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 60.2346749300198,
+        "nearest_vehicle_distance": 60.2346749300198,
+        "brake": 0.0,
+        "throttle": 0.3499999940395355,
+        "steer": -0.39394059777259827,
+        "obs_speed": 0.07450814266547906,
+        "real_speed": 5.9063683430871005e-05,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "scanning"
+    },
+    {
+      "index": 21,
+      "frame": 133648,
+      "timestamp": 990.5045231990516,
+      "phase": "coordinated_control_takeover",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "lane_deviation",
+        "expected_safe_mode": "emergency_safe_mode",
+        "phase_name": "coordinated_control_takeover",
+        "phase_index": 4,
+        "carla_attack_type": "lane_deviation",
+        "cic_attack_name": "scanning",
+        "visual_expectation": "camera_clear_control_plane_anomaly",
+        "objective": "Escalate into a coordinated multi-layer anomaly with steering deviation plus a live CIC alert."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.650814588645985,
+        "is_attack": true,
+        "attack_type": "lane_deviation",
+        "attack_type_confidence": 0.5964491349064758
+      },
+      "cic_prediction": {
+        "attack_probability": 1.0,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.608603191302595
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.6,
+        "explanation": "Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi.",
+        "context": {
+          "sample_token": "frame_133648",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 990505,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133648_coordinated_control_takeover.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.9878200823694356,
+        "risk_level": "attack",
+        "final_attack_type": "lane_deviation",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_confidence": 0.9441176665679757,
+        "needs_human_review": true,
+        "reason": "ml_decision attack_probability=0.988, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.944, policy=critical_high_impact_signal"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=1.000; attack_type=dos; type_confidence=0.609; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.650814588645985,
+          "level": "medium",
+          "triggered": true,
+          "reason": "attack_probability=0.651; attack_type=lane_deviation; type_confidence=0.596; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.6,
+          "level": "medium",
+          "triggered": true,
+          "reason": "Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.9878200823694356,
+          "level": "critical",
+          "triggered": true,
+          "reason": "ml_decision attack_probability=0.988, raw_safe_mode=emergency_safe_mode, safe_mode_confidence=0.944, policy=critical_high_impact_signal"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic,fusion"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 59.71898817106369,
+        "nearest_vehicle_distance": 59.71898817106369,
+        "brake": 0.0,
+        "throttle": 0.3499999940395355,
+        "steer": -0.3696804344654083,
+        "obs_speed": 0.14238989183356945,
+        "real_speed": 0.19379289723430743,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "scanning"
+    },
+    {
+      "index": 22,
+      "frame": 133653,
+      "timestamp": 990.7545232027769,
+      "phase": "coordinated_control_takeover",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "lane_deviation",
+        "expected_safe_mode": "emergency_safe_mode",
+        "phase_name": "coordinated_control_takeover",
+        "phase_index": 4,
+        "carla_attack_type": "lane_deviation",
+        "cic_attack_name": "scanning",
+        "visual_expectation": "camera_clear_control_plane_anomaly",
+        "objective": "Escalate into a coordinated multi-layer anomaly with steering deviation plus a live CIC alert."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.42948555968181484,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.5705144403181852
+      },
+      "cic_prediction": {
+        "attack_probability": 0.9731177495646572,
+        "is_attack": true,
+        "attack_type": "ddos",
+        "attack_type_confidence": 0.612716558285276
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.6,
+        "explanation": "Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi.",
+        "context": {
+          "sample_token": "frame_133653",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 990755,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133653_coordinated_control_takeover.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.2925867525597105,
+        "risk_level": "normal",
+        "final_attack_type": "normal",
+        "safe_mode": "normal_mode",
+        "safe_mode_confidence": 0.7189286130754737,
+        "needs_human_review": false,
+        "reason": "ml_decision attack_probability=0.293, raw_safe_mode=normal_mode, safe_mode_confidence=0.719, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.9731177495646572,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.973; attack_type=ddos; type_confidence=0.613; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.42948555968181484,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.429; attack_type=normal; type_confidence=0.571; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.6,
+          "level": "medium",
+          "triggered": true,
+          "reason": "Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.2925867525597105,
+          "level": "low",
+          "triggered": false,
+          "reason": "ml_decision attack_probability=0.293, raw_safe_mode=normal_mode, safe_mode_confidence=0.719, policy=model_safe_mode_accepted"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 59.22155493571706,
+        "nearest_vehicle_distance": 59.22155493571706,
+        "brake": 0.0,
+        "throttle": 0.3499999940395355,
+        "steer": -0.3984959125518799,
+        "obs_speed": 0.689453502055654,
+        "real_speed": 0.6795394783067644,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "scanning"
+    },
+    {
+      "index": 23,
+      "frame": 133658,
+      "timestamp": 991.0045232065022,
+      "phase": "coordinated_control_takeover",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "lane_deviation",
+        "expected_safe_mode": "emergency_safe_mode",
+        "phase_name": "coordinated_control_takeover",
+        "phase_index": 4,
+        "carla_attack_type": "lane_deviation",
+        "cic_attack_name": "scanning",
+        "visual_expectation": "camera_clear_control_plane_anomaly",
+        "objective": "Escalate into a coordinated multi-layer anomaly with steering deviation plus a live CIC alert."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.4439037045485872,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.5560962954514128
+      },
+      "cic_prediction": {
+        "attack_probability": 1.0,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.43913930269280493
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.6,
+        "explanation": "Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi.",
+        "context": {
+          "sample_token": "frame_133658",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 991005,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133658_coordinated_control_takeover.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.3511534157027691,
+        "risk_level": "normal",
+        "final_attack_type": "normal",
+        "safe_mode": "normal_mode",
+        "safe_mode_confidence": 0.5713800378409177,
+        "needs_human_review": false,
+        "reason": "ml_decision attack_probability=0.351, raw_safe_mode=normal_mode, safe_mode_confidence=0.571, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=1.000; attack_type=dos; type_confidence=0.439; low_type_confidence"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.4439037045485872,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.444; attack_type=normal; type_confidence=0.556; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.6,
+          "level": "medium",
+          "triggered": true,
+          "reason": "Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.3511534157027691,
+          "level": "low",
+          "triggered": false,
+          "reason": "ml_decision attack_probability=0.351, raw_safe_mode=normal_mode, safe_mode_confidence=0.571, policy=model_safe_mode_accepted"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 58.76385692017677,
+        "nearest_vehicle_distance": 58.76385692017677,
+        "brake": 0.0,
+        "throttle": 0.3499999940395355,
+        "steer": -0.4192056953907013,
+        "obs_speed": 1.1890728075332129,
+        "real_speed": 1.1405792615762236,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "scanning"
+    },
+    {
+      "index": 24,
+      "frame": 133663,
+      "timestamp": 991.2545232102275,
+      "phase": "coordinated_control_takeover",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "lane_deviation",
+        "expected_safe_mode": "emergency_safe_mode",
+        "phase_name": "coordinated_control_takeover",
+        "phase_index": 4,
+        "carla_attack_type": "lane_deviation",
+        "cic_attack_name": "scanning",
+        "visual_expectation": "camera_clear_control_plane_anomaly",
+        "objective": "Escalate into a coordinated multi-layer anomaly with steering deviation plus a live CIC alert."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.36180478934074245,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.6381952106592576
+      },
+      "cic_prediction": {
+        "attack_probability": 1.0,
+        "is_attack": true,
+        "attack_type": "dos",
+        "attack_type_confidence": 0.4330472805724878
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.6,
+        "explanation": "Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi.",
+        "context": {
+          "sample_token": "frame_133663",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 991255,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133663_coordinated_control_takeover.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.18115341570276902,
+        "risk_level": "normal",
+        "final_attack_type": "normal",
+        "safe_mode": "normal_mode",
+        "safe_mode_confidence": 0.664713371174251,
+        "needs_human_review": false,
+        "reason": "ml_decision attack_probability=0.181, raw_safe_mode=normal_mode, safe_mode_confidence=0.665, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 1.0,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=1.000; attack_type=dos; type_confidence=0.433; low_type_confidence"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.36180478934074245,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.362; attack_type=normal; type_confidence=0.638; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.6,
+          "level": "medium",
+          "triggered": true,
+          "reason": "Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.18115341570276902,
+          "level": "low",
+          "triggered": false,
+          "reason": "ml_decision attack_probability=0.181, raw_safe_mode=normal_mode, safe_mode_confidence=0.665, policy=model_safe_mode_accepted"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 58.31981465829574,
+        "nearest_vehicle_distance": 58.31981465829574,
+        "brake": 0.0,
+        "throttle": 0.3499999940395355,
+        "steer": -0.3735683262348175,
+        "obs_speed": 1.6229672792194414,
+        "real_speed": 1.5698772551222964,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "scanning"
+    },
+    {
+      "index": 25,
+      "frame": 133668,
+      "timestamp": 991.5045232139528,
+      "phase": "coordinated_control_takeover",
+      "ground_truth": {
+        "binary_label": 1,
+        "dominant_attack_type": "lane_deviation",
+        "expected_safe_mode": "emergency_safe_mode",
+        "phase_name": "coordinated_control_takeover",
+        "phase_index": 4,
+        "carla_attack_type": "lane_deviation",
+        "cic_attack_name": "scanning",
+        "visual_expectation": "camera_clear_control_plane_anomaly",
+        "objective": "Escalate into a coordinated multi-layer anomaly with steering deviation plus a live CIC alert."
+      },
+      "carla_prediction": {
+        "attack_probability": 0.3778210800879438,
+        "is_attack": false,
+        "attack_type": "normal",
+        "attack_type_confidence": 0.6221789199120562
+      },
+      "cic_prediction": {
+        "attack_probability": 0.9799437300634392,
+        "is_attack": true,
+        "attack_type": "ddos",
+        "attack_type_confidence": 0.6059385897582443
+      },
+      "visual_consistency": {
+        "hallucination_probability": 0.6,
+        "explanation": "Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi.",
+        "context": {
+          "sample_token": "frame_133668",
+          "scene_name": "Carla/Maps/Town10HD_Opt",
+          "timestamp": 991505,
+          "close_object_count": 0,
+          "close_vehicle_count": 0,
+          "close_vulnerable_count": 0,
+          "nearest_object_m": null,
+          "camera_files": [
+            "images/133668_coordinated_control_takeover.png"
+          ]
+        }
+      },
+      "decision": {
+        "risk_score": 0.2559200858930438,
+        "risk_level": "normal",
+        "final_attack_type": "normal",
+        "safe_mode": "normal_mode",
+        "safe_mode_confidence": 0.7412098148728045,
+        "needs_human_review": false,
+        "reason": "ml_decision attack_probability=0.256, raw_safe_mode=normal_mode, safe_mode_confidence=0.741, policy=model_safe_mode_accepted"
+      },
+      "threshold_decision": {
+        "cic": {
+          "layer": "cic",
+          "score": 0.9799437300634392,
+          "level": "critical",
+          "triggered": true,
+          "reason": "attack_probability=0.980; attack_type=ddos; type_confidence=0.606; type_confidence_ok"
+        },
+        "carla": {
+          "layer": "carla",
+          "score": 0.3778210800879438,
+          "level": "low",
+          "triggered": false,
+          "reason": "attack_probability=0.378; attack_type=normal; type_confidence=0.622; type_confidence_ok"
+        },
+        "visual": {
+          "layer": "visual",
+          "score": 0.6,
+          "level": "medium",
+          "triggered": true,
+          "reason": "Konum/yon saldirisi gorsel yogunluk ve cevre nesneleriyle karsilastirildi."
+        },
+        "fusion": {
+          "layer": "fusion",
+          "score": 0.2559200858930438,
+          "level": "low",
+          "triggered": false,
+          "reason": "ml_decision attack_probability=0.256, raw_safe_mode=normal_mode, safe_mode_confidence=0.741, policy=model_safe_mode_accepted"
+        },
+        "final_level": "critical",
+        "safe_mode": "emergency_safe_mode",
+        "safe_mode_required": true,
+        "reason": "critical_threshold_triggered: cic"
+      },
+      "visual_audit": {
+        "front_visible_actor_count": 0,
+        "nearest_front_visible_m": null,
+        "visible_actor_descriptions": []
+      },
+      "sensor_snapshot": {
+        "front_vehicle_distance": 57.8701975787001,
+        "nearest_vehicle_distance": 57.8701975787001,
+        "brake": 0.0,
+        "throttle": 0.3499999940395355,
+        "steer": -0.3696903884410858,
+        "obs_speed": 2.139285642267847,
+        "real_speed": 2.075368012188324,
+        "is_missing": 0,
+        "missing_ratio": 0.0,
+        "hard_brake_flag": 0,
+        "deceleration_rate": 0.0
+      },
+      "cic_source_attack": "scanning"
+    }
+  ],
+  "scenario_phases": [
+    {
+      "name": "baseline_normal",
+      "duration_ticks": 24,
+      "carla_attack_type": "normal",
+      "cic_attack_name": "Benign",
+      "expected_safe_mode": "normal_mode",
+      "objective": "Establish a clean baseline before the attack chain starts.",
+      "visual_expectation": "camera_clear_and_sensor_consistent"
+    },
+    {
+      "name": "network_intrusion_probe",
+      "duration_ticks": 24,
+      "carla_attack_type": "normal",
+      "cic_attack_name": "mitm",
+      "expected_safe_mode": "monitoring_mode",
+      "objective": "Trigger the CIC branch while the vehicle dynamics remain nominal.",
+      "visual_expectation": "camera_clear_network_only_anomaly"
+    },
+    {
+      "name": "dos_sensor_corruption",
+      "duration_ticks": 28,
+      "carla_attack_type": "dos",
+      "cic_attack_name": "dos",
+      "expected_safe_mode": "degraded_safe_mode",
+      "objective": "Mix network pressure with packet loss/stale sensor observations in the V6 branch.",
+      "visual_expectation": "camera_clear_sensor_stream_unreliable"
+    },
+    {
+      "name": "hallucinated_sudden_brake",
+      "duration_ticks": 24,
+      "carla_attack_type": "sudden_brake",
+      "cic_attack_name": "Benign",
+      "expected_safe_mode": "monitoring_mode",
+      "objective": "Force a hard brake while the front camera context stays clear to expose a visual hallucination risk.",
+      "visual_expectation": "camera_clear_but_vehicle_brakes_hard"
+    },
+    {
+      "name": "coordinated_control_takeover",
+      "duration_ticks": 30,
+      "carla_attack_type": "lane_deviation",
+      "cic_attack_name": "scanning",
+      "expected_safe_mode": "emergency_safe_mode",
+      "objective": "Escalate into a coordinated multi-layer anomaly with steering deviation plus a live CIC alert.",
+      "visual_expectation": "camera_clear_control_plane_anomaly"
+    }
+  ],
+  "test_metrics": {
+    "risk": {
+      "accuracy": 0.6923076923076923,
+      "macro_f1": 0.5666666666666667,
+      "classification_report": {
+        "0": {
+          "precision": 0.2857142857142857,
+          "recall": 0.4,
+          "f1-score": 0.3333333333333333,
+          "support": 5.0
+        },
+        "1": {
+          "precision": 0.8421052631578947,
+          "recall": 0.7619047619047619,
+          "f1-score": 0.8,
+          "support": 21.0
+        },
+        "accuracy": 0.6923076923076923,
+        "macro avg": {
+          "precision": 0.5639097744360901,
+          "recall": 0.5809523809523809,
+          "f1-score": 0.5666666666666667,
+          "support": 26.0
+        },
+        "weighted avg": {
+          "precision": 0.7351069982648929,
+          "recall": 0.6923076923076923,
+          "f1-score": 0.7102564102564103,
+          "support": 26.0
+        }
+      }
+    },
+    "safe_mode": {
+      "accuracy": 0.3076923076923077,
+      "macro_f1": 0.26285714285714284,
+      "classification_report": {
+        "degraded_safe_mode": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 6.0
+        },
+        "emergency_safe_mode": {
+          "precision": 0.3157894736842105,
+          "recall": 1.0,
+          "f1-score": 0.48,
+          "support": 6.0
+        },
+        "monitoring_mode": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 9.0
+        },
+        "normal_mode": {
+          "precision": 1.0,
+          "recall": 0.4,
+          "f1-score": 0.5714285714285714,
+          "support": 5.0
+        },
+        "accuracy": 0.3076923076923077,
+        "macro avg": {
+          "precision": 0.32894736842105265,
+          "recall": 0.35,
+          "f1-score": 0.26285714285714284,
+          "support": 26.0
+        },
+        "weighted avg": {
+          "precision": 0.2651821862348178,
+          "recall": 0.3076923076923077,
+          "f1-score": 0.22065934065934065,
+          "support": 26.0
+        }
+      }
+    }
+  },
+  "phase_summary": [
+    {
+      "phase": "baseline_normal",
+      "events": 5,
+      "attack_predictions": 3,
+      "normal_predictions": 2,
+      "dominant_safe_mode": "degraded_safe_mode",
+      "safe_mode_distribution": {
+        "degraded_safe_mode": 3,
+        "normal_mode": 2
+      }
+    },
+    {
+      "phase": "coordinated_control_takeover",
+      "events": 6,
+      "attack_predictions": 1,
+      "normal_predictions": 5,
+      "dominant_safe_mode": "emergency_safe_mode",
+      "safe_mode_distribution": {
+        "emergency_safe_mode": 6
+      }
+    },
+    {
+      "phase": "dos_sensor_corruption",
+      "events": 6,
+      "attack_predictions": 6,
+      "normal_predictions": 0,
+      "dominant_safe_mode": "emergency_safe_mode",
+      "safe_mode_distribution": {
+        "emergency_safe_mode": 6
+      }
+    },
+    {
+      "phase": "hallucinated_sudden_brake",
+      "events": 4,
+      "attack_predictions": 4,
+      "normal_predictions": 0,
+      "dominant_safe_mode": "emergency_safe_mode",
+      "safe_mode_distribution": {
+        "emergency_safe_mode": 4
+      }
+    },
+    {
+      "phase": "network_intrusion_probe",
+      "events": 5,
+      "attack_predictions": 5,
+      "normal_predictions": 0,
+      "dominant_safe_mode": "emergency_safe_mode",
+      "safe_mode_distribution": {
+        "emergency_safe_mode": 3,
+        "degraded_safe_mode": 2
+      }
+    }
+  ]
+}
